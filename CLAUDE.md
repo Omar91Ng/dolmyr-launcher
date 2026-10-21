@@ -27,6 +27,10 @@ Lema: "Nadie te espera en el Yermo." Lee el [README](README.md) para la estructu
 - Mods solo desde Modrinth (el launcher los descarga de su CDN; no se redistribuyen).
 - Nada de tokens, contraseñas ni secretos en el código. El ID de Azure no es secreto.
 
+- **Pase del launcher** (`dolmyrservicio.js` + plugin NetworkLauncher del proxy): el token de Minecraft solo se envía
+  a Mojang, nunca al servicio de Dolmyr. No añadir puertas traseras ni modos de prueba que se salten el pase.
+  Los textos de los avisos del servidor se muestran siempre escapados (nunca como HTML).
+
 ## Cómo comprobar los cambios
 
 1. `npm run lint` (debe salir limpio).

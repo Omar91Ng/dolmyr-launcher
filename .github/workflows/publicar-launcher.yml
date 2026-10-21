@@ -1,0 +1,46 @@
+# Publica una versión nueva del launcher de Dolmyr.
+#
+# Cómo se usa: sube la versión en package.json, haz commit y crea una etiqueta con ese número:
+#     git tag v0.2.0  &&  git push origin v0.2.0
+# Este flujo compila el instalador de Windows y lo sube a una Release de GitHub con latest.yml.
+# Los launchers instalados la detectan solos y se actualizan (autoactualización de electron-builder).
+name: Publicar launcher
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v6
+
+      - name: Preparar Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+
+      - name: Preparar Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: 3.x
+
+      - name: Instalar dependencias
+        run: npm ci
+        shell: bash
+
+      - name: Comprobar el código
+        run: npm run lint
+        shell: bash
+
+      - name: Compilar y publicar el instalador
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx electron-builder build --win --x64 --publish always
+        shell: bash

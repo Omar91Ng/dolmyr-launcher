@@ -27,6 +27,9 @@ const {
     extractJdk
 }                             = require('helios-core/java')
 
+// Dolmyr: pase del launcher y novedades del servidor
+const DolmyrServicio          = require('./assets/js/dolmyrservicio')
+
 // Internal Requirements
 const DiscordWrapper          = require('./assets/js/discordwrapper')
 const ProcessBuilder          = require('./assets/js/processbuilder')
@@ -567,6 +570,23 @@ async function dlAsync(login = true) {
 
     if(login) {
         const authUser = ConfigManager.getSelectedAccount()
+
+        // Dolmyr: el servidor solo deja entrar con el pase del launcher (y con los mods de esta lista).
+        // Si no se consigue, se abre el juego igual: el servidor explicará el motivo al entrar.
+        setLaunchDetails(Lang.queryJS('landing.dlAsync.dolmyrPase'))
+        try {
+            const pase = await DolmyrServicio.pedirPase(distro, authUser, remote.app.getVersion())
+            if (pase.ok) {
+                loggerLaunchSuite.info('Pase del launcher concedido.')
+            } else if (pase.motivo !== 'sin-servicio') {
+                loggerLaunchSuite.warn(`No se pudo obtener el pase del launcher: ${pase.motivo}`)
+                window.dispatchEvent(new CustomEvent('dolmyr:sinPase', { detail: pase.motivo }))
+            }
+        } catch (err) {
+            loggerLaunchSuite.warn('No se pudo obtener el pase del launcher.', err)
+            window.dispatchEvent(new CustomEvent('dolmyr:sinPase', { detail: String(err && err.message) }))
+        }
+
         loggerLaunchSuite.info(`Sending selected account (${authUser.displayName}) to ProcessBuilder.`)
         let pb = new ProcessBuilder(serv, versionData, modLoaderData, authUser, remote.app.getVersion())
         setLaunchDetails(Lang.queryJS('landing.dlAsync.launchingGame'))

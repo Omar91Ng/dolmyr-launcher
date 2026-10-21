@@ -405,6 +405,10 @@
             },
             ocupado() {
                 return Date.now() < ocupadoHasta
+            },
+            /** Prioridad de lo que está diciendo ahora (0 si está callado). */
+            prioridad() {
+                return Date.now() < ocupadoHasta ? prioridadActual : 0
             }
         }
     }
@@ -613,6 +617,13 @@
         }
     })
 
+    // landing.js avisa si el servidor no ha dado el pase del launcher
+    window.addEventListener('dolmyr:sinPase', () => {
+        if (enLanding()) {
+            guias.landing.decir(frase('sinPase'), 'grunon', 4)
+        }
+    })
+
     // Charla de vez en cuando
     function programarCharla() {
         setTimeout(() => {
@@ -650,13 +661,29 @@
 
     aplicarPrefs()
 
-    // Para el modo capturas de dolmyr.js
     window.dolmGuia = {
+        // Para el modo capturas de dolmyr.js
         decir: (clave, gesto) => {
             const g = guiaVisible()
             if (g) {
                 g.decir(frase(clave, { nombre: nombreJugador() || '', jugadores: 3 }), gesto || null, 4)
             }
+        },
+        /** Para novedades.js. Devuelven false si Dolm no está a la vista en la pantalla principal. */
+        decirFrase: (clave, gesto, prioridad) => {
+            if (!enLanding() || cargando) {
+                return false
+            }
+            guias.landing.decir(frase(clave, { nombre: nombreJugador() || '' }), gesto || null, prioridad || 2)
+            return true
+        },
+        decirTexto: (texto, gesto, prioridad = 3) => {
+            // Corta la charla normal, pero no algo igual o más importante (un error, el saludo...)
+            if (!enLanding() || cargando || guias.landing.prioridad() >= prioridad) {
+                return false
+            }
+            guias.landing.decir(texto, gesto || null, prioridad)
+            return true
         }
     }
 })()

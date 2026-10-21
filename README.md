@@ -17,6 +17,10 @@ las pantallas, los textos y varias funciones propias de Dolmyr.
   La lista de mods vive en internet: si cambia, todos los jugadores se actualizan al abrir el launcher.
 - **Mods opcionales:** el jugador puede activar o desactivar algunos (por ejemplo, shaders) en Ajustes → Mods.
 - **Se actualiza solo:** las versiones nuevas del launcher se descargan e instalan desde GitHub.
+- **Pase del launcher:** el servidor solo deja entrar a quien abre el juego desde este launcher y con los mods al día
+  (plugin NetworkLauncher del proxy). Si se publica un mod nuevo, se descarga solo al pulsar JUGAR.
+- **Avisos desde el servidor:** `/launcher dolm <texto>` lo dice Dolm; `/launcher aviso <texto>` sale como ventana.
+  Ver [docs/PASE-Y-AVISOS.md](docs/PASE-Y-AVISOS.md).
 - **Todo en español.**
 - **Identidad de Dolmyr:** paleta folk, letras Ruslan Display, Kelly Slab y Alegreya Sans, y Dolm, la mascota.
 - **Animaciones:** paisajes que cambian con fundido y movimiento lento, niebla, brasas flotando, el ojo de la O que
@@ -61,6 +65,9 @@ npm run dist:win             # compila el instalador en dist/
 | `app/` | El launcher: pantallas (`.ejs`), estilos, scripts, textos e imágenes |
 | `app/assets/css/dolmyr.css` | **Toda la capa visual de Dolmyr** (paleta, vidrio, animaciones). Se carga encima del CSS de Helios |
 | `app/assets/js/scripts/dolmyr.js` | Escena animada, pestaña Apariencia, sonidos y modo capturas |
+| `app/assets/js/dolmyrservicio.js` | Conexión con el servidor: **pase del launcher** al pulsar JUGAR y novedades |
+| `app/assets/js/scripts/novedades.js` | Avisos del servidor, mods nuevos publicados y mantenimiento (cada 90 s) |
+| `.github/workflows/` | **Publicar mods** (push a `main`) y **publicar launcher** (etiqueta `vX.Y.Z`) |
 | `app/assets/js/scripts/dolm.js` | **Dolm, el guía:** figura animada, bocadillo, voz y reacciones. Sus frases están en `es_ES.toml`, sección `[js.dolm]` |
 | `app/assets/videos/dolm/` | Los 5 vídeos de Dolm con transparencia (reposo, hablar, saludo, alegria, grunon). Cómo se hicieron: `arte/DOLM-ANIMADO.md` |
 | `app/assets/lang/es_ES.toml` | Todos los textos en español |

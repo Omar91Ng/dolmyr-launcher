@@ -1,0 +1,60 @@
+# Publica la lista de mods (distribution.json) en GitHub Pages.
+#
+# Cómo se usa: edita distribucion/config.json (añadir, quitar o actualizar mods) o distribucion/archivos/,
+# y haz push a main. Este flujo genera la lista (comprobando cada archivo en Modrinth) y la publica.
+# A partir de ahí:
+#   - los launchers abiertos se enteran en un par de minutos y Dolm avisa de que hay mods nuevos,
+#   - al pulsar JUGAR se descargan solos,
+#   - el servidor (NetworkLauncher) ve la revisión nueva y pide a todos que pasen por el launcher antes de entrar.
+#
+# Primera vez: en GitHub, Settings -> Pages -> Source: "GitHub Actions". Y en distribucion/config.json, "urlBase"
+# tiene que ser la dirección de Pages (https://<usuario>.github.io/<repositorio>/) o el dominio propio que se le ponga.
+name: Publicar mods
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'distribucion/**'
+      - 'herramientas/generar-distribucion.js'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: publicar-mods
+  cancel-in-progress: false
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.despliegue.outputs.page_url }}
+
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v6
+
+      - name: Preparar Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+
+      - name: Generar la lista de mods
+        run: node herramientas/generar-distribucion.js
+
+      - name: Preparar Pages
+        uses: actions/configure-pages@v5
+
+      - name: Subir la lista
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: distribucion/publicar
+
+      - name: Publicar
+        id: despliegue
+        uses: actions/deploy-pages@v4

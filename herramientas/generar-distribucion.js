@@ -31,6 +31,7 @@ const LOCAL = process.argv.includes('--local')
 const config = JSON.parse(fs.readFileSync(path.join(CARPETA, 'config.json'), 'utf8'))
 const urlBase = (LOCAL ? config.pruebasLocales.urlBase : config.urlBase).replace(/\/?$/, '/')
 const direccion = LOCAL ? config.pruebasLocales.direccion : config.servidor.direccion
+const servicio = (LOCAL ? config.pruebasLocales.servicio : config.servicio) || ''
 
 async function pedir(url) {
     const res = await fetch(url, { headers: UA })
@@ -216,8 +217,18 @@ async function principal() {
     const icono = path.join(RAIZ, 'app', 'assets', 'images', 'SealCircle.png')
     fs.copyFileSync(icono, path.join(PUBLICAR, config.servidor.icono))
 
+    const modulos = [fabric, ...mods, ...archivos]
+    // Revisión de los mods: huella de los módulos (versiones y MD5). Solo cambia si cambian los mods o los archivos.
+    // El servidor (NetworkLauncher) la compara con la del pase: con otra revisión no se entra hasta volver a pulsar JUGAR.
+    const revision = crypto.createHash('sha256').update(JSON.stringify(modulos)).digest('hex').slice(0, 16)
+
     const distribucion = {
         version: '1.0.0',
+        dolmyr: {
+            revision,
+            servicio,
+            generada: new Date().toISOString()
+        },
         rss: config.rss || '',
         discord: null,
         servers: [{
@@ -231,12 +242,13 @@ async function principal() {
             javaOptions: config.java,
             mainServer: true,
             autoconnect: true,
-            modules: [fabric, ...mods, ...archivos]
+            modules: modulos
         }]
     }
     const texto = JSON.stringify(distribucion, null, 2)
     fs.writeFileSync(path.join(PUBLICAR, 'distribution.json'), texto)
     console.log(`\nLista creada: distribucion/publicar/distribution.json (${mods.length} mods, ${archivos.length} archivos)`)
+    console.log(`Revisión de los mods: ${revision}${servicio ? '' : '  (AVISO: falta "servicio" en config.json: no habrá pase ni avisos)'}`)
 
     if (LOCAL) {
         // Carpeta del programa (userData de Electron = nombre del producto), donde Helios busca distribution_dev.json

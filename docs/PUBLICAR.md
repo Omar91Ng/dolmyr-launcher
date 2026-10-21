@@ -7,14 +7,26 @@ Hay **dos cosas que se actualizan por separado**:
 | **La lista de distribución** (versión de Minecraft, mods, archivos, servidor) | Cada vez que se añade, quita o actualiza un mod | El launcher la descarga al abrirse. **No hace falta publicar un launcher nuevo.** Ver `distribucion/LEEME.md` |
 | **El propio launcher** (diseño, textos, funciones) | Cuando se cambia el código | Autoactualización desde las *Releases* de GitHub |
 
+**Automático con GitHub Actions** (`.github/workflows/`):
+
+- *Publicar mods*: al hacer push a `main` con cambios en `distribucion/`, genera la lista y la publica en GitHub Pages.
+- *Publicar launcher*: al subir una etiqueta `vX.Y.Z`, compila el instalador y crea la Release.
+
+El pase del launcher y los avisos del servidor están en [PASE-Y-AVISOS.md](PASE-Y-AVISOS.md).
+
 ## Primera vez (una sola vez)
 
 1. **Registro de Microsoft:** sigue `docs/INICIO-DE-SESION-MICROSOFT.md` y pon el ID en `app/assets/js/ipcconstants.js`.
 2. **Repositorio de GitHub del equipo** (por ejemplo `dolmyr/dolmyr-launcher`). Puede ser privado para el código,
    pero las *Releases* tienen que poder descargarse: lo más sencillo es un repositorio **público** solo para publicar.
 3. Pon ese `owner` y `repo` en `electron-builder.yml` (sección `publish`) y en `dev-app-update.yml`.
-4. **Alojamiento de la lista:** sube `distribucion/publicar/` a `https://dolmyr.com/launcher/` (o cambia `urlBase` en
-   `distribucion/config.json` y `REMOTE_DISTRO_URL` en `app/assets/js/distromanager.js`).
+4. **Alojamiento de la lista:** lo más fácil es GitHub Pages con el flujo *Publicar mods* (Settings → Pages → Source:
+   *GitHub Actions*; en un repositorio privado, Pages necesita un plan de pago). Pon esa dirección (o el dominio
+   propio, por ejemplo `https://dolmyr.com/launcher/`) en `urlBase` de `distribucion/config.json` y en
+   `REMOTE_DISTRO_URL` de `app/assets/js/distromanager.js`. Tiene que ser **https**: la lista dice qué archivos se
+   instalan en el equipo del jugador.
+5. **Servicio del pase:** puerto extra en el proxy y `"servicio"` en `distribucion/config.json`
+   (ver [PASE-Y-AVISOS.md](PASE-Y-AVISOS.md)).
 
 ## Publicar una versión nueva del launcher
 
@@ -22,7 +34,8 @@ Hay **dos cosas que se actualizan por separado**:
 2. Compila: `npm run dist:win`. Salen en `dist/`:
    - `Dolmyr-instalador-<versión>.exe` (el instalador)
    - `Dolmyr-instalador-<versión>.exe.blockmap` y `latest.yml` (los usa la autoactualización)
-3. Crea una *Release* en GitHub con la etiqueta `v<versión>` y sube **los tres archivos**.
+3. **Con GitHub Actions:** `git tag v<versión>` y `git push origin v<versión>`: el flujo hace el resto.
+   **A mano:** crea una *Release* en GitHub con la etiqueta `v<versión>` y sube **los tres archivos**.
    También se puede hacer automáticamente con un token: `set GH_TOKEN=...` y `npx electron-builder -w --publish always`
    (el token es personal: nunca lo guardes en el código).
 4. Los launchers instalados detectan la versión nueva, la descargan y se instala al cerrarlos

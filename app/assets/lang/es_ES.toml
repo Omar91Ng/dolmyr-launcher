@@ -196,6 +196,7 @@ javaInstalled = "¡Java instalado!"
 
 [js.landing.dlAsync]
 loadingServerInfo = "Cargando la información del servidor..."
+dolmyrPase = "Sellando tu pase del Yermo..."
 fatalError = "Error grave"
 unableToLoadDistributionIndex = "No se pudo cargar la lista de archivos del servidor. Revisa la consola (CTRL + Mayús + I) para más detalles."
 pleaseWait = "Un momento..."
@@ -465,3 +466,21 @@ charla = [
     "Aquí se aprende haciendo. Nadie nace herrero.",
     "Llevo aquí desde antes del primer dolmen. O eso me han contado.",
 ]
+sinPase = [
+    "No he podido sellar tu pase con el servidor. Si no te deja entrar, vuelve a pulsar JUGAR en un rato.",
+    "El servidor no me ha dado tu pase. Puede que esté caído… o dormido.",
+]
+modsNuevos = [
+    "¡Eh! Han llegado mods nuevos al Yermo. Pulsa JUGAR y los descargo yo.",
+    "Hay cosas nuevas en el Yermo. La próxima vez que pulses JUGAR, me encargo de traértelas.",
+]
+mantenimiento = [
+    "El Yermo está en obras. Mantenimiento. Ni yo puedo pasar.",
+    "Están arreglando cosas ahí dentro. Mejor espera un poco.",
+]
+finMantenimiento = [
+    "Ya han terminado las obras. El Yermo vuelve a estar abierto.",
+]
+# Ventana de los avisos que se envían desde el servidor (/launcher aviso <texto>)
+avisoTitulo = "Aviso del Yermo"
+avisoBoton = "Entendido"

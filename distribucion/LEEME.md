@@ -16,6 +16,10 @@ Cambiar la lista actualiza a todos los jugadores sin publicar un launcher nuevo.
 3. Se sube el **contenido** de `distribucion/publicar/` a la dirección de `urlBase` (por defecto
    `https://dolmyr.com/launcher/`). Debe quedar accesible `https://dolmyr.com/launcher/distribution.json`.
 
+La lista lleva un bloque `dolmyr` con la **revisión de los mods** (una huella de todos los mods y archivos) y la
+dirección del servicio. Si cambia un mod, cambia la revisión, y el servidor exige volver a pulsar JUGAR (que lo
+descarga solo). Con GitHub Actions basta con hacer push a `main`: ver `docs/PASE-Y-AVISOS.md`.
+
 Los mods **no se copian**: el launcher los baja del CDN oficial de Modrinth. Así no se reparten archivos de otros
 (algunas licencias no lo permiten) y siempre se baja el archivo original.
 
@@ -30,7 +34,8 @@ Los mods **no se copian**: el launcher los baja del CDN oficial de Modrinth. As�
 | `java` | Versión de Java que necesita (el launcher la instala sola si falta) |
 | `servidor` | Nombre, descripción, **dirección** (`play.dolmyr.com:25565`), versión de la lista e icono |
 | `mods` | Lista de mods de Modrinth por su nombre corto (el de la URL de modrinth.com/mod/**nombre**) |
-| `pruebasLocales` | Dirección y URL para `npm run distribucion:local` |
+| `servicio` | Servicio del plugin **NetworkLauncher** del proxy (pase del launcher y avisos), p. ej. `http://play.dolmyr.com:25580` |
+| `pruebasLocales` | Dirección, URL y servicio para `npm run distribucion:local` |
 
 ### Añadir un mod
 

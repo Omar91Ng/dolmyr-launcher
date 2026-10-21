@@ -454,6 +454,24 @@
             await esperar(2600)
             await capturar(carpeta, '10-dolm-frase')
         }
+        // Avisos enviados desde el servidor (/launcher dolm|aviso), si el servicio está en marcha
+        if (window.dolmyrNovedades) {
+            try {
+                localStorage.removeItem('dolmyr.avisosVistos')
+            } catch (e) {
+                // sin almacenamiento
+            }
+            await esperar(9000)
+            await window.dolmyrNovedades.revisar()
+            await esperar(3200)
+            await capturar(carpeta, '11-aviso-dolm')
+            await esperar(9000)
+            await window.dolmyrNovedades.revisar()
+            await esperar(1500)
+            await capturar(carpeta, '12-aviso-ventana')
+            toggleOverlay(false)
+            await esperar(800)
+        }
         await prepareSettings()
         await irA(VIEWS.settings)
         const pestanas = Array.from(document.getElementsByClassName('settingsNavItem')).filter(b => b.hasAttribute('rSc'))

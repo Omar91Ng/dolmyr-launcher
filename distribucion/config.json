@@ -2,6 +2,8 @@
     "_LEEME": "Configuración de la lista de distribución. Ver distribucion/LEEME.md. Tras cambiar algo: npm run distribucion",
     "urlBase": "https://dolmyr.com/launcher/",
     "rss": "",
+    "_servicio": "Servicio del plugin NetworkLauncher del proxy (pase del launcher y avisos). Puerto web.puerto de su config.",
+    "servicio": "http://play.dolmyr.com:25580",
     "minecraft": "26.2",
     "fabric": "0.19.5",
     "java": {
@@ -28,6 +30,7 @@
     "pruebasLocales": {
         "_LEEME": "Para npm run distribucion:local (probar en este equipo con la network local)",
         "urlBase": "http://127.0.0.1:8095/",
-        "direccion": "localhost:25565"
+        "direccion": "localhost:25565",
+        "servicio": "http://127.0.0.1:25580"
     }
 }
