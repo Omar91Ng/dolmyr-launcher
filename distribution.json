@@ -1,9 +1,9 @@
 {
   "version": "1.0.0",
   "dolmyr": {
-    "revision": "da256e6a39af5971",
+    "revision": "5690970ee3fa5e81",
     "servicio": "http://play.dolmyr.com:25580",
-    "generada": "2026-10-21T19:23:43.249Z"
+    "generada": "2026-10-21T19:51:48.991Z"
   },
   "rss": "",
   "discord": null,
@@ -183,6 +183,56 @@
             "size": 665507,
             "MD5": "8cf418e7e23d1a472556bf3f474f1ec7",
             "url": "https://cdn.modrinth.com/data/4I1XuqiY/versions/hyDf8pNd/entity_model_features-3.3.12-26.2-fabric.jar"
+          }
+        },
+        {
+          "id": "com.modrinth.biomes-o-plenty:biomes-o-plenty:26.1.2.0.40",
+          "name": "Biomes O' Plenty (biomas del Yermo)",
+          "type": "FabricMod",
+          "artifact": {
+            "size": 23243349,
+            "MD5": "c7286ecc5e67b55feddb757cbf85893f",
+            "url": "https://cdn.modrinth.com/data/HXF82T3G/versions/Wh39Z5IZ/BiomesOPlenty-fabric-26.2-26.1.2.0.40.jar"
+          }
+        },
+        {
+          "id": "com.modrinth.terrablender:terrablender:26.2.0.0.2",
+          "name": "TerraBlender",
+          "type": "FabricMod",
+          "artifact": {
+            "size": 357527,
+            "MD5": "c7cc074449bdd5f3b0f5da6234e7c2b1",
+            "url": "https://cdn.modrinth.com/data/kkmrDlKT/versions/KQix25Qc/TerraBlender-fabric-26.2-26.2.0.0.2.jar"
+          }
+        },
+        {
+          "id": "com.modrinth.glitchcore:glitchcore:26.2.0.0.0",
+          "name": "GlitchCore",
+          "type": "FabricMod",
+          "artifact": {
+            "size": 334860,
+            "MD5": "c6774394df2de5225af612caca9edb6d",
+            "url": "https://cdn.modrinth.com/data/s3dmwKy5/versions/SDUCBYRU/GlitchCore-fabric-26.2-26.2.0.0.0.jar"
+          }
+        },
+        {
+          "id": "com.modrinth.shoulder-surfing-reloaded:shoulder-surfing-reloaded:26.2-5.2.0+fabric",
+          "name": "Cámara sobre el hombro",
+          "type": "FabricMod",
+          "artifact": {
+            "size": 367773,
+            "MD5": "962f10d984ab9d64241ae53ec59bd184",
+            "url": "https://cdn.modrinth.com/data/kepjj2sy/versions/YOEUPEYx/ShoulderSurfing-Fabric-26.2-5.2.0.jar"
+          }
+        },
+        {
+          "id": "com.modrinth.forge-config-api-port:forge-config-api-port:26.2.1",
+          "name": "Forge Config API Port",
+          "type": "FabricMod",
+          "artifact": {
+            "size": 609550,
+            "MD5": "bb4e3132796ab0e4bee044e8f11f6941",
+            "url": "https://cdn.modrinth.com/data/ohNO6lps/versions/rSd3GiG8/ForgeConfigAPIPort-v26.2.1-mc26.2.x-Fabric.jar"
           }
         },
         {
