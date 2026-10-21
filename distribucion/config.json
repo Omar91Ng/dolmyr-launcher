@@ -25,6 +25,10 @@
         { "modrinth": "drippy-loading-screen" },
         { "modrinth": "entitytexturefeatures" },
         { "modrinth": "entity-model-features" },
+        { "modrinth": "biomes-o-plenty", "nombre": "Biomes O' Plenty (biomas del Yermo)" },
+        { "modrinth": "terrablender" },
+        { "modrinth": "glitchcore" },
+        { "modrinth": "shoulder-surfing-reloaded", "nombre": "Cámara sobre el hombro" },
         { "modrinth": "iris", "opcional": true, "activadoPorDefecto": false, "nombre": "Iris (shaders)" }
     ],
     "pruebasLocales": {

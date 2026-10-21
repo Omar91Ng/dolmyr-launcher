@@ -71,13 +71,16 @@ La segunda sirve esa carpeta y abre el launcher usándola.
 ## Mods incluidos ahora (Minecraft 26.2 + Fabric 0.19.5)
 
 Fabric API, Sodium (rendimiento), FancyMenu y Drippy Loading Screen (menú y pantalla de carga propios, de las notas de
-Obsidian), ETF y EMF (texturas y modelos de entidades), con sus dependencias Melody y Konkrete. Iris (shaders) va como
-opcional.
+Obsidian), ETF y EMF (texturas y modelos de entidades), con sus dependencias Melody y Konkrete. **Biomes O' Plenty**
+con TerraBlender y GlitchCore (los biomas del mapa; las mismas versiones que el servidor del Yermo) y **Shoulder
+Surfing Reloaded** (cámara sobre el hombro, con Forge Config API Port). Iris (shaders) va como opcional.
+
+**Ojo:** BOP necesita TerraBlender y GlitchCore aunque Modrinth no lo declare: por eso están puestos a mano en la lista.
+Un mod que también va en el servidor tiene que tener allí la misma versión (`servers/yermo/mods.txt` de `Network`).
 
 ## Pendientes
 
 - Diseñar con **FancyMenu** el menú principal, la pantalla de carga (Drippy) y el **título e icono de la ventana**
   ("Dolmyr" en vez de "Minecraft 26.2"). Se hace dentro del juego y se exporta su carpeta de configuración a
   `distribucion/archivos/config/`.
-- **Forge o NeoForge:** este launcher (HeliosLauncher) soporta **Fabric y Forge**, pero **no NeoForge**. Si el equipo
-  decide NeoForge, habría que añadir ese soporte al launcher. Ver `contexto` del proyecto del servidor.
+- ~~Forge o NeoForge~~: decidido **Fabric 26.2** (2026-10-21).
