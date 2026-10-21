@@ -1,6 +1,10 @@
 <div id="waitingContainer" style="display: none;">
     <div id="waitingContent">
-        <div class="waitingSpinner"></div>
+        <!-- Dolmyr: el ojo late mientras Microsoft confirma la cuenta (sustituye al spinner de Helios) -->
+        <div class="dolmyrEspera">
+            <img class="dolmyrEsperaAnillo" src="assets/images/LoadingText.png" alt="" draggable="false"/>
+            <img class="dolmyrEsperaOjo" src="assets/images/LoadingSeal.png" alt="" draggable="false"/>
+        </div>
         <div id="waitingTextContainer">
             <h2><%- lang('waiting.waitingText') %></h2>
         </div>

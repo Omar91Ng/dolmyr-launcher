@@ -1,0 +1,1658 @@
+/*******************************************************************************
+ * DOLMYR — capa visual del launcher
+ *
+ * Se carga después de launcher.css (el de HeliosLauncher) y lo sobrescribe.
+ * No cambia ningún identificador: la lógica de Helios sigue funcionando igual.
+ * Paleta oficial (contexto/02-identidad-visual.md del proyecto):
+ *   rojo #C8352E · amarillo #E9B63B · azul #2B4C8C · hueso #F2EBDD · oscuro #2A2420
+ *   piedra #A39C90 · piedra oscura #6E685E · musgo #4E7A3A · liquen #D9A23B · luz del ojo #F6D77A
+ ******************************************************************************/
+
+:root {
+    --rojo: #C8352E;
+    --rojo-claro: #DE4A40;
+    --rojo-oscuro: #8F231E;
+    --amarillo: #E9B63B;
+    --azul: #2B4C8C;
+    --hueso: #F2EBDD;
+    --oscuro: #2A2420;
+    --oscuro-profundo: #1A1613;
+    --piedra: #A39C90;
+    --piedra-oscura: #6E685E;
+    --musgo: #4E7A3A;
+    --liquen: #D9A23B;
+    --luz-ojo: #F6D77A;
+
+    --vidrio: rgba(26, 22, 19, 0.62);
+    --vidrio-fuerte: rgba(26, 22, 19, 0.86);
+    --borde: rgba(242, 235, 221, 0.12);
+    --borde-fuerte: rgba(242, 235, 221, 0.22);
+    --sombra: 0 18px 50px rgba(0, 0, 0, 0.55);
+
+    --letra-titulo: 'Ruslan Display', serif;
+    --letra-sub: 'Kelly Slab', serif;
+    --letra-texto: 'Alegreya Sans', sans-serif;
+
+    --curva: cubic-bezier(.2, .8, .2, 1);
+
+    /* Cenefa folk (rombos rojo/amarillo/azul) usada como adorno */
+    --cenefa: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='10' viewBox='0 0 36 10'%3E%3Cpath d='M6 1 11 5 6 9 1 5Z' fill='%23C8352E'/%3E%3Cpath d='M18 2.5 20.5 5 18 7.5 15.5 5Z' fill='%23E9B63B'/%3E%3Cpath d='M30 1 35 5 30 9 25 5Z' fill='%232B4C8C'/%3E%3Cpath d='M0 5h1M11 5h4.5M20.5 5h4.5' stroke='%23F2EBDD' stroke-opacity='.35'/%3E%3C/svg%3E");
+}
+
+/* ---------------------------------------------------------------------------
+ * Base
+ * ------------------------------------------------------------------------- */
+
+body {
+    color: var(--hueso);
+    font-family: var(--letra-texto);
+    background-color: var(--oscuro);
+}
+
+::selection {
+    background: rgba(233, 182, 59, 0.35);
+    color: var(--hueso);
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(242, 235, 221, 0.18);
+    border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(233, 182, 59, 0.45);
+}
+
+button {
+    font-family: var(--letra-sub);
+}
+
+/* El degradado propio de Helios lo sustituye la viñeta de la escena */
+#main {
+    background: none !important;
+}
+#main[overlay] {
+    filter: blur(4px) brightness(0.7) !important;
+}
+
+/* ---------------------------------------------------------------------------
+ * Escena de fondo: paisaje con fundido, movimiento lento, niebla y partículas
+ * ------------------------------------------------------------------------- */
+
+#dolmyrEscena {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+    background: var(--oscuro);
+}
+
+.dolmyrFondoCapa {
+    position: absolute;
+    inset: -4%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 2.6s ease;
+    will-change: transform, opacity;
+}
+.dolmyrFondoCapa[visible] {
+    opacity: 1;
+}
+body:not(.dolmyrSinMovimientoFondo) .dolmyrFondoCapa {
+    animation: dolmyrAcercamiento 46s ease-in-out infinite alternate;
+}
+#dolmyrFondoB {
+    animation-delay: -23s !important;
+}
+
+@keyframes dolmyrAcercamiento {
+    0% {
+        transform: scale(1.0) translate3d(0, 0, 0);
+    }
+    100% {
+        transform: scale(1.08) translate3d(-1.6%, -1.2%, 0);
+    }
+}
+
+.dolmyrNiebla {
+    position: absolute;
+    left: -50%;
+    width: 200%;
+    height: 55%;
+    bottom: -12%;
+    opacity: 0.32;
+    background:
+        radial-gradient(ellipse 22% 38% at 12% 62%, rgba(242, 235, 221, 0.55), transparent 70%),
+        radial-gradient(ellipse 18% 30% at 33% 70%, rgba(242, 235, 221, 0.40), transparent 70%),
+        radial-gradient(ellipse 26% 42% at 55% 66%, rgba(242, 235, 221, 0.50), transparent 70%),
+        radial-gradient(ellipse 20% 34% at 78% 72%, rgba(242, 235, 221, 0.42), transparent 70%),
+        radial-gradient(ellipse 24% 36% at 95% 64%, rgba(242, 235, 221, 0.48), transparent 70%);
+    filter: blur(18px);
+    will-change: transform;
+    transition: opacity 1.5s ease;
+}
+.dolmyrNiebla1 {
+    animation: dolmyrNieblaDeriva 70s linear infinite;
+}
+.dolmyrNiebla2 {
+    bottom: -20%;
+    opacity: 0.22;
+    animation: dolmyrNieblaDeriva 110s linear infinite reverse;
+}
+@keyframes dolmyrNieblaDeriva {
+    from {
+        transform: translate3d(0, 0, 0);
+    }
+    to {
+        transform: translate3d(25%, 0, 0);
+    }
+}
+body.dolmyrSinNiebla .dolmyrNiebla {
+    opacity: 0 !important;
+    animation: none;
+}
+
+#dolmyrParticulas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    transition: opacity 1.2s ease;
+}
+body.dolmyrSinParticulas #dolmyrParticulas {
+    opacity: 0;
+}
+
+#dolmyrVineta {
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(90deg, rgba(20, 17, 15, 0.82) 0%, rgba(20, 17, 15, 0.35) 34%, rgba(20, 17, 15, 0) 58%),
+        linear-gradient(0deg, rgba(20, 17, 15, 0.92) 0%, rgba(20, 17, 15, 0.45) 22%, rgba(20, 17, 15, 0) 44%),
+        linear-gradient(180deg, rgba(20, 17, 15, 0.55) 0%, rgba(20, 17, 15, 0) 14%),
+        radial-gradient(ellipse at 60% 40%, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, 0.45) 100%);
+}
+
+/* Reducir movimiento: sin animaciones decorativas */
+body.dolmyrSinMovimiento *,
+body.dolmyrSinMovimiento *::before,
+body.dolmyrSinMovimiento *::after {
+    animation-duration: 0.001s !important;
+    animation-iteration-count: 1 !important;
+}
+
+/* ---------------------------------------------------------------------------
+ * Barra de la ventana
+ * ------------------------------------------------------------------------- */
+
+#frameBar {
+    background: linear-gradient(180deg, rgba(20, 17, 15, 0.7), rgba(20, 17, 15, 0));
+}
+#frameMain {
+    height: 26px !important;
+}
+#frameTitleDock {
+    display: flex;
+    align-items: center;
+    padding: 0 14px !important;
+}
+#frameTitleText {
+    font-family: var(--letra-sub) !important;
+    font-size: 11px !important;
+    letter-spacing: 0.32em !important;
+    text-transform: uppercase;
+    color: rgba(242, 235, 221, 0.55) !important;
+    font-weight: normal !important;
+}
+.frameButton {
+    height: 26px !important;
+    width: 42px !important;
+    transition: background-color 0.2s ease !important;
+}
+.frameButton:hover,
+.frameButton:focus {
+    background-color: rgba(242, 235, 221, 0.10) !important;
+}
+#frameButton_close:hover,
+#frameButton_close:focus {
+    background-color: var(--rojo) !important;
+}
+.frameButton svg rect,
+.frameButton svg polygon {
+    stroke: var(--hueso);
+}
+#frameButton_minimize svg rect,
+#frameButton_close svg polygon {
+    fill: var(--hueso);
+}
+#loadingContainer,
+#main {
+    height: calc(100% - 28px) !important;
+}
+
+/* ---------------------------------------------------------------------------
+ * Marca: logo DOLMYR, la O con el ojo y cenefas
+ * ------------------------------------------------------------------------- */
+
+.dolmyrLogo {
+    font-family: var(--letra-titulo);
+    color: var(--hueso);
+    letter-spacing: 0.06em;
+    line-height: 1;
+    text-shadow: 0 4px 24px rgba(0, 0, 0, 0.6);
+    white-space: nowrap;
+}
+.dolmyrO {
+    color: var(--amarillo);
+    animation: dolmyrLatidoOjo 4.5s ease-in-out infinite;
+}
+@keyframes dolmyrLatidoOjo {
+    0%, 100% {
+        text-shadow: 0 0 10px rgba(233, 182, 59, 0.25), 0 4px 24px rgba(0, 0, 0, 0.6);
+    }
+    50% {
+        text-shadow: 0 0 22px rgba(246, 215, 122, 0.75), 0 0 46px rgba(233, 182, 59, 0.35), 0 4px 24px rgba(0, 0, 0, 0.6);
+    }
+}
+
+.dolmyrOrnamento {
+    height: 10px;
+    width: 216px;
+    background-image: var(--cenefa);
+    background-repeat: repeat-x;
+    opacity: 0.9;
+    margin: 14px 0;
+}
+
+/* ---------------------------------------------------------------------------
+ * Pantalla principal (landing)
+ * ------------------------------------------------------------------------- */
+
+#landingContainer > #upper > #left {
+    width: auto !important;
+    flex: 1 1 auto;
+    justify-content: flex-start !important;
+    align-items: flex-start;
+    padding: 34px 0 0 56px;
+    box-sizing: border-box;
+    gap: 22px;
+}
+#landingContainer > #upper > #content {
+    width: 0 !important;
+    flex: 0 0 0;
+}
+#landingContainer > #upper > #right {
+    width: auto !important;
+    flex: 0 0 auto;
+    padding-right: 30px;
+}
+
+#image_seal_container {
+    margin-top: 6px !important;
+    height: 64px !important;
+    width: 64px !important;
+    border-radius: 16px !important;
+    animation: dolmyrEntradaIzquierda 0.9s var(--curva) both;
+}
+#image_seal {
+    height: 64px !important;
+    border: none !important;
+    border-radius: 16px !important;
+    box-shadow: 0 8px 26px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(242, 235, 221, 0.08);
+}
+
+#dolmyrMarca {
+    display: flex;
+    flex-direction: column;
+    animation: dolmyrEntradaIzquierda 0.9s var(--curva) 0.12s both;
+}
+#dolmyrMarca .dolmyrLogo {
+    font-size: 62px;
+}
+.dolmyrLema {
+    font-family: var(--letra-sub);
+    color: var(--amarillo);
+    font-size: 17px;
+    letter-spacing: 0.08em;
+    margin-top: 10px;
+    padding-bottom: 14px;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.75);
+    background-image: var(--cenefa);
+    background-repeat: repeat-x;
+    background-position: left bottom;
+    background-size: 36px 10px;
+    width: fit-content;
+}
+
+@keyframes dolmyrEntradaIzquierda {
+    from {
+        opacity: 0;
+        transform: translate3d(-26px, 0, 0);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+@keyframes dolmyrEntradaDerecha {
+    from {
+        opacity: 0;
+        transform: translate3d(26px, 0, 0);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+@keyframes dolmyrEntradaAbajo {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 22px, 0);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* Usuario (arriba a la derecha) */
+#rightContainer {
+    animation: dolmyrEntradaDerecha 0.9s var(--curva) 0.2s both;
+}
+#user_content {
+    margin-top: 34px;
+}
+#user_text {
+    font-family: var(--letra-sub) !important;
+    font-size: 15px !important;
+    font-weight: normal !important;
+    letter-spacing: 0.05em !important;
+    color: var(--hueso);
+    right: 86px !important;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9) !important;
+}
+#avatarContainer {
+    height: 64px !important;
+    width: 64px !important;
+    border-radius: 16px !important;
+    border: 2px solid rgba(233, 182, 59, 0.75) !important;
+    background-color: var(--vidrio-fuerte) !important;
+    box-shadow: 0 8px 26px rgba(0, 0, 0, 0.55), 0 0 18px rgba(233, 182, 59, 0.18) !important;
+    transition: transform 0.3s var(--curva), box-shadow 0.3s ease;
+}
+#avatarContainer:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6), 0 0 26px rgba(233, 182, 59, 0.35) !important;
+}
+#avatarOverlay {
+    border-radius: 14px !important;
+    font-family: var(--letra-sub);
+    letter-spacing: 0.1em !important;
+    font-weight: normal !important;
+    background-color: rgba(26, 22, 19, 0.6) !important;
+    color: var(--hueso);
+}
+
+/* Columna de iconos (ajustes y redes) */
+#mediaContent {
+    margin-top: 20px !important;
+    width: 64px !important;
+    height: auto !important;
+    padding: 12px 0;
+    border-radius: 16px;
+    background: var(--vidrio);
+    border: 1px solid var(--borde);
+    backdrop-filter: blur(10px);
+    box-shadow: var(--sombra);
+}
+.mediaDivider {
+    background: var(--borde-fuerte) !important;
+    width: 26px !important;
+}
+.mediaSVG,
+.mediaSVG path,
+#instagramSVG,
+#instagramSVG path {
+    fill: rgba(242, 235, 221, 0.72) !important;
+    transition: fill 0.2s ease, transform 0.25s var(--curva) !important;
+}
+.mediaButton:hover .mediaSVG,
+.mediaButton:hover .mediaSVG path,
+.mediaURL:hover .mediaSVG,
+.mediaURL:hover .mediaSVG path,
+.mediaURL:hover #instagramSVG path {
+    fill: var(--amarillo) !important;
+}
+.mediaURL:hover .mediaSVG,
+.mediaButton:hover .mediaSVG {
+    transform: translateY(-1px) scale(1.06);
+}
+#settingsSVG {
+    transition: transform 0.6s var(--curva), fill 0.2s ease !important;
+}
+.mediaButton:hover #settingsSVG {
+    transform: rotate(60deg) !important;
+}
+#settingsTooltip,
+#updateAvailableTooltip {
+    font-family: var(--letra-sub);
+    background: var(--vidrio-fuerte) !important;
+    border: 1px solid var(--borde);
+    color: var(--hueso);
+}
+
+/* Barra inferior */
+#landingContainer > #lower {
+    background: linear-gradient(to top, rgba(20, 17, 15, 0.92), rgba(20, 17, 15, 0)) !important;
+}
+#landingContainer > #lower .bot_wrapper {
+    animation: dolmyrEntradaAbajo 0.9s var(--curva) 0.25s both;
+}
+#landingContainer > #lower > #left #content {
+    left: 56px !important;
+    top: 34px !important;
+    align-items: center;
+}
+.bot_label {
+    font-family: var(--letra-sub);
+    font-size: 11px !important;
+    letter-spacing: 0.16em !important;
+    font-weight: normal !important;
+    color: var(--piedra);
+    text-shadow: none !important;
+}
+.bot_divider {
+    background: rgba(242, 235, 221, 0.16) !important;
+    width: 1px !important;
+}
+#server_status_wrapper {
+    width: auto !important;
+    align-items: center;
+}
+#player_count {
+    font-family: var(--letra-sub);
+    font-size: 12px !important;
+    font-weight: normal !important;
+    letter-spacing: 0.08em;
+    color: var(--hueso) !important;
+    text-shadow: none !important;
+    margin-left: 12px !important;
+}
+#mojang_status_icon {
+    text-shadow: 0 0 10px currentColor;
+}
+#mojangStatusTooltip {
+    background: var(--vidrio-fuerte) !important;
+    border: 1px solid var(--borde);
+    backdrop-filter: blur(10px);
+    font-family: var(--letra-texto);
+}
+
+#newsButton {
+    transition: transform 0.3s var(--curva);
+}
+#newsButton:hover {
+    transform: translateY(-3px);
+}
+#newsButtonText {
+    font-family: var(--letra-sub);
+    font-weight: normal !important;
+    font-size: 13px !important;
+    letter-spacing: 0.28em !important;
+    color: var(--hueso) !important;
+}
+#newsButton:hover #newsButtonText,
+#newsButton:focus #newsButtonText {
+    color: var(--amarillo) !important;
+    text-shadow: 0 0 16px rgba(233, 182, 59, 0.6) !important;
+}
+#newsButtonSVG .arrowLine {
+    stroke: var(--hueso);
+}
+#newsButton:hover #newsButtonSVG .arrowLine {
+    stroke: var(--amarillo);
+}
+#newsButtonAlert {
+    background: var(--amarillo) !important;
+    box-shadow: 0 0 10px var(--amarillo);
+}
+
+/* Botón JUGAR */
+#landingContainer > #lower > #right {
+    justify-content: flex-end;
+    padding-right: 48px;
+    box-sizing: border-box;
+}
+#landingContainer > #lower > #right #launch_content {
+    top: 22px !important;
+    align-items: center;
+}
+#launch_button {
+    position: relative;
+    overflow: hidden;
+    padding: 14px 46px 12px !important;
+    border-radius: 6px !important;
+    border: 1px solid rgba(233, 182, 59, 0.6) !important;
+    background: linear-gradient(180deg, var(--rojo-claro) 0%, var(--rojo) 45%, var(--rojo-oscuro) 100%) !important;
+    color: var(--hueso) !important;
+    font-family: var(--letra-titulo) !important;
+    font-weight: normal !important;
+    font-size: 25px !important;
+    letter-spacing: 0.14em !important;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.45) !important;
+    box-shadow: 0 10px 28px rgba(200, 53, 46, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.22), inset 0 -2px 0 rgba(0, 0, 0, 0.25);
+    transition: transform 0.25s var(--curva), box-shadow 0.25s ease, filter 0.25s ease !important;
+    animation: dolmyrRespira 3.6s ease-in-out infinite;
+}
+#launch_button::before {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    border: 1px dashed rgba(246, 215, 122, 0.4);
+    border-radius: 3px;
+    pointer-events: none;
+}
+#launch_button::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -60%;
+    width: 40%;
+    height: 100%;
+    background: linear-gradient(100deg, transparent, rgba(255, 244, 214, 0.35), transparent);
+    transform: skewX(-18deg);
+    pointer-events: none;
+}
+#launch_button:hover,
+#launch_button:focus {
+    transform: translateY(-2px);
+    filter: brightness(1.08);
+    box-shadow: 0 14px 36px rgba(200, 53, 46, 0.5), 0 0 26px rgba(233, 182, 59, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.25) !important;
+    text-shadow: 0 0 14px rgba(246, 215, 122, 0.6) !important;
+}
+#launch_button:hover::after {
+    animation: dolmyrBrillo 0.9s ease;
+}
+#launch_button:active {
+    transform: translateY(0) scale(0.98);
+    filter: brightness(0.95);
+}
+#launch_button:disabled {
+    filter: grayscale(0.85) brightness(0.7);
+    animation: none;
+}
+@keyframes dolmyrBrillo {
+    from {
+        left: -60%;
+    }
+    to {
+        left: 130%;
+    }
+}
+@keyframes dolmyrRespira {
+    0%, 100% {
+        box-shadow: 0 10px 28px rgba(200, 53, 46, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.22), inset 0 -2px 0 rgba(0, 0, 0, 0.25);
+    }
+    50% {
+        box-shadow: 0 12px 34px rgba(200, 53, 46, 0.5), 0 0 22px rgba(233, 182, 59, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.22), inset 0 -2px 0 rgba(0, 0, 0, 0.25);
+    }
+}
+#landingContainer > #lower > #right .bot_divider {
+    margin-left: 22px !important;
+    margin-right: 18px !important;
+}
+#server_selection_button {
+    font-family: var(--letra-sub) !important;
+    color: var(--piedra) !important;
+    max-width: 190px;
+    text-align: left;
+}
+#server_selection_button:hover,
+#server_selection_button:focus {
+    color: var(--hueso) !important;
+    text-shadow: 0 0 14px rgba(242, 235, 221, 0.35) !important;
+}
+
+/* Progreso de descarga y arranque */
+#launch_details {
+    top: 26px !important;
+    align-items: center;
+}
+#launch_progress_label {
+    font-family: var(--letra-sub);
+    font-weight: normal !important;
+    color: var(--amarillo);
+    font-size: 22px !important;
+}
+#launch_progress[value] {
+    height: 6px !important;
+    border-radius: 6px;
+    overflow: hidden;
+    background: rgba(242, 235, 221, 0.12);
+}
+#launch_progress[value]::-webkit-progress-bar {
+    background-color: rgba(242, 235, 221, 0.12) !important;
+    border-radius: 6px;
+}
+#launch_progress[value]::-webkit-progress-value {
+    border-radius: 6px;
+    background-image:
+        repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.14) 0 8px, transparent 8px 16px),
+        linear-gradient(90deg, var(--rojo), var(--amarillo)) !important;
+    background-size: 22px 22px, 100% 100%;
+    animation: dolmyrRayas 1s linear infinite;
+    box-shadow: 0 0 12px rgba(233, 182, 59, 0.5);
+}
+@keyframes dolmyrRayas {
+    from {
+        background-position: 0 0, 0 0;
+    }
+    to {
+        background-position: 22px 0, 0 0;
+    }
+}
+#launch_details_text {
+    font-family: var(--letra-sub);
+    color: var(--piedra);
+    margin-top: 6px;
+}
+
+/* Crónicas (noticias) */
+#newsContent {
+    background: var(--vidrio-fuerte) !important;
+    backdrop-filter: blur(14px);
+    border-top: 1px solid var(--borde);
+}
+#newsStatusContainer {
+    border-bottom: 1px solid var(--borde) !important;
+}
+#newsArticleTitle {
+    font-family: var(--letra-sub) !important;
+    color: var(--amarillo) !important;
+    font-weight: normal !important;
+    letter-spacing: 0.03em;
+}
+#newsArticleTitle:hover {
+    text-shadow: 0 0 14px rgba(233, 182, 59, 0.6) !important;
+}
+#newsArticleDate,
+#newsArticleAuthor,
+#newsArticleComments,
+#newsNavigationStatus {
+    font-family: var(--letra-sub);
+    color: var(--piedra) !important;
+}
+#newsArticleContentScrollable {
+    font-family: var(--letra-texto);
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--hueso);
+}
+#newsArticleContentScrollable a {
+    color: var(--amarillo);
+}
+.newsErrorContent {
+    font-family: var(--letra-sub);
+    color: var(--piedra) !important;
+    letter-spacing: 0.12em;
+}
+#newsErrorRetry {
+    font-family: var(--letra-sub);
+    color: var(--amarillo) !important;
+}
+
+/* ---------------------------------------------------------------------------
+ * Bienvenida (primera vez)
+ * ------------------------------------------------------------------------- */
+
+#welcomeContent {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 48px;
+    height: 100% !important;
+    width: 100% !important;
+    max-width: none !important;
+    padding: 0 6% !important;
+    box-sizing: border-box;
+    text-align: left !important;
+}
+.dolmyrBienvenidaArte {
+    flex: 0 0 auto;
+    animation: dolmyrEntradaIzquierda 1s var(--curva) both;
+}
+.dolmyrBienvenidaDolm,
+.dolmyrLoginDolm {
+    height: min(68vh, 520px);
+    filter: drop-shadow(0 24px 40px rgba(0, 0, 0, 0.65));
+    animation: dolmyrFlota 6s ease-in-out infinite;
+    -webkit-user-drag: none;
+}
+@keyframes dolmyrFlota {
+    0%, 100% {
+        transform: translate3d(0, 0, 0) rotate(-0.6deg);
+    }
+    50% {
+        transform: translate3d(0, -12px, 0) rotate(0.6deg);
+    }
+}
+.dolmyrBienvenidaTexto {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    max-width: 520px;
+    padding: 34px 38px;
+    border-radius: 18px;
+    background: var(--vidrio);
+    border: 1px solid var(--borde);
+    backdrop-filter: blur(12px);
+    box-shadow: var(--sombra);
+    animation: dolmyrEntradaDerecha 1s var(--curva) 0.15s both;
+}
+#welcomeHeader {
+    font-family: var(--letra-titulo) !important;
+    font-size: 58px !important;
+    font-weight: normal !important;
+    letter-spacing: 0.06em !important;
+    margin: 0 !important;
+    color: var(--hueso);
+}
+.dolmyrSubtituloMarca {
+    font-family: var(--letra-sub);
+    color: var(--amarillo);
+    font-size: 16px;
+    margin-top: 10px;
+}
+#welcomeDescription {
+    font-family: var(--letra-texto) !important;
+    font-size: 16px !important;
+    line-height: 1.6 !important;
+    color: rgba(242, 235, 221, 0.9) !important;
+    text-align: left !important;
+    margin: 0 !important;
+}
+#welcomeDescCTA {
+    font-family: var(--letra-sub) !important;
+    color: var(--amarillo) !important;
+    font-size: 16px !important;
+    margin: 18px 0 22px !important;
+    font-weight: normal !important;
+}
+
+/* Botones secundarios (Continuar, Cancelar, Listo...) */
+#welcomeButton,
+#loginOptionCancelButton,
+.dolmyrBotonSecundario,
+#settingsNavDone {
+    font-family: var(--letra-sub) !important;
+    font-weight: normal !important;
+    letter-spacing: 0.2em !important;
+    color: var(--hueso) !important;
+    background: rgba(242, 235, 221, 0.06) !important;
+    border: 1px solid rgba(233, 182, 59, 0.55) !important;
+    border-radius: 6px !important;
+    padding: 10px 26px !important;
+    cursor: pointer;
+    transition: background 0.25s ease, transform 0.25s var(--curva), box-shadow 0.25s ease, color 0.2s ease !important;
+}
+#welcomeButton:hover,
+#welcomeButton:focus,
+#loginOptionCancelButton:hover,
+.dolmyrBotonSecundario:hover,
+#settingsNavDone:hover,
+#settingsNavDone:focus {
+    background: rgba(233, 182, 59, 0.16) !important;
+    color: var(--amarillo) !important;
+    box-shadow: 0 0 20px rgba(233, 182, 59, 0.2);
+    transform: translateY(-1px);
+    text-shadow: none !important;
+}
+#welcomeButtonContent {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+#welcomeSVG {
+    transform: rotate(90deg);
+    height: 10px;
+}
+#welcomeSVG .arrowLine {
+    stroke: currentColor;
+}
+
+/* ---------------------------------------------------------------------------
+ * Inicio de sesión (solo Microsoft)
+ * ------------------------------------------------------------------------- */
+
+#loginOptionsContent {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    height: 100%;
+    width: 100%;
+    padding: 0 6%;
+    box-sizing: border-box;
+}
+.dolmyrLoginArte {
+    flex: 0 0 auto;
+    animation: dolmyrEntradaIzquierda 1s var(--curva) both;
+}
+.loginOptionsMainContent {
+    display: flex !important;
+    flex-direction: column;
+    align-items: flex-start !important;
+    max-width: 440px;
+    padding: 34px 38px !important;
+    border-radius: 18px;
+    background: var(--vidrio);
+    border: 1px solid var(--borde);
+    backdrop-filter: blur(12px);
+    box-shadow: var(--sombra);
+    animation: dolmyrEntradaDerecha 1s var(--curva) 0.15s both;
+}
+.dolmyrMarcaPequena .dolmyrLogo {
+    font-size: 22px;
+    letter-spacing: 0.12em;
+}
+.loginOptionsMainContent h2 {
+    font-family: var(--letra-titulo) !important;
+    font-weight: normal !important;
+    font-size: 32px !important;
+    letter-spacing: 0.03em;
+    margin: 14px 0 0 !important;
+    color: var(--hueso);
+}
+.dolmyrLoginTexto {
+    font-size: 15px;
+    line-height: 1.6;
+    color: rgba(242, 235, 221, 0.88);
+    margin: 0 0 22px;
+}
+.loginOptionActions {
+    width: 100%;
+}
+.loginOptionButtonContainer {
+    width: 100%;
+}
+.loginOptionButton {
+    width: 100% !important;
+    justify-content: center !important;
+    gap: 14px;
+    padding: 15px 20px !important;
+    border-radius: 8px !important;
+    border: none !important;
+    background: var(--hueso) !important;
+    color: var(--oscuro) !important;
+    font-family: var(--letra-sub) !important;
+    font-size: 17px !important;
+    letter-spacing: 0.06em;
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.45);
+    transition: transform 0.25s var(--curva), box-shadow 0.25s ease, background 0.2s ease !important;
+}
+.loginOptionButton:hover,
+.loginOptionButton:focus {
+    background: #FFF8EA !important;
+    transform: translateY(-2px);
+    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.5), 0 0 26px rgba(233, 182, 59, 0.35) !important;
+}
+.loginOptionButton span {
+    color: var(--oscuro) !important;
+}
+.dolmyrLoginSeguridad {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--piedra);
+    margin: 18px 0 10px;
+}
+.dolmyrLoginSeguridad svg {
+    flex: 0 0 auto;
+    margin-top: 2px;
+    color: var(--musgo);
+    filter: brightness(1.6);
+}
+.dolmyrLoginSinJuego {
+    font-family: var(--letra-sub);
+    font-size: 14px;
+    color: var(--amarillo);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s ease;
+}
+.dolmyrLoginSinJuego:hover {
+    border-bottom-color: var(--amarillo);
+}
+#loginOptionCancelContainer {
+    margin-top: 18px;
+}
+
+/* Esperando a Microsoft */
+#waitingContent h2 {
+    font-family: var(--letra-sub) !important;
+    font-weight: normal !important;
+    letter-spacing: 0.12em;
+    color: var(--hueso);
+}
+.waitingSpinner:before,
+.waitingSpinner:after {
+    border-color: var(--amarillo) transparent var(--rojo) transparent !important;
+}
+
+/* ---------------------------------------------------------------------------
+ * Ajustes
+ * ------------------------------------------------------------------------- */
+
+#settingsContainer {
+    background: linear-gradient(90deg, rgba(20, 17, 15, 0.94) 0%, rgba(26, 22, 19, 0.88) 26%, rgba(26, 22, 19, 0.82) 100%) !important;
+    backdrop-filter: blur(16px);
+}
+#settingsContainerLeft {
+    border-right: 1px solid var(--borde);
+}
+#settingsNavHeaderText {
+    font-family: var(--letra-titulo) !important;
+    font-weight: normal !important;
+    font-size: 28px !important;
+    letter-spacing: 0.04em;
+    color: var(--hueso);
+}
+.settingsNavItem {
+    font-family: var(--letra-sub) !important;
+    font-weight: normal !important;
+    font-size: 15px !important;
+    letter-spacing: 0.06em;
+    color: rgba(242, 235, 221, 0.62) !important;
+    position: relative;
+    transition: color 0.2s ease, padding-left 0.25s var(--curva) !important;
+}
+.settingsNavItem:hover,
+.settingsNavItem:focus {
+    color: var(--hueso) !important;
+    text-shadow: none !important;
+}
+.settingsNavItem[selected] {
+    color: var(--amarillo) !important;
+    text-shadow: 0 0 14px rgba(233, 182, 59, 0.35) !important;
+    padding-left: 12px;
+}
+.settingsNavItem[selected]::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 7px;
+    height: 7px;
+    margin-top: -4px;
+    background: var(--rojo);
+    transform: rotate(45deg);
+    box-shadow: 0 0 8px rgba(200, 53, 46, 0.7);
+}
+.settingsNavDivider {
+    background: var(--borde-fuerte) !important;
+}
+.settingsTabHeaderText {
+    font-family: var(--letra-titulo) !important;
+    font-weight: normal !important;
+    font-size: 26px !important;
+    letter-spacing: 0.03em;
+    color: var(--hueso);
+}
+.settingsTabHeaderDesc {
+    font-family: var(--letra-texto);
+    color: var(--piedra) !important;
+    font-size: 14px !important;
+}
+.settingsFieldTitle {
+    font-family: var(--letra-sub) !important;
+    font-weight: normal !important;
+    font-size: 14px !important;
+    letter-spacing: 0.03em;
+    color: var(--hueso);
+}
+.settingsFieldDesc {
+    font-family: var(--letra-texto);
+    color: var(--piedra) !important;
+    font-size: 13px !important;
+}
+.settingsFieldContainer {
+    border-bottom: 1px solid rgba(242, 235, 221, 0.06);
+}
+
+/* Interruptores */
+.toggleSwitchSlider {
+    background-color: rgba(242, 235, 221, 0.14) !important;
+    border: 1px solid rgba(242, 235, 221, 0.18) !important;
+}
+.toggleSwitchSlider:before {
+    background-color: var(--hueso) !important;
+}
+input:checked + .toggleSwitchSlider {
+    background-color: var(--rojo) !important;
+    border-color: var(--amarillo) !important;
+    box-shadow: 0 0 12px rgba(200, 53, 46, 0.45);
+}
+input:checked + .toggleSwitchSlider:before {
+    background-color: var(--luz-ojo) !important;
+}
+
+/* Campos, selectores y botones de ajustes */
+#settingsContainer input[type=number],
+#settingsContainer input[type=text] {
+    background: rgba(242, 235, 221, 0.06) !important;
+    border: 1px solid var(--borde-fuerte) !important;
+    border-radius: 6px;
+    color: var(--hueso) !important;
+    font-family: var(--letra-texto);
+}
+#settingsContainer input[type=number]:focus,
+#settingsContainer input[type=text]:focus {
+    border-color: var(--amarillo) !important;
+}
+.settingsFileSelButton,
+.settingsAddAuthAccount,
+#settingsUpdateActionButton,
+.settingsSwitchServerButton,
+#settingsAboutDevToolsButton {
+    font-family: var(--letra-sub) !important;
+    font-weight: normal !important;
+    letter-spacing: 0.06em;
+    color: var(--hueso) !important;
+    background: rgba(242, 235, 221, 0.06) !important;
+    border: 1px solid rgba(233, 182, 59, 0.5) !important;
+    border-radius: 6px !important;
+    transition: background 0.2s ease, color 0.2s ease !important;
+}
+.settingsFileSelButton:hover,
+.settingsAddAuthAccount:hover,
+#settingsUpdateActionButton:hover,
+.settingsSwitchServerButton:hover,
+#settingsAboutDevToolsButton:hover {
+    background: rgba(233, 182, 59, 0.16) !important;
+    color: var(--amarillo) !important;
+    text-shadow: none !important;
+}
+.settingsAuthAccount {
+    background: rgba(242, 235, 221, 0.05) !important;
+    border: 1px solid var(--borde) !important;
+    border-radius: 12px !important;
+}
+.settingsAuthAccountSelect[selected] {
+    color: var(--amarillo) !important;
+}
+.settingsAuthAccountLogOut:hover {
+    color: var(--rojo-claro) !important;
+}
+#settingsAboutTitle,
+#settingsUpdateTitle {
+    font-family: var(--letra-titulo) !important;
+    font-weight: normal !important;
+    color: var(--hueso);
+}
+#settingsAboutLogo {
+    border-radius: 18px;
+}
+.settingsMemoryStatusTitle,
+.settingsMemoryStatusValue,
+.settingsModName,
+.settingsSelServTitle,
+.settingsDropinFileName {
+    font-family: var(--letra-texto);
+}
+.settingsBox,
+.settingsMemoryStatusContainer,
+#settingsReleaseNotesContainer,
+#settingsSelServContainer {
+    border-radius: 12px;
+}
+
+/* Pestaña Apariencia (propia de Dolmyr) */
+.dolmyrAjusteBloque {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid rgba(242, 235, 221, 0.06);
+}
+.dolmyrSelectorFondos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(112px, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+}
+.dolmyrFondoMiniatura {
+    position: relative;
+    height: 66px;
+    border-radius: 8px;
+    background-size: cover;
+    background-position: center;
+    border: 2px solid transparent;
+    cursor: pointer;
+    overflow: hidden;
+    transition: transform 0.25s var(--curva), border-color 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45);
+}
+.dolmyrFondoMiniatura:hover {
+    transform: translateY(-2px);
+    border-color: rgba(233, 182, 59, 0.55);
+}
+.dolmyrFondoMiniatura[elegido] {
+    border-color: var(--amarillo);
+    box-shadow: 0 0 0 1px var(--amarillo), 0 0 18px rgba(233, 182, 59, 0.35);
+}
+.dolmyrFondoMiniatura span {
+    position: absolute;
+    inset: auto 0 0 0;
+    padding: 3px 6px;
+    font-family: var(--letra-sub);
+    font-size: 11px;
+    color: var(--hueso);
+    background: linear-gradient(0deg, rgba(20, 17, 15, 0.85), transparent);
+}
+.dolmyrFondoAleatorio {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: repeating-linear-gradient(45deg, rgba(242, 235, 221, 0.04) 0 10px, rgba(242, 235, 221, 0.08) 10px 20px);
+    font-family: var(--letra-sub);
+    color: var(--hueso);
+    font-size: 26px;
+}
+.dolmyrAjusteSubtitulo {
+    font-family: var(--letra-sub);
+    color: var(--amarillo);
+    letter-spacing: 0.16em;
+    font-size: 12px;
+    text-transform: uppercase;
+    margin: 22px 0 4px;
+}
+.dolmyrAjusteAcciones {
+    padding: 20px 0 10px;
+}
+
+/* ---------------------------------------------------------------------------
+ * Diálogos (overlay) y selección de servidor/cuenta
+ * ------------------------------------------------------------------------- */
+
+#overlayContainer {
+    background: rgba(12, 10, 9, 0.55) !important;
+}
+#overlayContent,
+#serverSelectContent,
+#accountSelectContent {
+    background: var(--vidrio-fuerte) !important;
+    border: 1px solid var(--borde) !important;
+    border-radius: 16px !important;
+    backdrop-filter: blur(16px);
+    box-shadow: var(--sombra) !important;
+    animation: dolmyrAparecer 0.35s var(--curva) both;
+}
+@keyframes dolmyrAparecer {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 10px, 0) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+#overlayTitle,
+#serverSelectHeader,
+#accountSelectHeader {
+    font-family: var(--letra-sub) !important;
+    font-weight: normal !important;
+    color: var(--amarillo) !important;
+    letter-spacing: 0.06em;
+}
+#overlayDesc {
+    font-family: var(--letra-texto) !important;
+    color: var(--hueso) !important;
+    line-height: 1.55;
+}
+#overlayContent a {
+    color: var(--amarillo) !important;
+}
+#overlayAcknowledge,
+#serverSelectConfirm,
+#accountSelectConfirm {
+    font-family: var(--letra-sub) !important;
+    font-weight: normal !important;
+    letter-spacing: 0.08em;
+    background: linear-gradient(180deg, var(--rojo-claro), var(--rojo-oscuro)) !important;
+    border: 1px solid rgba(233, 182, 59, 0.55) !important;
+    color: var(--hueso) !important;
+    border-radius: 6px !important;
+    transition: filter 0.2s ease, transform 0.2s var(--curva) !important;
+}
+#overlayAcknowledge:hover,
+#serverSelectConfirm:hover,
+#accountSelectConfirm:hover {
+    filter: brightness(1.1);
+    transform: translateY(-1px);
+    text-shadow: none !important;
+}
+#overlayDismiss,
+#serverSelectCancel,
+#accountSelectCancel {
+    font-family: var(--letra-sub) !important;
+    color: var(--piedra) !important;
+}
+#overlayDismiss:hover,
+#serverSelectCancel:hover,
+#accountSelectCancel:hover {
+    color: var(--hueso) !important;
+}
+.serverListing,
+.accountListing {
+    border-radius: 10px !important;
+    background: rgba(242, 235, 221, 0.05) !important;
+    border: 1px solid var(--borde);
+}
+.serverListing[selected],
+.accountListing[selected] {
+    border-color: var(--amarillo) !important;
+    background: rgba(233, 182, 59, 0.10) !important;
+}
+.serverListingName,
+.accountListingName {
+    font-family: var(--letra-sub);
+}
+
+/* ---------------------------------------------------------------------------
+ * Pantalla de carga (al abrir el launcher)
+ * ------------------------------------------------------------------------- */
+
+#loadingContainer {
+    background: radial-gradient(ellipse at center, #332B26 0%, var(--oscuro) 55%, var(--oscuro-profundo) 100%);
+}
+#loadCenterImage {
+    width: 150px !important;
+    filter: drop-shadow(0 0 26px rgba(233, 182, 59, 0.45));
+    animation: dolmyrLatidoSello 2.6s ease-in-out infinite;
+}
+#loadSpinnerImage {
+    width: 290px !important;
+    opacity: 0.9;
+}
+@keyframes dolmyrLatidoSello {
+    0%, 100% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 18px rgba(233, 182, 59, 0.35));
+    }
+    50% {
+        transform: scale(1.05);
+        filter: drop-shadow(0 0 36px rgba(246, 215, 122, 0.7));
+    }
+}
+
+/* ---------------------------------------------------------------------------
+ * Retoques tras revisar las capturas
+ * ------------------------------------------------------------------------- */
+
+/* Esperando a Microsoft: el ojo late dentro del anillo de texto que gira */
+.dolmyrEspera {
+    position: relative;
+    width: 230px;
+    height: 230px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 18px;
+}
+.dolmyrEsperaAnillo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    animation: dolmyrGiro 24s linear infinite;
+    opacity: 0.9;
+}
+.dolmyrEsperaOjo {
+    width: 104px;
+    animation: dolmyrLatidoSello 2.6s ease-in-out infinite;
+}
+@keyframes dolmyrGiro {
+    to {
+        transform: rotate(360deg);
+    }
+}
+#waitingContent {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Sin cuenta: el avatar muestra el ojo de Dolmyr en vez de quedar vacío */
+#avatarContainer {
+    background-image: url('../images/SealCircle.png');
+    background-size: cover !important;
+}
+#user_text {
+    white-space: nowrap;
+    min-width: 0 !important;
+}
+
+/* Botones de añadir cuenta y similares: más aire */
+.settingsAddAuthAccount {
+    padding: 6px 14px !important;
+    font-size: 13px !important;
+}
+
+/* Etiqueta de versión de Minecraft en la tarjeta del servidor */
+.serverListingVersion {
+    background: var(--amarillo) !important;
+    color: var(--oscuro) !important;
+    font-family: var(--letra-sub);
+    padding: 1px 5px !important;
+    border-radius: 3px !important;
+}
+.serverListingRevision {
+    color: var(--piedra) !important;
+}
+.serverListingName {
+    font-family: var(--letra-sub) !important;
+    color: var(--hueso);
+}
+.serverListingDescription {
+    color: var(--piedra) !important;
+    font-weight: normal !important;
+}
+
+/* "Versión estable" y comprobaciones: colores de la paleta */
+#settingsAboutCurrentVersionCheck,
+#settingsUpdateVersionCheck {
+    background: var(--musgo) !important;
+    box-shadow: 0 0 10px rgba(78, 122, 58, 0.6);
+}
+#settingsAboutCurrentVersionTitle,
+#settingsUpdateVersionTitle {
+    color: #8DBA6F !important;
+    font-family: var(--letra-sub) !important;
+    font-weight: normal !important;
+}
+#settingsAboutCurrentVersionLine,
+#settingsUpdateVersionLine {
+    color: var(--piedra) !important;
+}
+.settingsAboutButton {
+    font-family: var(--letra-sub);
+    color: var(--piedra) !important;
+}
+.settingsAboutButton:hover {
+    color: var(--amarillo) !important;
+}
+#settingsAboutCurrentContainer,
+#settingsAboutChangelogContainer,
+#settingsUpdateStatusContainer,
+#settingsUpdateChangelogContainer {
+    border-radius: 14px !important;
+    border-color: var(--borde) !important;
+    background: rgba(242, 235, 221, 0.03);
+}
+
+/* Avisos: texto normal y más legible */
+#overlayDesc {
+    font-weight: normal !important;
+    font-size: 15px !important;
+}
+#overlayContent {
+    padding: 26px 30px !important;
+    min-width: 360px;
+}
+#overlayAcknowledge {
+    padding: 8px 24px !important;
+    font-size: 15px !important;
+}
+
+/* Barras de memoria (Java) */
+.rangeSliderBar {
+    background: linear-gradient(90deg, var(--rojo), var(--amarillo)) !important;
+}
+.rangeSliderTrack {
+    background: var(--hueso) !important;
+}
+
+/* Texto de espera debajo del anillo (no encima) */
+#waitingTextContainer {
+    position: static !important;
+    transform: none !important;
+    margin-top: 6px;
+}
+#waitingContent {
+    justify-content: center;
+    height: 100%;
+}
+
+/* Nombre del jugador sobre una pastilla de vidrio para que se lea sobre cualquier paisaje */
+#user_text {
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: var(--vidrio);
+    border: 1px solid var(--borde);
+    backdrop-filter: blur(8px);
+    right: 80px !important;
+}
+
+/* ---------------------------------------------------------------------------
+ * Dolm, el guía (dolm.js): figura animada con vídeos transparentes y bocadillo
+ * ------------------------------------------------------------------------- */
+
+.dolmGuia {
+    position: relative;
+}
+.dolmFigura {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    flex: 0 0 auto;
+}
+.dolmFiguraVideos,
+.dolmClip {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+.dolmClip {
+    opacity: 0;
+    transition: opacity 0.18s linear;
+    pointer-events: none;
+}
+.dolmClip.dolmClipVisible {
+    opacity: 1;
+}
+/* Sombra en el suelo, bajo los pies */
+.dolmSombra {
+    position: absolute;
+    left: 24%;
+    right: 24%;
+    bottom: 5%;
+    height: 7%;
+    border-radius: 50%;
+    background: radial-gradient(closest-side, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0));
+    pointer-events: none;
+}
+/* Imagen fija: solo si no hay vídeo o con "reducir el movimiento". Ocupa lo mismo que Dolm en los vídeos. */
+.dolmFigura > .dolmRespaldo {
+    position: absolute;
+    left: 50%;
+    bottom: 7%;
+    height: 80% !important;
+    width: auto;
+    transform: translateX(-50%);
+    filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.55));
+    animation: none !important;
+    display: none;
+}
+.dolmFija > .dolmRespaldo,
+.dolmSinVideo > .dolmRespaldo {
+    display: block;
+}
+.dolmFija > .dolmFiguraVideos,
+.dolmSinVideo > .dolmFiguraVideos {
+    display: none;
+}
+.dolmPulsable {
+    cursor: pointer;
+}
+.dolmPulsable:hover .dolmClipVisible,
+.dolmPulsable:hover > .dolmRespaldo {
+    filter: brightness(1.08) drop-shadow(0 0 18px rgba(246, 215, 122, 0.22));
+}
+
+/* Pantalla principal: abajo a la izquierda, sube con el panel de crónicas */
+.dolmGuiaPrincipal {
+    position: absolute;
+    left: 30px;
+    bottom: -3%;
+    z-index: 2;
+    pointer-events: none;
+    animation: dolmyrEntradaIzquierda 1s var(--curva) 0.3s both;
+}
+.dolmGuiaPrincipal {
+    --dolm-alto: clamp(240px, 49vh, 430px);
+}
+.dolmGuiaPrincipal .dolmFigura {
+    height: var(--dolm-alto);
+    pointer-events: auto;
+}
+.dolmGuiaPrincipal.dolmOculto {
+    display: none;
+}
+
+/* Bienvenida e inicio de sesión: Dolm grande */
+.dolmGuiaGrande .dolmFigura {
+    height: min(78vh, 610px);
+    margin-top: 30px;
+}
+.dolmGuiaGrande {
+    animation: dolmyrEntradaIzquierda 1s var(--curva) both;
+}
+
+/* Bocadillo de pergamino */
+.dolmBocadillo {
+    position: absolute;
+    z-index: 3;
+    max-width: 330px;
+    min-width: 180px;
+    padding: 22px 20px 16px;
+    border-radius: 14px;
+    background: var(--hueso);
+    color: var(--oscuro);
+    border: 2px solid var(--oscuro);
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.5), inset 0 0 0 4px rgba(42, 36, 32, 0.06);
+    font-family: var(--letra-texto);
+    font-size: 16px;
+    line-height: 1.38;
+    text-align: left;
+    pointer-events: auto;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(8px) scale(0.94);
+    transform-origin: 0% 70%;
+    transition: opacity 0.22s ease, transform 0.32s var(--curva), visibility 0s linear 0.32s;
+}
+.dolmBocadillo.dolmBocadilloVisible {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition: opacity 0.22s ease, transform 0.32s var(--curva), visibility 0s;
+}
+/* Cenefa en el borde inferior */
+.dolmBocadillo::before {
+    content: '';
+    position: absolute;
+    left: 14px;
+    right: 14px;
+    bottom: 5px;
+    height: 6px;
+    background-image: var(--cenefa);
+    background-size: 22px 6px;
+    background-repeat: repeat-x;
+    opacity: 0.55;
+}
+/* Pico hacia Dolm */
+.dolmBocadillo::after {
+    content: '';
+    position: absolute;
+    left: -12px;
+    top: 34px;
+    width: 18px;
+    height: 18px;
+    background: var(--hueso);
+    border-left: 2px solid var(--oscuro);
+    border-bottom: 2px solid var(--oscuro);
+    transform: rotate(45deg);
+}
+.dolmBocadilloNombre {
+    position: absolute;
+    top: -13px;
+    left: 16px;
+    padding: 3px 12px 2px;
+    border-radius: 6px;
+    background: var(--rojo);
+    color: var(--hueso);
+    border: 2px solid var(--oscuro);
+    font-family: var(--letra-sub);
+    font-size: 13px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+}
+.dolmBocadilloTexto {
+    display: block;
+    padding-bottom: 8px;
+    white-space: pre-wrap;
+}
+.dolmResto {
+    color: transparent;
+}
+/* El cursor no ocupa sitio: el texto no se mueve al escribir */
+.dolmCursor {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    margin-left: 3px;
+    margin-right: -10px;
+    background: var(--rojo);
+    transform: rotate(45deg) translateY(-2px);
+    animation: dolmParpadeo 0.8s steps(2, start) infinite;
+}
+@keyframes dolmParpadeo {
+    to {
+        visibility: hidden;
+    }
+}
+
+/* Pantalla principal: a la derecha de la cabeza */
+.dolmGuiaPrincipal .dolmBocadillo {
+    left: calc(var(--dolm-alto) * 0.78);
+    top: 16%;
+    width: max-content;
+}
+
+/* Bienvenida e inicio de sesión: encima de la cabeza, con el pico hacia abajo */
+.dolmGuiaGrande .dolmBocadillo {
+    left: 50%;
+    top: 26px;
+    width: max-content;
+    max-width: 340px;
+    transform-origin: 50% 100%;
+    translate: -50% 0;
+}
+.dolmGuiaGrande .dolmBocadillo::after {
+    left: calc(50% - 9px);
+    top: auto;
+    bottom: -11px;
+    transform: rotate(-45deg);
+}

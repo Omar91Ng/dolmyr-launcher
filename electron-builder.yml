@@ -1,50 +1,67 @@
-appId: 'helioslauncher'
-productName: 'Helios Launcher'
-artifactName: '${productName}-setup-${version}.${ext}'
+# Configuración del instalador de Dolmyr (electron-builder).
+# Compilar para Windows:  npm run dist:win   ->  dist/Dolmyr-instalador-<versión>.exe
+appId: 'com.dolmyr.launcher'
+productName: 'Dolmyr'
+artifactName: '${productName}-instalador-${version}.${ext}'
 
-copyright: 'Copyright © 2018-2026 Daniel Scalzi'
+copyright: 'Copyright © 2026 Equipo de Dolmyr. Basado en HeliosLauncher (MIT) de Daniel Scalzi.'
 
 asar: true
 compression: 'maximum'
 
 files:
-  - '!{dist,.gitignore,.vscode,docs,dev-app-update.yml,.nvmrc,eslint.config.mjs}'
+  - '!{dist,.gitignore,.vscode,docs,dev-app-update.yml,.nvmrc,eslint.config.mjs,arte,distribucion,herramientas,CLAUDE.md,contexto}'
 
 extraResources:
   - 'libraries'
 
-# Windows Configuration
-win: 
-  target: 
+# Autoactualización: el launcher busca versiones nuevas en las "Releases" de este repositorio de GitHub.
+# CAMBIAR owner y repo por el repositorio real del equipo antes de publicar la primera versión.
+publish:
+  provider: 'github'
+  owner: 'dolmyr'
+  repo: 'dolmyr-launcher'
+  releaseType: 'release'
+
+# Windows
+win:
+  target:
     - target: 'nsis'
       arch: 'x64'
+  icon: 'build/icon.png'
 
-# Windows Installer Configuration
+# Instalador de Windows
 nsis:
   oneClick: false
   perMachine: false
   allowElevation: true
   allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: 'Dolmyr'
+  uninstallDisplayName: 'Dolmyr'
+  installerIcon: 'build/icon.ico'
+  uninstallerIcon: 'build/icon.ico'
+  installerHeaderIcon: 'build/icon.ico'
 
-# macOS Configuration
+# macOS
 mac:
   target:
     - target: 'dmg'
       arch:
         - 'x64'
         - 'arm64'
-  artifactName: '${productName}-setup-${version}-${arch}.${ext}'
+  artifactName: '${productName}-instalador-${version}-${arch}.${ext}'
   category: 'public.app-category.games'
 
-# Linux Configuration
-linux: 
+# Linux
+linux:
   target: 'AppImage'
-  maintainer: 'Daniel Scalzi'
-  vendor: 'Daniel Scalzi'
-  synopsis: 'Modded Minecraft Launcher'
-  description: 'Custom launcher which allows users to join modded servers. All mods, configurations, and updates are handled automatically.'
+  maintainer: 'Equipo de Dolmyr'
+  vendor: 'Equipo de Dolmyr'
+  synopsis: 'Launcher oficial de Dolmyr'
+  description: 'Launcher oficial de Dolmyr. Inicia sesión con tu cuenta de Minecraft, descarga e instala todo lo necesario y entra directo al servidor.'
   category: 'Game'
-
 
 directories:
   buildResources: 'build'

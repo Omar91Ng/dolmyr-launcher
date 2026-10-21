@@ -1,0 +1,33 @@
+{
+    "_LEEME": "Configuración de la lista de distribución. Ver distribucion/LEEME.md. Tras cambiar algo: npm run distribucion",
+    "urlBase": "https://dolmyr.com/launcher/",
+    "rss": "",
+    "minecraft": "26.2",
+    "fabric": "0.19.5",
+    "java": {
+        "supported": ">=25",
+        "suggestedMajor": 25
+    },
+    "servidor": {
+        "id": "dolmyr",
+        "nombre": "Dolmyr",
+        "descripcion": "Nadie te espera en el Yermo.",
+        "direccion": "play.dolmyr.com:25565",
+        "version": "0.1.0",
+        "icono": "icono.png"
+    },
+    "mods": [
+        { "modrinth": "fabric-api" },
+        { "modrinth": "sodium" },
+        { "modrinth": "fancymenu" },
+        { "modrinth": "drippy-loading-screen" },
+        { "modrinth": "entitytexturefeatures" },
+        { "modrinth": "entity-model-features" },
+        { "modrinth": "iris", "opcional": true, "activadoPorDefecto": false, "nombre": "Iris (shaders)" }
+    ],
+    "pruebasLocales": {
+        "_LEEME": "Para npm run distribucion:local (probar en este equipo con la network local)",
+        "urlBase": "http://127.0.0.1:8095/",
+        "direccion": "localhost:25565"
+    }
+}

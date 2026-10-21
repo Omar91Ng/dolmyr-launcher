@@ -28,12 +28,15 @@ loginOptionMicrosoft.onclick = (e) => {
     })
 }
 
-loginOptionMojang.onclick = (e) => {
-    switchView(getCurrentView(), VIEWS.login, 500, 500, () => {
-        loginViewOnSuccess = loginOptionsViewOnLoginSuccess
-        loginViewOnCancel = loginOptionsViewOnLoginCancel
-        loginCancelEnabled(true)
-    })
+// Dolmyr solo admite cuentas de Microsoft (Minecraft original): el botón de Mojang no existe.
+if(loginOptionMojang != null){
+    loginOptionMojang.onclick = (e) => {
+        switchView(getCurrentView(), VIEWS.login, 500, 500, () => {
+            loginViewOnSuccess = loginOptionsViewOnLoginSuccess
+            loginViewOnCancel = loginOptionsViewOnLoginCancel
+            loginCancelEnabled(true)
+        })
+    }
 }
 
 loginOptionsCancelButton.onclick = (e) => {

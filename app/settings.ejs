@@ -11,6 +11,7 @@
                     <button class="settingsNavItem" rSc="settingsTabMods"><%- lang('settings.navMods') %></button>
                     <button class="settingsNavItem" rSc="settingsTabJava"><%- lang('settings.navJava') %></button>
                     <button class="settingsNavItem" rSc="settingsTabLauncher"><%- lang('settings.navLauncher') %></button>
+                    <button class="settingsNavItem" rSc="settingsTabDolmyr"><%- lang('dolmyr.navPersonalizacion') %></button>
                     <div class="settingsNavSpacer"></div>
                     <button class="settingsNavItem" rSc="settingsTabAbout"><%- lang('settings.navAbout') %></button>
                     <button class="settingsNavItem" rSc="settingsTabUpdate" id="settingsNavUpdate"><%- lang('settings.navUpdates') %></button>
@@ -49,7 +50,8 @@
                 </div>
             </div>
 
-            <div class="settingsAuthAccountTypeContainer">
+            <!-- Dolmyr: solo cuentas de Microsoft. Bloque Mojang oculto, no se borra porque settings.js usa sus elementos. -->
+            <div class="settingsAuthAccountTypeContainer" style="display: none;">
                 <div class="settingsAuthAccountTypeHeader">
                     <div class="settingsAuthAccountTypeHeaderLeft">
                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 9.677 9.667">
@@ -304,6 +306,132 @@
                     </div>
                 </div>
                 <div class="settingsFileSelDesc"><%- lang('settings.dataDirectoryDesc') %></div>
+            </div>
+        </div>
+        <div id="settingsTabDolmyr" class="settingsTab" style="display: none;">
+            <div class="settingsTabHeader">
+                <span class="settingsTabHeaderText"><%- lang('dolmyr.personalizacionTitulo') %></span>
+                <span class="settingsTabHeaderDesc"><%- lang('dolmyr.personalizacionDesc') %></span>
+            </div>
+            <div class="dolmyrAjusteBloque">
+                <span class="settingsFieldTitle"><%- lang('dolmyr.fondoTitulo') %></span>
+                <span class="settingsFieldDesc"><%- lang('dolmyr.fondoDesc') %></span>
+                <div id="dolmyrSelectorFondos" class="dolmyrSelectorFondos">
+                    <!-- Miniaturas de los fondos: las rellena dolmyr.js -->
+                </div>
+            </div>
+            <div class="settingsFieldContainer">
+                <div class="settingsFieldLeft">
+                    <span class="settingsFieldTitle"><%- lang('dolmyr.fondoRotativo') %></span>
+                </div>
+                <div class="settingsFieldRight">
+                    <label class="toggleSwitch">
+                        <input type="checkbox" dolmyrOpcion="fondoRotativo">
+                        <span class="toggleSwitchSlider"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="dolmyrAjusteSubtitulo"><%- lang('dolmyr.animacionesTitulo') %></div>
+            <div class="settingsFieldContainer">
+                <div class="settingsFieldLeft">
+                    <span class="settingsFieldTitle"><%- lang('dolmyr.movimientoFondo') %></span>
+                    <span class="settingsFieldDesc"><%- lang('dolmyr.movimientoFondoDesc') %></span>
+                </div>
+                <div class="settingsFieldRight">
+                    <label class="toggleSwitch">
+                        <input type="checkbox" dolmyrOpcion="movimientoFondo">
+                        <span class="toggleSwitchSlider"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="settingsFieldContainer">
+                <div class="settingsFieldLeft">
+                    <span class="settingsFieldTitle"><%- lang('dolmyr.particulas') %></span>
+                    <span class="settingsFieldDesc"><%- lang('dolmyr.particulasDesc') %></span>
+                </div>
+                <div class="settingsFieldRight">
+                    <label class="toggleSwitch">
+                        <input type="checkbox" dolmyrOpcion="particulas">
+                        <span class="toggleSwitchSlider"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="settingsFieldContainer">
+                <div class="settingsFieldLeft">
+                    <span class="settingsFieldTitle"><%- lang('dolmyr.niebla') %></span>
+                    <span class="settingsFieldDesc"><%- lang('dolmyr.nieblaDesc') %></span>
+                </div>
+                <div class="settingsFieldRight">
+                    <label class="toggleSwitch">
+                        <input type="checkbox" dolmyrOpcion="niebla">
+                        <span class="toggleSwitchSlider"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="settingsFieldContainer">
+                <div class="settingsFieldLeft">
+                    <span class="settingsFieldTitle"><%- lang('dolmyr.reducirMovimiento') %></span>
+                    <span class="settingsFieldDesc"><%- lang('dolmyr.reducirMovimientoDesc') %></span>
+                </div>
+                <div class="settingsFieldRight">
+                    <label class="toggleSwitch">
+                        <input type="checkbox" dolmyrOpcion="reducirMovimiento">
+                        <span class="toggleSwitchSlider"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="dolmyrAjusteSubtitulo"><%- lang('dolmyr.dolmTitulo') %></div>
+            <div class="settingsFieldContainer">
+                <div class="settingsFieldLeft">
+                    <span class="settingsFieldTitle"><%- lang('dolmyr.mostrarDolm') %></span>
+                    <span class="settingsFieldDesc"><%- lang('dolmyr.mostrarDolmDesc') %></span>
+                </div>
+                <div class="settingsFieldRight">
+                    <label class="toggleSwitch">
+                        <input type="checkbox" dolmyrOpcion="dolm">
+                        <span class="toggleSwitchSlider"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="settingsFieldContainer">
+                <div class="settingsFieldLeft">
+                    <span class="settingsFieldTitle"><%- lang('dolmyr.charlaDolm') %></span>
+                    <span class="settingsFieldDesc"><%- lang('dolmyr.charlaDolmDesc') %></span>
+                </div>
+                <div class="settingsFieldRight">
+                    <label class="toggleSwitch">
+                        <input type="checkbox" dolmyrOpcion="charlaDolm">
+                        <span class="toggleSwitchSlider"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="settingsFieldContainer">
+                <div class="settingsFieldLeft">
+                    <span class="settingsFieldTitle"><%- lang('dolmyr.vozDolm') %></span>
+                    <span class="settingsFieldDesc"><%- lang('dolmyr.vozDolmDesc') %></span>
+                </div>
+                <div class="settingsFieldRight">
+                    <label class="toggleSwitch">
+                        <input type="checkbox" dolmyrOpcion="vozDolm">
+                        <span class="toggleSwitchSlider"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="dolmyrAjusteSubtitulo"><%- lang('dolmyr.sonidoTitulo') %></div>
+            <div class="settingsFieldContainer">
+                <div class="settingsFieldLeft">
+                    <span class="settingsFieldTitle"><%- lang('dolmyr.sonidoInterfaz') %></span>
+                    <span class="settingsFieldDesc"><%- lang('dolmyr.sonidoInterfazDesc') %></span>
+                </div>
+                <div class="settingsFieldRight">
+                    <label class="toggleSwitch">
+                        <input type="checkbox" dolmyrOpcion="sonido">
+                        <span class="toggleSwitchSlider"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="dolmyrAjusteAcciones">
+                <button id="dolmyrRestablecer" class="dolmyrBotonSecundario"><%- lang('dolmyr.restablecer') %></button>
             </div>
         </div>
         <div id="settingsTabAbout" class="settingsTab" style="display: none;">

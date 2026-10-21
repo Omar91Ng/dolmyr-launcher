@@ -1,3 +1,5 @@
-owner: dscalzi
-repo: HeliosLauncher
+# Solo para desarrollo (npm start): de dónde comprueba actualizaciones el launcher.
+# Debe apuntar al mismo repositorio que "publish" en electron-builder.yml.
+owner: dolmyr
+repo: dolmyr-launcher
 provider: github

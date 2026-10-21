@@ -4,3 +4,7 @@
 /target/
 /logs/
 /dist/
+# Dolmyr
+capturas/
+distribucion/publicar/
+arte/vista-*

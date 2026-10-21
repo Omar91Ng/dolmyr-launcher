@@ -16,6 +16,11 @@ const LangLoader                        = require('./app/assets/js/langloader')
 // Setup Lang
 LangLoader.setupLanguage()
 
+if(AZURE_CLIENT_ID === require('./app/assets/js/ipcconstants').AZURE_CLIENT_ID_HELIOS){
+    console.warn('[Dolmyr] AVISO: se está usando el ID de Azure de HeliosLauncher. Solo vale para pruebas: '
+        + 'pon el ID propio de Dolmyr en app/assets/js/ipcconstants.js antes de publicar.')
+}
+
 // Setup auto updater.
 function initAutoUpdater(event, data) {
 
@@ -85,9 +90,14 @@ ipcMain.on('autoUpdateAction', (event, arg, data) => {
     }
 })
 // Redirect distribution index event from preloader to renderer.
+// Resultado de la carga de la lista de distribución por ventana. Dolmyr: se recuerda porque, si la lista
+// carga muy rápido (disco o internet rápido), el aviso llegaba antes de que la interfaz lo escuchara.
+const estadoDistribucion = new Map()
 ipcMain.on('distributionIndexDone', (event, res) => {
+    estadoDistribucion.set(event.sender.id, res)
     event.sender.send('distributionIndexDone', res)
 })
+ipcMain.handle('dolmyr:estadoDistribucion', (event) => estadoDistribucion.get(event.sender.id))
 
 // Handle trash item.
 ipcMain.handle(SHELL_OPCODE.TRASH_ITEM, async (event, ...args) => {
@@ -126,7 +136,7 @@ ipcMain.on(MSFT_OPCODE.OPEN_LOGIN, (ipcEvent, ...arguments_) => {
     msftAuthViewOnClose = arguments_[1]
     msftAuthWindow = new BrowserWindow({
         title: LangLoader.queryJS('index.microsoftLoginTitle'),
-        backgroundColor: '#222222',
+        backgroundColor: '#2A2420',
         width: 520,
         height: 600,
         frame: true,
@@ -148,8 +158,8 @@ ipcMain.on(MSFT_OPCODE.OPEN_LOGIN, (ipcEvent, ...arguments_) => {
             let queryMap = {}
             
             new URL(uri).searchParams.forEach((v, k) => {
-                queryMap[k] = v;
-            });
+                queryMap[k] = v
+            })
 
             ipcEvent.reply(MSFT_OPCODE.REPLY_LOGIN, MSFT_REPLY_TYPE.SUCCESS, queryMap, msftAuthViewSuccess)
 
@@ -177,7 +187,7 @@ ipcMain.on(MSFT_OPCODE.OPEN_LOGOUT, (ipcEvent, uuid, isLastAccount) => {
     msftLogoutSuccessSent = false
     msftLogoutWindow = new BrowserWindow({
         title: LangLoader.queryJS('index.microsoftLogoutTitle'),
-        backgroundColor: '#222222',
+        backgroundColor: '#2A2420',
         width: 520,
         height: 600,
         frame: true,
@@ -225,8 +235,11 @@ let win
 function createWindow() {
 
     win = new BrowserWindow({
-        width: 980,
-        height: 552,
+        width: 1280,
+        height: 720,
+        minWidth: 1024,
+        minHeight: 600,
+        title: 'Dolmyr',
         icon: getPlatformIcon('SealCircle'),
         frame: false,
         webPreferences: {
@@ -234,7 +247,7 @@ function createWindow() {
             nodeIntegration: true,
             contextIsolation: false
         },
-        backgroundColor: '#171614'
+        backgroundColor: '#2A2420'
     })
     remoteMain.enable(win.webContents)
 
@@ -243,6 +256,17 @@ function createWindow() {
         lang: (str, placeHolders) => LangLoader.queryEJS(str, placeHolders)
     }
     Object.entries(data).forEach(([key, val]) => ejse.data(key, val))
+
+    // Pruebas (npm run start:local / npm run capturas): la consola de la ventana sale por la terminal
+    if(process.env.DOLMYR_DISTRIBUCION_LOCAL === '1' || process.env.DOLMYR_CAPTURAS){
+        win.webContents.on('console-message', (event, level, message) => {
+            const texto = typeof event === 'object' && event.message != null ? event.message : message
+            console.log('[ventana]', texto)
+        })
+    }
+
+    // Al recargar la ventana, la lista se vuelve a cargar: olvidar el resultado anterior
+    win.webContents.on('did-start-loading', () => estadoDistribucion.delete(win.webContents.id))
 
     win.loadURL(pathToFileURL(path.join(__dirname, 'app', 'app.ejs')).toString())
 

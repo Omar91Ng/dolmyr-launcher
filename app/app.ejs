@@ -1,10 +1,11 @@
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" http-equiv="Content-Security-Policy" content="script-src 'self' 'sha256-In6B8teKZQll5heMl9bS7CESTbGvuAt3VVV86BUQBDk='"/>
     <title><%= lang('app.title') %></title>
     <script src="./assets/js/scripts/uicore.js"></script>
     <script src="./assets/js/scripts/uibinder.js"></script>
     <link type="text/css" rel="stylesheet" href="./assets/css/launcher.css">
+    <link type="text/css" rel="stylesheet" href="./assets/css/dolmyr.css">
     <style>
         body {
             /*background: url('assets/images/backgrounds/<%=bkid%>.jpg') no-repeat center center fixed;*/
@@ -27,6 +28,15 @@
     </style>
 </head>
 <body bkid="<%=bkid%>">
+    <!-- Escena de fondo de Dolmyr: paisaje con fundido y movimiento lento, niebla, partículas y viñeta -->
+    <div id="dolmyrEscena" aria-hidden="true">
+        <div class="dolmyrFondoCapa" id="dolmyrFondoA"></div>
+        <div class="dolmyrFondoCapa" id="dolmyrFondoB"></div>
+        <div class="dolmyrNiebla dolmyrNiebla1"></div>
+        <div class="dolmyrNiebla dolmyrNiebla2"></div>
+        <canvas id="dolmyrParticulas"></canvas>
+        <div id="dolmyrVineta"></div>
+    </div>
     <%- include('frame') %>
     <div id="main">
         <%- include('welcome') %>
@@ -45,5 +55,7 @@
             </div>
         </div>
     </div>
+    <script src="./assets/js/scripts/dolmyr.js"></script>
+    <script src="./assets/js/scripts/dolm.js"></script>
 </body>
 </html>

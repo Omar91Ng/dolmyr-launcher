@@ -196,12 +196,26 @@ const refreshMojangStatuses = async function(){
     greenCount = 0
     greyCount = 0
 
+    // Dolmyr: nombres de los servicios en español
+    const NOMBRES_SERVICIOS = {
+        'Minecraft': 'Minecraft',
+        'Multiplayer Session Service': 'Sesiones multijugador',
+        'Minecraft Skins': 'Skins de Minecraft',
+        'Public API': 'API pública',
+        'Mojang Accounts Website': 'Web de cuentas de Mojang',
+        'Microsoft OAuth Server': 'Inicio de sesión de Microsoft',
+        'Xbox Live Auth Server': 'Autenticación de Xbox Live',
+        'Xbox Live Gatekeeper': 'Acceso de Xbox Live',
+        'Minecraft API for Microsoft Accounts': 'API de Minecraft para cuentas Microsoft',
+        'Minecraft Profile for Microsoft Accounts': 'Perfil de Minecraft para cuentas Microsoft'
+    }
+
     for(let i=0; i<statuses.length; i++){
         const service = statuses[i]
 
         const tooltipHTML = `<div class="mojangStatusContainer">
             <span class="mojangStatusIcon" style="color: ${MojangRestAPI.statusToHex(service.status)};">&#8226;</span>
-            <span class="mojangStatusName">${service.name}</span>
+            <span class="mojangStatusName">${NOMBRES_SERVICIOS[service.name] || service.name}</span>
         </div>`
         if(service.essential){
             tooltipEssentialHTML += tooltipHTML
@@ -677,7 +691,7 @@ function slide_(up){
         lCLRight.style.top = '-200vh'
         newsBtn.style.top = '130vh'
         newsContainer.style.top = '0px'
-        //date.toLocaleDateString('en-US', {month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric'})
+        //date.toLocaleDateString('es-ES', {month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric'})
         //landingContainer.style.background = 'rgba(29, 29, 29, 0.55)'
         landingContainer.style.background = 'rgba(0, 0, 0, 0.50)'
         setTimeout(() => {
@@ -937,7 +951,7 @@ document.addEventListener('keydown', (e) => {
 function displayArticle(articleObject, index){
     newsArticleTitle.innerHTML = articleObject.title
     newsArticleTitle.href = articleObject.link
-    newsArticleAuthor.innerHTML = 'by ' + articleObject.author
+    newsArticleAuthor.innerHTML = 'por ' + articleObject.author
     newsArticleDate.innerHTML = articleObject.date
     newsArticleComments.innerHTML = articleObject.comments
     newsArticleComments.href = articleObject.commentsLink
@@ -961,7 +975,8 @@ async function loadNews(){
     const distroData = await DistroAPI.getDistribution()
     if(!distroData.rawDistribution.rss) {
         loggerLanding.debug('No RSS feed provided.')
-        return null
+        // Dolmyr: sin canal de crónicas configurado no es un error, simplemente no hay crónicas
+        return { articles: [] }
     }
 
     const promise = new Promise((resolve, reject) => {
@@ -979,11 +994,11 @@ async function loadNews(){
                     const el = $(items[i])
 
                     // Resolve date.
-                    const date = new Date(el.find('pubDate').text()).toLocaleDateString('en-US', {month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric'})
+                    const date = new Date(el.find('pubDate').text()).toLocaleDateString('es-ES', {month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric'})
 
                     // Resolve comments.
                     let comments = el.find('slash\\:comments').text() || '0'
-                    comments = comments + ' Comment' + (comments === '1' ? '' : 's')
+                    comments = comments + (comments === '1' ? ' comentario' : ' comentarios')
 
                     // Fix relative links in content.
                     let content = el.find('content\\:encoded').text()

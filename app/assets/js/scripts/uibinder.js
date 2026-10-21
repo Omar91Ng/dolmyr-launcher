@@ -436,7 +436,21 @@ document.addEventListener('readystatechange', async () => {
 }, false)
 
 // Actions that must be performed after the distribution index is downloaded.
-ipcRenderer.on('distributionIndexDone', async (event, res) => {
+// Dolmyr: el aviso puede llegar antes de que este script lo escuche (lista local o internet rápido),
+// así que además se pregunta al proceso principal. La protección evita procesarlo dos veces.
+let distribucionProcesada = false
+ipcRenderer.on('distributionIndexDone', (event, res) => alTerminarDistribucion(res))
+ipcRenderer.invoke('dolmyr:estadoDistribucion').then((res) => {
+    if(res !== undefined){
+        alTerminarDistribucion(res)
+    }
+})
+
+async function alTerminarDistribucion(res){
+    if(distribucionProcesada){
+        return
+    }
+    distribucionProcesada = true
     if(res) {
         const data = await DistroAPI.getDistribution()
         syncModConfigurations(data)
@@ -454,7 +468,7 @@ ipcRenderer.on('distributionIndexDone', async (event, res) => {
             rscShouldLoad = true
         }
     }
-})
+}
 
 // Util for development
 async function devModeToggle() {

@@ -1,0 +1,467 @@
+# Textos del launcher de Dolmyr en español.
+# Se carga encima de en_US.toml (si falta una clave aquí, se usa la inglesa) y debajo de _custom.toml.
+# Trato: "tú" (pendiente de decidir voseo o tú para todo el juego).
+
+[ejs.landing]
+updateAvailableTooltip = "Actualización disponible"
+usernamePlaceholder = "Jugador"
+usernameEditButton = "Editar"
+settingsTooltip = "Ajustes"
+serverStatus = "SERVIDOR"
+serverStatusPlaceholder = "SIN CONEXIÓN"
+mojangStatus = "SERVICIOS DE MINECRAFT"
+mojangStatusTooltipTitle = "Servicios"
+mojangStatusNETitle = "No&nbsp;esenciales"
+newsButton = "CRÓNICAS"
+launchButton = "JUGAR"
+launchButtonPlaceholder = "&#8226; Ningún servidor elegido"
+launchDetails = "Un momento..."
+newsNavigationStatus = "{currentPage} de {totalPages}"
+newsErrorLoadSpan = "Buscando crónicas..."
+newsErrorFailedSpan = "No se pudieron cargar las crónicas"
+newsErrorRetryButton = "Reintentar"
+newsErrorNoneSpan = "Todavía no hay crónicas"
+
+[ejs.login]
+loginCancelText = "Cancelar"
+loginSubheader = "INICIO DE SESIÓN"
+loginEmailError = "* Valor no válido"
+loginEmailPlaceholder = "CORREO"
+loginPasswordError = "* Obligatorio"
+loginPasswordPlaceholder = "CONTRASEÑA"
+loginForgotPasswordLink = "https://minecraft.net/password/forgot/"
+loginForgotPasswordText = "¿olvidaste la contraseña?"
+loginRememberMeText = "¿recordarme?"
+loginButtonText = "ENTRAR"
+loginNeedAccountLink = "https://www.minecraft.net/es-es/store/minecraft-java-bedrock-edition-pc"
+loginNeedAccountText = "¿No tienes Minecraft?"
+loginPasswordDisclaimer1 = "Dolmyr nunca ve ni guarda tu contraseña."
+loginPasswordDisclaimer2 = "{appName} no está afiliado a Mojang ni a Microsoft."
+
+[ejs.loginOptions]
+loginOptionsTitle = "Inicia sesión"
+loginWithMicrosoft = "Entrar con Microsoft"
+loginWithMojang = "Entrar con Mojang"
+cancelButton = "Cancelar"
+
+[ejs.overlay]
+serverSelectHeader = "Servidores disponibles"
+serverSelectConfirm = "Elegir"
+serverSelectCancel = "Cancelar"
+accountSelectHeader = "Elige una cuenta"
+accountSelectConfirm = "Elegir"
+accountSelectCancel = "Cancelar"
+
+[ejs.settings]
+navHeaderText = "Ajustes"
+navAccount = "Cuenta"
+navMinecraft = "Juego"
+navMods = "Mods"
+navJava = "Java"
+navLauncher = "Launcher"
+navAbout = "Acerca de"
+navUpdates = "Actualizaciones"
+navDone = "Listo"
+tabAccountHeaderText = "Cuenta"
+tabAccountHeaderDesc = "Entra con tu cuenta de Minecraft original o gestiona las que ya tienes."
+microsoftAccount = "Microsoft"
+addMicrosoftAccount = "+ Añadir cuenta de Microsoft"
+mojangAccount = "Mojang"
+addMojangAccount = "+ Añadir cuenta de Mojang"
+minecraftTabHeaderText = "Ajustes del juego"
+minecraftTabHeaderDesc = "Cómo se abre Minecraft."
+gameResolutionTitle = "Resolución del juego"
+launchFullscreenTitle = "Abrir en pantalla completa."
+autoConnectTitle = "Entrar directamente al servidor al abrir el juego."
+launchDetachedTitle = "Abrir el juego separado del launcher."
+launchDetachedDesc = "Si no está separado, al cerrar el launcher también se cerrará el juego."
+tabModsHeaderText = "Mods"
+tabModsHeaderDesc = "Activa o desactiva los mods opcionales."
+switchServerButton = "Cambiar"
+requiredMods = "Mods obligatorios"
+optionalMods = "Mods opcionales"
+dropinMods = "Mods propios"
+addMods = "Añadir mods"
+dropinRefreshNote = "(F5 para recargar)"
+shaderpacks = "Shaders"
+shaderpackDesc = "Activa o desactiva los shaders. Solo van fluidos en equipos potentes. Puedes añadir los tuyos aquí."
+selectShaderpack = "Elegir shader"
+tabJavaHeaderText = "Java"
+tabJavaHeaderDesc = "Configuración de Java (avanzado)."
+memoryTitle = "Memoria"
+maxRAM = "RAM máxima"
+minRAM = "RAM mínima"
+memoryDesc = "Se recomiendan al menos 4 GB. Poner el mínimo y el máximo iguales puede reducir los tirones."
+memoryTotalTitle = "Total"
+memoryAvailableTitle = "Libre"
+javaExecutableTitle = "Ejecutable de Java"
+javaExecSelDialogTitle = "Elegir el ejecutable de Java"
+javaExecSelButtonText = "Elegir archivo"
+javaExecDesc = "El ejecutable de Java se comprueba antes de abrir el juego."
+javaPathDesc = "La ruta debe terminar en <strong>{pathSuffix}</strong>."
+jvmOptsTitle = "Opciones adicionales de la JVM"
+jvmOptsDesc = "Opciones que se pasan a Java al arrancar. No incluyas <em>-Xms</em> ni <em>-Xmx</em>."
+launcherTabHeaderText = "Launcher"
+launcherTabHeaderDesc = "Opciones del propio launcher."
+allowPrereleaseTitle = "Recibir versiones de prueba."
+allowPrereleaseDesc = "Las versiones de prueba traen novedades que quizá aún no estén del todo probadas.<br>Siempre está activo si ya usas una versión de prueba."
+dataDirectoryTitle = "Carpeta de datos"
+selectDataDirectory = "Elegir la carpeta de datos"
+chooseFolder = "Elegir carpeta"
+dataDirectoryDesc = "Aquí se guardan todos los archivos del juego y el Java que instala el launcher.<br>Las capturas y los mundos se guardan en la carpeta de cada servidor."
+aboutTabHeaderText = "Acerca de"
+aboutTabHeaderDesc = "Información y notas de la versión actual."
+aboutTitle = "{appName}"
+stableRelease = "Versión estable"
+versionText = "Versión "
+sourceGithub = "Código (GitHub)"
+support = "Soporte"
+devToolsConsole = "Consola de desarrollo"
+releaseNotes = "Notas de la versión"
+changelog = "Cambios"
+noReleaseNotes = "Sin notas de la versión"
+viewReleaseNotes = "Ver las notas en GitHub"
+launcherUpdatesHeaderText = "Actualizaciones"
+launcherUpdatesHeaderDesc = "Descarga, instala y revisa las actualizaciones del launcher."
+checkForUpdates = "Buscar actualizaciones"
+whatsNew = "Novedades"
+updateReleaseNotes = "Notas de la actualización"
+
+[ejs.waiting]
+waitingText = "Esperando a Microsoft..."
+
+[ejs.welcome]
+continueButton = "CONTINUAR"
+
+
+[js.discord]
+waiting = "Esperando al juego..."
+state = "Servidor: {shortId}"
+
+[js.index]
+microsoftLoginTitle = "Iniciar sesión con Microsoft"
+microsoftLogoutTitle = "Cerrar sesión de Microsoft"
+
+[js.login]
+login = "ENTRAR"
+loggingIn = "ENTRANDO"
+success = "LISTO"
+tryAgain = "Reintentar"
+
+[js.login.error]
+invalidValue = "* Valor no válido"
+requiredValue = "* Obligatorio"
+
+[js.login.error.unknown]
+title = "Error desconocido al iniciar sesión"
+desc = "Ha ocurrido un error inesperado. Revisa la consola para más detalles."
+
+[js.landing.launch]
+pleaseWait = "Un momento..."
+failureTitle = "Error al abrir el juego"
+failureText = "Revisa la consola (CTRL + Mayús + I) para más detalles."
+okay = "Entendido"
+
+[js.landing.selectedAccount]
+noAccountSelected = "Ninguna cuenta elegida"
+
+[js.landing.selectedServer]
+noSelection = "Ningún servidor elegido"
+loading = "Cargando..."
+
+[js.landing.serverStatus]
+server = "SERVIDOR"
+offline = "SIN CONEXIÓN"
+players = "JUGADORES"
+
+[js.landing.systemScan]
+checking = "Revisando tu equipo..."
+noCompatibleJava = "No se encontró<br>un Java compatible"
+installJavaMessage = "Para jugar necesitas Java {major} de 64 bits. ¿Quieres que lo instalemos por ti?"
+installJava = "Instalar Java"
+installJavaManually = "Lo instalo yo"
+javaDownloadPrepare = "Preparando la descarga de Java..."
+javaDownloadFailureTitle = "Error al descargar Java"
+javaDownloadFailureText = "Revisa la consola (CTRL + Mayús + I) para más detalles."
+javaRequired = "Hace falta Java<br>para jugar"
+javaRequiredMessage = 'Para abrir el juego se necesita Java {major} de 64 bits.<br><br>Puedes volver atrás y dejar que el launcher lo instale por ti.'
+javaRequiredDismiss = "Entendido"
+javaRequiredCancel = "Volver"
+
+[js.landing.downloadJava]
+findJdkFailure = "No se encontró una distribución de OpenJDK."
+javaDownloadCorruptedError = "El Java descargado está dañado (la comprobación no coincide)."
+extractingJava = "Extrayendo Java"
+javaInstalled = "¡Java instalado!"
+
+[js.landing.dlAsync]
+loadingServerInfo = "Cargando la información del servidor..."
+fatalError = "Error grave"
+unableToLoadDistributionIndex = "No se pudo cargar la lista de archivos del servidor. Revisa la consola (CTRL + Mayús + I) para más detalles."
+pleaseWait = "Un momento..."
+errorDuringLaunchTitle = "Error al abrir el juego"
+seeConsoleForDetails = "Revisa la consola (CTRL + Mayús + I) para más detalles."
+validatingFileIntegrity = "Comprobando los archivos..."
+errorDuringFileVerificationTitle = "Error al comprobar los archivos"
+downloadingFiles = "Descargando archivos..."
+errorDuringFileDownloadTitle = "Error al descargar los archivos"
+preparingToLaunch = "Preparando el viaje..."
+launchingGame = "Abriendo Dolmyr..."
+launchWrapperNotDownloaded = "Un archivo principal del juego no se descargó bien y el juego no puede abrirse.<br><br>Suele pasar por el antivirus: desactívalo un momento y vuelve a intentarlo.<br><br>Si sigue fallando, avísanos en el Discord de Dolmyr indicando qué antivirus usas."
+doneEnjoyServer = "Listo. Nadie te espera en el Yermo."
+checkConsoleForDetails = "Revisa la consola (CTRL + Mayús + I) para más detalles."
+
+[js.landing.news]
+checking = "Buscando crónicas"
+
+[js.landing.discord]
+loading = "Cargando el juego..."
+joining = "Partiendo al Yermo"
+joined = "En el Yermo"
+
+[js.overlay]
+dismiss = "Cerrar"
+
+[js.settings.fileSelectors]
+executables = "Ejecutables"
+allFiles = "Todos los archivos"
+
+[js.settings.mstfLogin]
+errorTitle = "Algo salió mal"
+errorMessage = "No se pudo iniciar sesión con Microsoft. Inténtalo de nuevo."
+okButton = "Entendido"
+
+[js.settings.mstfLogout]
+errorTitle = "Algo salió mal"
+errorMessage = "No se pudo cerrar la sesión de Microsoft. Inténtalo de nuevo."
+okButton = "Entendido"
+
+[js.settings.authAccountSelect]
+selectButton = "Usar esta cuenta"
+selectedButton = "Cuenta en uso &#10004;"
+
+[js.settings.authAccountLogout]
+lastAccountWarningTitle = "Atención<br>Es tu única cuenta"
+lastAccountWarningMessage = "Para usar el launcher necesitas al menos una cuenta. Tendrás que volver a iniciar sesión.<br><br>¿Seguro que quieres cerrar la sesión?"
+confirmButton = "Sí, cerrar"
+cancelButton = "Cancelar"
+
+[js.settings.authAccountPopulate]
+username = "Nombre"
+uuid = "UUID"
+selectAccount = "Usar esta cuenta"
+selectedAccount = "Cuenta en uso ✓"
+logout = "Cerrar sesión"
+
+[js.settings.dropinMods]
+removeButton = "Quitar"
+deleteFailedTitle = "No se pudo borrar<br>el mod {fullName}"
+deleteFailedMessage = "Comprueba que el archivo no esté en uso y vuelve a intentarlo."
+failedToggleTitle = "No se pudo activar o desactivar<br>uno o más mods"
+okButton = "Entendido"
+
+[js.settings.serverListing]
+mainServer = "Servidor principal"
+
+[js.settings.java]
+selectedJava = "En uso: Java {version} ({vendor})"
+invalidSelection = "Elección no válida"
+requiresJava = "Necesita Java {major} de 64 bits."
+availableOptions = "Opciones disponibles para Java {major} (HotSpot)"
+
+[js.settings.about]
+preReleaseTitle = "Versión de prueba"
+stableReleaseTitle = "Versión estable"
+releaseNotesFailed = "No se pudieron cargar las notas de la versión."
+
+[js.settings.updates]
+newReleaseTitle = "Hay una versión nueva"
+newPreReleaseTitle = "Hay una versión de prueba nueva"
+downloadingButton = "Descargando..."
+downloadButton = 'Descargar desde GitHub<span style="font-size: 10px;color: gray;text-shadow: none !important;">Cierra el launcher y abre el dmg para actualizar.</span>'
+latestVersionTitle = "Tienes la última versión"
+checkForUpdatesButton = "Buscar actualizaciones"
+checkingForUpdatesButton = "Buscando actualizaciones..."
+
+[js.settings.msftLogin]
+errorTitle = "No se pudo iniciar sesión"
+errorMessage = "No pudimos verificar tu cuenta de Microsoft. Inténtalo de nuevo."
+okButton = "Entendido"
+
+[js.uibinder.startup]
+fatalErrorTitle = "Error grave: no se pudo cargar la lista del servidor"
+fatalErrorMessage = "No se pudo conectar con nuestros servidores para descargar la lista de archivos, y no hay ninguna copia guardada.<br><br>Esta lista dice qué tiene que descargar el launcher y sin ella no puede arrancar. Comprueba tu conexión a internet y vuelve a abrir el launcher."
+closeButton = "Cerrar"
+
+[js.uibinder.validateAccount]
+failedMessageTitle = "La sesión ha caducado"
+failedMessage = "No pudimos renovar la sesión de <strong>{account}</strong>. Elige otra cuenta o vuelve a iniciar sesión."
+failedMessageSelectAnotherAccount = "No pudimos renovar la sesión de <strong>{account}</strong>. Vuelve a iniciar sesión."
+loginButton = "Iniciar sesión"
+selectAnotherAccountButton = "Elegir otra cuenta"
+
+[js.uicore.autoUpdate]
+checkingForUpdateButton = "Buscando actualizaciones..."
+installNowButton = "Instalar ahora"
+checkForUpdatesButton = "Buscar actualizaciones"
+
+[js.auth.microsoft.error]
+noProfileTitle = "Error al iniciar sesión:<br>perfil sin crear"
+noProfileDesc = "Tu cuenta de Microsoft todavía no tiene un perfil de Minecraft. Si acabas de comprar el juego o lo tienes con Xbox Game Pass, crea tu perfil en <a href=\"https://minecraft.net/\">Minecraft.net</a>.<br><br>Si aún no tienes el juego, puedes conseguirlo en <a href=\"https://minecraft.net/\">Minecraft.net</a> o con Xbox Game Pass para PC."
+noXboxAccountTitle = "Error al iniciar sesión:<br>sin cuenta de Xbox"
+noXboxAccountDesc = "Tu cuenta de Microsoft no tiene una cuenta de Xbox asociada."
+xblBannedTitle = "Error al iniciar sesión:<br>Xbox Live no disponible"
+xblBannedDesc = "Tu cuenta de Microsoft es de un país donde Xbox Live no está disponible."
+under18Title = "Error al iniciar sesión:<br>hace falta permiso de un adulto"
+under18Desc = "Las cuentas de menores de 18 años deben estar añadidas a una familia por un adulto."
+unknownTitle = "Error desconocido al iniciar sesión"
+unknownDesc = "Ha ocurrido un error inesperado. Revisa la consola para más detalles."
+
+[js.auth.mojang.error]
+methodNotAllowedTitle = "Error interno:<br>método no permitido"
+methodNotAllowedDesc = "Método no permitido. Por favor, avísanos de este error."
+notFoundTitle = "Error interno:<br>no encontrado"
+notFoundDesc = "No se encontró el servicio de inicio de sesión. Por favor, avísanos."
+accountMigratedTitle = "Error al iniciar sesión:<br>cuenta migrada"
+accountMigratedDesc = "Esta cuenta se migró a Microsoft. Entra con Microsoft."
+invalidCredentialsTitle = "Error al iniciar sesión:<br>datos incorrectos"
+invalidCredentialsDesc = "El correo o la contraseña no son correctos. Inténtalo de nuevo."
+tooManyAttemptsTitle = "Error al iniciar sesión:<br>demasiados intentos"
+tooManyAttemptsDesc = "Ha habido demasiados intentos con esta cuenta. Inténtalo más tarde."
+invalidTokenTitle = "Error al iniciar sesión:<br>sesión no válida"
+invalidTokenDesc = "La sesión no es válida."
+tokenHasProfileTitle = "Error al iniciar sesión:<br>perfil ya asignado"
+tokenHasProfileDesc = "Esta sesión ya tiene un perfil asignado."
+credentialsMissingTitle = "Error al iniciar sesión:<br>faltan datos"
+credentialsMissingDesc = "Faltan el usuario o la contraseña."
+invalidSaltVersionTitle = "Error al iniciar sesión:<br>versión no válida"
+invalidSaltVersionDesc = "Versión no válida."
+unsupportedMediaTypeTitle = "Error interno:<br>tipo no soportado"
+unsupportedMediaTypeDesc = "Tipo de contenido no soportado. Por favor, avísanos."
+accountGoneTitle = "Error al iniciar sesión:<br>cuenta migrada"
+accountGoneDesc = "La cuenta se migró a Microsoft. Entra con Microsoft."
+unreachableTitle = "Error al iniciar sesión:<br>sin conexión"
+unreachableDesc = "No se puede conectar con los servidores de inicio de sesión. Comprueba tu conexión a internet."
+gameNotPurchasedTitle = "Error al iniciar sesión:<br>no tienes Minecraft"
+gameNotPurchasedDesc = "Esta cuenta no tiene Minecraft. Puedes conseguirlo en <a href=\"https://minecraft.net/\">Minecraft.net</a> o con Xbox Game Pass para PC."
+unknownErrorTitle = "Error desconocido al iniciar sesión"
+unknownErrorDesc = "Ha ocurrido un error inesperado. Revisa la consola para más detalles."
+
+# Textos de las partes propias de Dolmyr (personalización, pantalla de inicio de sesión)
+[ejs.dolmyr]
+lema = "Nadie te espera en el Yermo"
+subtitulo = "Un juego de rol medieval sobre Minecraft. Empiezas siendo nadie."
+loginTitulo = "Entra al Yermo"
+loginTexto = "Dolmyr es solo para cuentas originales de Minecraft: Java Edition. Inicia sesión con la cuenta de Microsoft con la que compraste el juego (también vale Xbox Game Pass para PC)."
+loginSeguridad = "El inicio de sesión se hace en la ventana oficial de Microsoft. Dolmyr nunca ve tu contraseña."
+loginSinJuego = "¿Aún no tienes Minecraft?"
+navPersonalizacion = "Apariencia"
+personalizacionTitulo = "Apariencia"
+personalizacionDesc = "Cambia cómo se ve el launcher."
+fondoTitulo = "Fondo"
+fondoDesc = "Elige un paisaje fijo o deja que cambie solo."
+fondoRotativo = "Ir cambiando de paisaje"
+fondoAleatorio = "Uno al azar en cada inicio"
+animacionesTitulo = "Animaciones"
+movimientoFondo = "Movimiento lento del paisaje"
+movimientoFondoDesc = "El fondo se acerca y se desplaza muy despacio."
+particulas = "Brasas y polvo flotando"
+particulasDesc = "Pequeñas partículas que suben por la pantalla."
+niebla = "Niebla"
+nieblaDesc = "Capas de niebla que se mueven por la parte baja."
+reducirMovimiento = "Reducir el movimiento"
+reducirMovimientoDesc = "Desactiva todas las animaciones (recomendado en equipos lentos)."
+sonidoTitulo = "Sonido"
+sonidoInterfaz = "Sonidos de la interfaz"
+sonidoInterfazDesc = "Un sonido suave al pasar por los botones y al pulsar Jugar."
+restablecer = "Restablecer apariencia"
+dolmTitulo = "Dolm, el guía"
+mostrarDolm = "Mostrar a Dolm"
+mostrarDolmDesc = "El gólem de piedra que te acompaña en la pantalla principal y te va contando lo que pasa."
+vozDolm = "Voz de Dolm"
+vozDolmDesc = "Un murmullo de piedra mientras habla."
+charlaDolm = "Que hable solo de vez en cuando"
+charlaDolmDesc = "Si lo quitas, Dolm solo habla cuando pasa algo (o cuando le das un toque)."
+
+# Lo que dice Dolm. {nombre} es el nombre del jugador y {jugadores} los que hay conectados.
+# Cada lista es una bolsa: sale una frase al azar y no se repite la última.
+[js.dolm]
+nombre = "Dolm"
+bienvenida = [
+    "¿Otro forastero? Pasa, pasa. Pulsa Continuar y no te pierdas.",
+    "Vaya, alguien nuevo. Soy Dolm. Vigilo la entrada al Yermo. Sigue, que no muerdo.",
+]
+inicioSesion = [
+    "Antes de entrar, enséñame tu cuenta de Microsoft. Normas del Yermo.",
+    "Aquí solo entran cuentas originales. Inicia sesión y te abro paso.",
+]
+saludoConCuenta = [
+    "¡Eh, {nombre}! Volviste. Ya pensaba que el Yermo te había tragado.",
+    "{nombre}. Llegas tarde, como siempre. Bueno… me alegro de verte.",
+    "Ah, eres tú, {nombre}. Te guardé el sitio junto al dolmen.",
+    "Bienvenido otra vez, {nombre}. El Yermo sigue igual de amable: nada.",
+]
+saludoSinCuenta = [
+    "¿Y tú quién eres? Elige una cuenta arriba a la derecha y hablamos.",
+    "Sin cuenta no hay Yermo. Arriba a la derecha, la piedrecita con ojo. Esa.",
+]
+vuelta = [
+    "Ya era hora de volver.",
+    "¿Todo a tu gusto? Pues a jugar.",
+    "Sigo aquí. Las piedras no se van.",
+]
+cambioCuenta = [
+    "Ah, ahora eres {nombre}. Te queda bien.",
+    "{nombre}, ¿eh? Apuntado. No se lo diré a nadie.",
+]
+servidorCaido = [
+    "El servidor no contesta. Será la niebla… o alguien tropezó con un cable.",
+    "Sin conexión con el Yermo. Prueba en un rato; yo no me muevo de aquí.",
+]
+servidorVacio = [
+    "El Yermo está vacío ahora mismo. Nadie te robará la primera veta.",
+    "No hay nadie dentro. Silencio, viento y bestias. Lo de siempre.",
+]
+servidorVivo = [
+    "Hay {jugadores} almas en el Yermo ahora mismo. Ninguna te está esperando.",
+    "{jugadores} conectados. Unos cazan, otros huyen. Elige bando.",
+]
+descargaInicio = [
+    "Voy a por tus cosas. No toques nada.",
+    "Preparando el viaje. Revisando mochila, botas y mods.",
+    "Un momento. Las piedras somos lentas, pero llegamos.",
+]
+descargaMitad = [
+    "Ya va por la mitad. La piedra es paciente; tú también deberías.",
+    "Medio camino. Aprovecha para estirar las piernas.",
+]
+lanzando = [
+    "¡Allá vas! Que el Yermo te escupa entero.",
+    "¡Adentro! Y no te fíes de nadie. De mí sí.",
+]
+listo = [
+    "Dentro. Yo vigilo la puerta.",
+    "Ya estás en el Yermo. Vuelve con algo que contar.",
+]
+error = [
+    "Algo se ha roto. No fui yo. Seguramente.",
+    "Eso no ha salido bien. Lee el aviso y vuelve a intentarlo.",
+]
+clic = [
+    "¡Eh! Que soy de piedra, no de juguete.",
+    "¿Qué? Estoy vigilando.",
+    "Si me vuelves a tocar el ojo, te cobro peaje.",
+    "Las flores me las puso alguien. No preguntes.",
+    "Tengo un solo ojo, pero lo veo todo.",
+]
+charla = [
+    "En el Yermo no hay elegidos. Hay supervivientes.",
+    "Si caes, no te levantas en dos segundos. Aquí las heridas pesan.",
+    "Los comerciantes te cobrarán el triple hasta que sepan quién eres. Gánatelo.",
+    "Los Puertos de Niebla son la única forma de cruzar. Nada de teletransportes mágicos.",
+    "Un clan con castillo atrae enemigos. El éxito también pesa.",
+    "Las maestrías se oxidan si no las usas. Como mis rodillas.",
+    "Si te quedas sin aliento en combate, te rompen la guardia. Respira antes de golpear.",
+    "Aquí se aprende haciendo. Nadie nace herrero.",
+    "Llevo aquí desde antes del primer dolmen. O eso me han contado.",
+]
