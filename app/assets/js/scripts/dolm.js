@@ -147,7 +147,8 @@
             v.src = `${CARPETA_VIDEOS}/${nombre}.webm`
             v.muted = true
             v.playsInline = true
-            v.preload = 'auto'
+            // Solo se precargan los que se usan todo el rato; los gestos se cargan al pedirlos (son archivos locales)
+            v.preload = BUCLES.includes(nombre) ? 'auto' : 'metadata'
             v.loop = BUCLES.includes(nombre)
             v.setAttribute('aria-hidden', 'true')
             v.addEventListener('error', () => {
@@ -652,10 +653,19 @@
     }
 
     window.addEventListener('dolmyr:preferencias', aplicarPrefs)
+    let ventanaEnPausa = false
     document.addEventListener('visibilitychange', () => {
         const g = guiaVisible()
         if (g) {
-            g.figura.pausar(document.hidden)
+            g.figura.pausar(document.hidden || ventanaEnPausa)
+        }
+    })
+    // dolmyr.js avisa cuando la ventana pierde o recupera el foco (por ejemplo, mientras se juega)
+    window.addEventListener('dolmyr:pausa', (e) => {
+        ventanaEnPausa = Boolean(e.detail)
+        const g = guiaVisible()
+        if (g) {
+            g.figura.pausar(ventanaEnPausa || document.hidden)
         }
     })
 

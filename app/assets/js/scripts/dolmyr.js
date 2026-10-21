@@ -121,7 +121,7 @@
         temporizadorFondo = null
         if (prefs.fondoRotativo && fondos.length > 1 && !prefs.reducirMovimiento) {
             temporizadorFondo = setInterval(() => {
-                if (document.hidden) {
+                if (document.hidden || pausado) {
                     return
                 }
                 const i = fondos.indexOf(fondoActual)
@@ -129,6 +129,26 @@
             }, INTERVALO_FONDO_MS)
         }
     }
+
+    // -------------------------------------------------------------------------- rendimiento
+
+    // Sin aceleración gráfica (drivers raros o DOLMYR_SIN_GPU=1): sin desenfoques, brasas ni movimiento de fondo
+    // Se pregunta a WebGL qué dibuja de verdad: al arrancar, el estado de la GPU de Electron aún no es fiable.
+    // SwiftShader o el "Microsoft Basic Render Driver" = se dibuja con el procesador.
+    let sinGpu = false
+    try {
+        const gl = document.createElement('canvas').getContext('webgl')
+        const info = gl && gl.getExtension('WEBGL_debug_renderer_info')
+        const dibuja = gl ? String(info ? gl.getParameter(info.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER)) : ''
+        sinGpu = gl == null || /swiftshader|basic render|llvmpipe|software/i.test(dibuja)
+        console.log(`[Dolmyr] Dibuja: ${dibuja || 'sin WebGL'}${sinGpu ? ' (modo ligero)' : ''}`)
+    } catch (e) {
+        sinGpu = false
+    }
+    document.body.classList.toggle('dolmyrSinGpu', sinGpu)
+
+    // Con la ventana sin foco (por ejemplo, mientras se juega) se para todo: no gasta ni procesador ni gráfica
+    let pausado = false
 
     // -------------------------------------------------------------------------- partículas
 
@@ -139,11 +159,37 @@
     let animacion = null
     let ultimoFotograma = 0
 
+    // El halo de cada color se dibuja una sola vez en un lienzo pequeño y se reutiliza
+    // (antes: shadowBlur en cada partícula y en cada fotograma, lo más caro que hay en un canvas)
+    const sprites = {}
+    function sprite(color, brillo) {
+        const clave = color + (brillo ? '+' : '')
+        if (sprites[clave] == null) {
+            const t = brillo ? 32 : 12
+            const c = document.createElement('canvas')
+            c.width = t
+            c.height = t
+            const g = c.getContext('2d')
+            const degradado = g.createRadialGradient(t / 2, t / 2, 0, t / 2, t / 2, t / 2)
+            degradado.addColorStop(0, `rgba(${color},1)`)
+            degradado.addColorStop(brillo ? 0.16 : 0.45, `rgba(${color},0.9)`)
+            if (brillo) {
+                degradado.addColorStop(0.42, `rgba(${color},0.22)`)
+            }
+            degradado.addColorStop(1, `rgba(${color},0)`)
+            g.fillStyle = degradado
+            g.fillRect(0, 0, t, t)
+            sprites[clave] = c
+        }
+        return sprites[clave]
+    }
+
     function ajustarLienzo() {
         if (!lienzo) {
             return
         }
-        const escala = window.devicePixelRatio || 1
+        // Como mucho 1,5 píxeles por píxel de pantalla: las brasas son puntos borrosos, no hace falta más
+        const escala = Math.min(window.devicePixelRatio || 1, 1.5)
         lienzo.width = Math.floor(window.innerWidth * escala)
         lienzo.height = Math.floor(window.innerHeight * escala)
         ctx.setTransform(escala, 0, 0, escala, 0, 0)
@@ -194,18 +240,11 @@
                 particulas[i] = nuevaParticula(false)
                 continue
             }
-            if (p.brillo) {
-                ctx.shadowBlur = 8
-                ctx.shadowColor = `rgba(${p.color},${alfa})`
-            } else {
-                ctx.shadowBlur = 0
-            }
-            ctx.fillStyle = `rgba(${p.color},${alfa})`
-            ctx.beginPath()
-            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
-            ctx.fill()
+            const tam = p.brillo ? p.r * 9 : p.r * 3
+            ctx.globalAlpha = alfa
+            ctx.drawImage(sprite(p.color, p.brillo), p.x - tam / 2, p.y - tam / 2, tam, tam)
         }
-        ctx.shadowBlur = 0
+        ctx.globalAlpha = 1
     }
 
     function activarParticulas(activo) {
@@ -214,14 +253,23 @@
         }
         if (activo && animacion == null) {
             ajustarLienzo()
-            const cantidad = Math.round(Math.min(90, (window.innerWidth * window.innerHeight) / 16000))
-            particulas = Array.from({ length: cantidad }, () => nuevaParticula(true))
+            if (particulas.length === 0) {
+                const cantidad = Math.round(Math.min(70, (window.innerWidth * window.innerHeight) / 18000))
+                particulas = Array.from({ length: cantidad }, () => nuevaParticula(true))
+            }
             animacion = requestAnimationFrame(pintarParticulas)
         } else if (!activo && animacion != null) {
             cancelAnimationFrame(animacion)
             animacion = null
-            ctx.clearRect(0, 0, lienzo.width, lienzo.height)
+            if (!pausado) {
+                particulas = []
+                ctx.clearRect(0, 0, lienzo.width, lienzo.height)
+            }
         }
+    }
+
+    function particulasActivas() {
+        return prefs.particulas && !prefs.reducirMovimiento && !sinGpu && !pausado
     }
 
     window.addEventListener('resize', () => {
@@ -229,6 +277,18 @@
             ajustarLienzo()
         }
     })
+
+    function pausar(si) {
+        if (si === pausado || process.env.DOLMYR_CAPTURAS) {
+            return
+        }
+        pausado = si
+        document.body.classList.toggle('dolmyrPausado', si)
+        activarParticulas(particulasActivas())
+        window.dispatchEvent(new CustomEvent('dolmyr:pausa', { detail: si }))
+    }
+    window.addEventListener('blur', () => pausar(true))
+    window.addEventListener('focus', () => pausar(false))
 
     // -------------------------------------------------------------------------- sonidos
 
@@ -318,7 +378,7 @@
         cuerpo.classList.toggle('dolmyrSinMovimientoFondo', !prefs.movimientoFondo || prefs.reducirMovimiento)
         cuerpo.classList.toggle('dolmyrSinNiebla', !prefs.niebla || prefs.reducirMovimiento)
         cuerpo.classList.toggle('dolmyrSinParticulas', !prefs.particulas || prefs.reducirMovimiento)
-        activarParticulas(prefs.particulas && !prefs.reducirMovimiento)
+        activarParticulas(particulasActivas())
         programarRotacion()
         sincronizarAjustes()
         // dolm.js lee las mismas preferencias: se le avisa de cada cambio

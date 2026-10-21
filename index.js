@@ -114,9 +114,12 @@ ipcMain.handle(SHELL_OPCODE.TRASH_ITEM, async (event, ...args) => {
     }
 })
 
-// Disable hardware acceleration.
-// https://electronjs.org/docs/tutorial/offscreen-rendering
-app.disableHardwareAcceleration()
+// Dolmyr: se usa la tarjeta gráfica. Helios la apagaba y todo (fondo animado, desenfoques, vídeos de Dolm)
+// se dibujaba con el procesador: el launcher iba a tirones. En un equipo con drivers que den problemas
+// se puede volver a apagar arrancando con la variable de entorno DOLMYR_SIN_GPU=1.
+if (process.env.DOLMYR_SIN_GPU === '1') {
+    app.disableHardwareAcceleration()
+}
 
 
 const REDIRECT_URI_PREFIX = 'https://login.microsoftonline.com/common/oauth2/nativeclient?'

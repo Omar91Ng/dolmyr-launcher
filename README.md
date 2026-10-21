@@ -36,6 +36,13 @@ las pantallas, los textos y varias funciones propias de Dolmyr.
 
 Al arrancar en modo capturas (`npm run capturas`) se genera una imagen de cada pantalla en `capturas/`.
 
+## Rendimiento
+
+- Usa la **tarjeta gráfica** (Helios la traía apagada y todo se dibujaba con el procesador). En un equipo con drivers
+  que den problemas se puede apagar arrancando con la variable de entorno `DOLMYR_SIN_GPU=1`.
+- Si no hay aceleración, entra solo en **modo ligero**: sin desenfoques, brasas ni movimiento de fondo.
+- Con la ventana sin foco (por ejemplo, mientras se juega) **todo se para**: animaciones, brasas, cambio de fondo y Dolm.
+
 ## Uso para desarrollar
 
 Requisitos: Node.js 22 o superior, Git y Python con Pillow (solo para regenerar imágenes).
