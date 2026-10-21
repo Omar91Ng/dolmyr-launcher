@@ -9,20 +9,25 @@ Hay **dos cosas que se actualizan por separado**:
 
 **Automático con GitHub Actions** (`.github/workflows/`):
 
-- *Publicar mods*: al hacer push a `main` con cambios en `distribucion/`, genera la lista y la publica en GitHub Pages.
+- *Publicar mods*: al hacer push a `main` con cambios en `distribucion/`, genera la lista y la sube a la rama
+  `lista-de-mods`. Sin Actions: `npm run distribucion` y `npm run publicar-lista` desde el equipo.
 - *Publicar launcher*: al subir una etiqueta `vX.Y.Z`, compila el instalador y crea la Release.
 
 El pase del launcher y los avisos del servidor están en [PASE-Y-AVISOS.md](PASE-Y-AVISOS.md).
 
 ## Primera vez (una sola vez)
 
+> **GitHub Actions:** si los flujos no arrancan con "account is locked due to a billing issue", hay que
+> resolver el aviso de pagos en GitHub (Settings → Billing). Mientras tanto todo se puede hacer desde el equipo.
+
+
 1. **Registro de Microsoft:** sigue `docs/INICIO-DE-SESION-MICROSOFT.md` y pon el ID en `app/assets/js/ipcconstants.js`.
-2. **Repositorio de GitHub del equipo** (por ejemplo `dolmyr/dolmyr-launcher`). Puede ser privado para el código,
-   pero las *Releases* tienen que poder descargarse: lo más sencillo es un repositorio **público** solo para publicar.
-3. Pon ese `owner` y `repo` en `electron-builder.yml` (sección `publish`) y en `dev-app-update.yml`.
-4. **Alojamiento de la lista:** lo más fácil es GitHub Pages con el flujo *Publicar mods* (Settings → Pages → Source:
-   *GitHub Actions*; en un repositorio privado, Pages necesita un plan de pago). Pon esa dirección (o el dominio
-   propio, por ejemplo `https://dolmyr.com/launcher/`) en `urlBase` de `distribucion/config.json` y en
+2. **Repositorio de GitHub:** hecho. Es público: https://github.com/Omar91Ng/dolmyr-launcher (dentro no hay ninguna
+   clave; tiene activados el escaneo de secretos con bloqueo de pushes y las alertas de dependencias).
+3. `owner` y `repo` ya están en `electron-builder.yml` (sección `publish`) y en `dev-app-update.yml`.
+4. **Alojamiento de la lista:** la rama `lista-de-mods` del repositorio, servida por
+   `https://raw.githubusercontent.com/Omar91Ng/dolmyr-launcher/lista-de-mods/` (https y gratis, sin depender de
+   Actions). Si algún día se usa un dominio propio, cambiar `urlBase` de `distribucion/config.json` y
    `REMOTE_DISTRO_URL` de `app/assets/js/distromanager.js`. Tiene que ser **https**: la lista dice qué archivos se
    instalan en el equipo del jugador.
 5. **Servicio del pase:** puerto extra en el proxy y `"servicio"` en `distribucion/config.json`

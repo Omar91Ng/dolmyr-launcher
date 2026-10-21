@@ -22,6 +22,7 @@
     "capturas": "node herramientas/arrancar.js --capturas",
     "distribucion": "node herramientas/generar-distribucion.js",
     "distribucion:local": "node herramientas/generar-distribucion.js --local",
+    "publicar-lista": "node herramientas/publicar-lista.js",
     "recursos": "python arte/generar_recursos.py"
   },
   "engines": {

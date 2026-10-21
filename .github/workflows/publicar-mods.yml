@@ -1,14 +1,14 @@
-# Publica la lista de mods (distribution.json) en GitHub Pages.
+# Publica la lista de mods (distribution.json) en la rama "lista-de-mods".
 #
 # Cómo se usa: edita distribucion/config.json (añadir, quitar o actualizar mods) o distribucion/archivos/,
-# y haz push a main. Este flujo genera la lista (comprobando cada archivo en Modrinth) y la publica.
+# y haz push a main. Este flujo genera la lista (comprobando cada archivo en Modrinth) y la sube a la rama.
+# El launcher la lee de https://raw.githubusercontent.com/Omar91Ng/dolmyr-launcher/lista-de-mods/distribution.json
 # A partir de ahí:
 #   - los launchers abiertos se enteran en un par de minutos y Dolm avisa de que hay mods nuevos,
 #   - al pulsar JUGAR se descargan solos,
 #   - el servidor (NetworkLauncher) ve la revisión nueva y pide a todos que pasen por el launcher antes de entrar.
 #
-# Primera vez: en GitHub, Settings -> Pages -> Source: "GitHub Actions". Y en distribucion/config.json, "urlBase"
-# tiene que ser la dirección de Pages (https://<usuario>.github.io/<repositorio>/) o el dominio propio que se le ponga.
+# Sin GitHub Actions se hace igual desde el equipo: npm run distribucion && npm run publicar-lista
 name: Publicar mods
 
 on:
@@ -20,9 +20,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 concurrency:
   group: publicar-mods
@@ -31,13 +29,12 @@ concurrency:
 jobs:
   publicar:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.despliegue.outputs.page_url }}
 
     steps:
       - name: Descargar el código
         uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
 
       - name: Preparar Node
         uses: actions/setup-node@v6
@@ -47,14 +44,8 @@ jobs:
       - name: Generar la lista de mods
         run: node herramientas/generar-distribucion.js
 
-      - name: Preparar Pages
-        uses: actions/configure-pages@v5
-
-      - name: Subir la lista
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: distribucion/publicar
-
-      - name: Publicar
-        id: despliegue
-        uses: actions/deploy-pages@v4
+      - name: Subir la lista a la rama lista-de-mods
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          node herramientas/publicar-lista.js

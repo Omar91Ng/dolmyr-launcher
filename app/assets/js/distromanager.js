@@ -5,7 +5,7 @@ const ConfigManager = require('./configmanager')
 // Lista de distribución de Dolmyr: dice qué versión de Minecraft, qué cargador y qué mods
 // tiene que descargar el launcher, y a qué servidor entra. Se genera con Nebula (ver distribucion/LEEME.md)
 // y se publica en internet. Cambiarla actualiza a todos los jugadores sin publicar un launcher nuevo.
-exports.REMOTE_DISTRO_URL = 'https://omar91ng.github.io/dolmyr-launcher/distribution.json'
+exports.REMOTE_DISTRO_URL = 'https://raw.githubusercontent.com/Omar91Ng/dolmyr-launcher/lista-de-mods/distribution.json'
 
 // Pruebas: con la variable de entorno DOLMYR_DISTRIBUCION_LOCAL=1 se usa el archivo
 // distribution_dev.json de la carpeta del programa (%APPDATA%\Dolmyr) en vez de la lista de internet.

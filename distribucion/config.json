@@ -1,6 +1,6 @@
 {
     "_LEEME": "Configuración de la lista de distribución. Ver distribucion/LEEME.md. Tras cambiar algo: npm run distribucion",
-    "urlBase": "https://omar91ng.github.io/dolmyr-launcher/",
+    "urlBase": "https://raw.githubusercontent.com/Omar91Ng/dolmyr-launcher/lista-de-mods/",
     "rss": "",
     "_servicio": "Servicio del plugin NetworkLauncher del proxy (pase del launcher y avisos). Puerto web.puerto de su config.",
     "servicio": "http://play.dolmyr.com:25580",
