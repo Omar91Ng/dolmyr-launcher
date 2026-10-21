@@ -5,7 +5,7 @@ Lema: "Nadie te espera en el Yermo." Lee el [README](README.md) para la estructu
 
 ## Fuentes de verdad
 
-- Bóveda de Obsidian de José: `C:\Users\usa04\Documents\Obsidian Vault\dolmyr\` (sobre todo `Launcher/`,
+- Bóveda de Obsidian de José, carpeta `dolmyr\` (sobre todo `Launcher/`,
   `00 Marca/` y `Decisiones generales.md`). **Manda la bóveda.**
 - Contexto común del proyecto (paleta, decisiones, servidor): carpeta `contexto/` del proyecto del servidor `Network`.
 
