@@ -19,7 +19,7 @@ extraResources:
 # CAMBIAR owner y repo por el repositorio real del equipo antes de publicar la primera versión.
 publish:
   provider: 'github'
-  owner: 'dolmyr'
+  owner: 'Omar91Ng'
   repo: 'dolmyr-launcher'
   releaseType: 'release'
 
