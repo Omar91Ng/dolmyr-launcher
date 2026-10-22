@@ -955,8 +955,43 @@ body.dolmyrSinMovimiento *::after {
     background: linear-gradient(90deg, rgba(20, 17, 15, 0.94) 0%, rgba(26, 22, 19, 0.88) 26%, rgba(26, 22, 19, 0.82) 100%) !important;
     backdrop-filter: blur(calc(16px * var(--escala-desenfoque)));
 }
+/* Menú de la izquierda: las letras quedan donde estaban; solo la barra separadora se acerca a ellas
+   (antes la columna medía el 25 % del ancho y la barra quedaba muy a la derecha) */
 #settingsContainerLeft {
     border-right: 1px solid var(--borde);
+    width: 250px !important;
+    flex: 0 0 auto;
+}
+#settingsContainerRight {
+    width: auto !important;
+    flex: 1 1 auto;
+    min-width: 0;
+    padding-left: 40px;
+}
+#settingsNavHeader,
+#settingsNavItemsContainer {
+    justify-content: flex-start !important;
+    box-sizing: border-box;
+}
+#settingsNavHeader {
+    padding-left: 92px;
+}
+#settingsNavItemsContainer {
+    padding-left: 103px;
+}
+#settingsNavItemsContent .settingsNavItem {
+    padding-left: 0 !important;
+}
+#settingsNavItemsContent .settingsNavDivider {
+    margin-left: 0 !important;
+    width: 70% !important;
+}
+/* La opción elegida no se mueve: el rombo rojo va a su izquierda */
+#settingsNavItemsContent .settingsNavItem[selected] {
+    padding-left: 0 !important;
+}
+#settingsNavItemsContent .settingsNavItem[selected]::before {
+    left: -18px;
 }
 #settingsNavHeaderText {
     font-family: var(--letra-titulo) !important;

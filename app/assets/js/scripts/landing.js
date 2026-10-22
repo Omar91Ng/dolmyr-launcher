@@ -29,6 +29,7 @@ const {
 
 // Dolmyr: pase del launcher y novedades del servidor
 const DolmyrServicio          = require('./assets/js/dolmyrservicio')
+const DolmyrJuego             = require('./assets/js/dolmyrjuego')
 
 // Internal Requirements
 const DiscordWrapper          = require('./assets/js/discordwrapper')
@@ -585,6 +586,15 @@ async function dlAsync(login = true) {
         } catch (err) {
             loggerLaunchSuite.warn('No se pudo obtener el pase del launcher.', err)
             window.dispatchEvent(new CustomEvent('dolmyr:sinPase', { detail: String(err && err.message) }))
+        }
+
+        // Dolmyr: la primera vez, opciones del juego ajustadas al equipo y el juego en español
+        try {
+            const nivelEquipo = window.dolmyrCalidad ? window.dolmyrCalidad.nivelEquipo() : 'media'
+            const carpetaJuego = path.join(ConfigManager.getInstanceDirectory(), serv.rawServer.id)
+            loggerLaunchSuite.info(`Opciones del juego: ${DolmyrJuego.prepararOpciones(carpetaJuego, serv.rawServer.minecraftVersion, nivelEquipo)}`)
+        } catch (err) {
+            loggerLaunchSuite.warn('No se pudieron preparar las opciones del juego.', err)
         }
 
         loggerLaunchSuite.info(`Sending selected account (${authUser.displayName}) to ProcessBuilder.`)

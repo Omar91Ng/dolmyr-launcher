@@ -48,7 +48,14 @@ Al arrancar en modo capturas (`npm run capturas`) se genera una imagen de cada p
   - media: menos brasas, la mitad de desenfoque y una capa de niebla; baja: sin brasas, niebla, desenfoques ni
     movimiento de fondo, y Dolm como imagen fija.
   - Para probar un nivel: `DOLMYR_CALIDAD=baja npm run start:local` (no se guarda).
-- El juego, con Java 25, arranca con cabeceras de objeto compactas: gasta menos memoria en equipos justos.
+- **Minecraft también va optimizado:**
+  - mods de rendimiento en la lista: Sodium, ImmediatelyFast, Entity Culling, More Culling, FerriteCore,
+    Dynamic FPS (baja los FPS con el juego minimizado o en segundo plano) y BadOptimizations;
+  - la **primera vez** que se juega en un equipo, el launcher escribe `options.txt` según su calidad (alta: distancia
+    12 y gráficos fancy; media: 8 y rápidos; baja: 6, sin nubes y menos partículas) y con el **juego en español**.
+    Si ya había un `options.txt`, solo pone el español. Después se respeta lo que cambie el jugador
+    (`app/assets/js/dolmyrjuego.js`; para volver a aplicarlas, borrar `.dolmyr-opciones` de la carpeta del juego);
+  - Java 25 arranca con cabeceras de objeto compactas: menos memoria en equipos justos.
 - Con la ventana sin foco (por ejemplo, mientras se juega) **todo se para**: animaciones, brasas, cambio de fondo y Dolm.
 
 ## Uso para desarrollar

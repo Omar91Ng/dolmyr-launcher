@@ -716,6 +716,8 @@
     // Para la pestaña Apariencia
     window.dolmyrCalidad = {
         nivel: () => nivel,
+        // Lo que aguanta el equipo (sin contar el ajuste manual del launcher): lo usa dolmyrjuego.js
+        nivelEquipo: () => (sinGpu ? 'baja' : nivelAutomatico()),
         equipo: () => `${tarjeta || 'gráfica desconocida'} · ${nucleos} núcleos · ${Math.round(memoriaGB)} GB`
     }
     console.log(`[Dolmyr] Equipo: ${window.dolmyrCalidad.equipo()} · calidad ${nivel}${process.env.DOLMYR_CALIDAD ? ' (forzada)' : prefs.calidad === 'auto' ? ' (automática)' : ''}`)
