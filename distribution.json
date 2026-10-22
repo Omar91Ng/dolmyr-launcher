@@ -1,9 +1,9 @@
 {
   "version": "1.0.0",
   "dolmyr": {
-    "revision": "5690970ee3fa5e81",
+    "revision": "827c9ca11cf0c447",
     "servicio": "http://play.dolmyr.com:25580",
-    "generada": "2026-10-21T20:08:28.558Z"
+    "generada": "2026-10-22T22:43:28.555Z"
   },
   "rss": "",
   "discord": null,
@@ -39,7 +39,7 @@
               "type": "VersionManifest",
               "artifact": {
                 "size": 2778,
-                "MD5": "34f0e268bf358c2265693659ed14d454",
+                "MD5": "4246504c5750e65ad8b5f15d4aa18a75",
                 "url": "https://raw.githubusercontent.com/Omar91Ng/dolmyr-launcher/lista-de-mods/fabric/fabric-loader-0.19.5-26.2.json"
               }
             },
@@ -123,6 +123,76 @@
             "size": 1885572,
             "MD5": "fa97af208c24e320899c00cd0cff698a",
             "url": "https://cdn.modrinth.com/data/AANobbMI/versions/xJZxADzI/sodium-fabric-0.9.2%2Bmc26.2.jar"
+          }
+        },
+        {
+          "id": "com.modrinth.immediatelyfast:immediatelyfast:1.16.5+26.2-fabric",
+          "name": "ImmediatelyFast (rendimiento)",
+          "type": "FabricMod",
+          "artifact": {
+            "size": 100500,
+            "MD5": "0ec1d835aee0b379cbfbc3069f45745d",
+            "url": "https://cdn.modrinth.com/data/5ZwdcRci/versions/pMWERcSu/ImmediatelyFast-Fabric-1.16.5%2B26.2.jar"
+          }
+        },
+        {
+          "id": "com.modrinth.entityculling:entityculling:1.11.3",
+          "name": "Entity Culling (rendimiento)",
+          "type": "FabricMod",
+          "artifact": {
+            "size": 1508596,
+            "MD5": "f0052f5ee748458b3770437c228e20fe",
+            "url": "https://cdn.modrinth.com/data/NNAgCjsB/versions/uXe0pIaz/entityculling-fabric-1.11.3-mc26.2.jar"
+          }
+        },
+        {
+          "id": "com.modrinth.moreculling:moreculling:1.8.1",
+          "name": "More Culling (rendimiento)",
+          "type": "FabricMod",
+          "artifact": {
+            "size": 363646,
+            "MD5": "cd76bd0380842252b1fec47c2ae8eadc",
+            "url": "https://cdn.modrinth.com/data/51shyZVL/versions/D5oVCouK/moreculling-fabric-26.2-1.8.1.jar"
+          }
+        },
+        {
+          "id": "com.modrinth.cloth-config:cloth-config:26.2.155+fabric",
+          "name": "Cloth Config API",
+          "type": "FabricMod",
+          "artifact": {
+            "size": 1135186,
+            "MD5": "776ec6f7bea662823c7acc7aa8b66c68",
+            "url": "https://cdn.modrinth.com/data/9s6osm5g/versions/Nv3xnWXd/cloth-config-26.2.155.jar"
+          }
+        },
+        {
+          "id": "com.modrinth.ferrite-core:ferrite-core:9.0.0-fabric",
+          "name": "FerriteCore (memoria)",
+          "type": "FabricMod",
+          "artifact": {
+            "size": 72677,
+            "MD5": "9d96f643cfd220b75f47c94ea56ebc2a",
+            "url": "https://cdn.modrinth.com/data/uXXizFIs/versions/d5ddUdiB/ferritecore-9.0.0-fabric.jar"
+          }
+        },
+        {
+          "id": "com.modrinth.dynamic-fps:dynamic-fps:3.11.9",
+          "name": "Dynamic FPS (ahorro en segundo plano)",
+          "type": "FabricMod",
+          "artifact": {
+            "size": 188740,
+            "MD5": "bbd6ce171a7c37fed0dba4d96f91f400",
+            "url": "https://cdn.modrinth.com/data/LQ3K71Q1/versions/pC2JjFw1/dynamic-fps-3.11.9%2Bminecraft-26.2.0-fabric.jar"
+          }
+        },
+        {
+          "id": "com.modrinth.badoptimizations:badoptimizations:2.4.1",
+          "name": "BadOptimizations (rendimiento)",
+          "type": "FabricMod",
+          "artifact": {
+            "size": 60709,
+            "MD5": "7394487cacb01f6e19ba14fc976e9b39",
+            "url": "https://cdn.modrinth.com/data/g96Z4WVZ/versions/JmPs4Wie/BadOptimizations-2.4.1-26.2-fabric.jar"
           }
         },
         {
@@ -233,6 +303,40 @@
             "size": 609550,
             "MD5": "bb4e3132796ab0e4bee044e8f11f6941",
             "url": "https://cdn.modrinth.com/data/ohNO6lps/versions/rSd3GiG8/ForgeConfigAPIPort-v26.2.1-mc26.2.x-Fabric.jar"
+          }
+        },
+        {
+          "id": "com.modrinth.geckolib:geckolib:5.5.5",
+          "name": "GeckoLib (animaciones de Dolm)",
+          "type": "FabricMod",
+          "artifact": {
+            "size": 1185836,
+            "MD5": "d94e346c96833b09b0c1c933b88b63e8",
+            "url": "https://cdn.modrinth.com/data/8BmcQJ2H/versions/7gaQHok7/geckolib-fabric-26.2-5.5.5.jar"
+          }
+        },
+        {
+          "id": "com.dolmyr:dolmyr-dolm:1.0.0",
+          "name": "Dolm, la mascota",
+          "type": "FabricMod",
+          "artifact": {
+            "size": 132934,
+            "MD5": "ccfd1a3f22352e873e132d366986c15d",
+            "url": "https://raw.githubusercontent.com/Omar91Ng/dolmyr-launcher/lista-de-mods/mods-propios/dolmyr-dolm-1.0.0.jar"
+          }
+        },
+        {
+          "id": "com.modrinth.grassier-grass:grassier-grass:1.4.5",
+          "name": "Pasto que se mueve (Grassier Grass)",
+          "type": "FabricMod",
+          "artifact": {
+            "size": 2335051,
+            "MD5": "908adb707f3b8d783b27cbad09e91cd8",
+            "url": "https://cdn.modrinth.com/data/3jCB9cn2/versions/8AHVOlSX/grassiergrass-fabric-1.4.5%2Bmc26.2.jar"
+          },
+          "required": {
+            "value": false,
+            "def": false
           }
         },
         {
