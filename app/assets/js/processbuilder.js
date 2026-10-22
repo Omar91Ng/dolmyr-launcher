@@ -719,6 +719,19 @@ class ProcessBuilder {
 
         const libArr = this.vanillaManifest.libraries
         fs.ensureDirSync(tempNativePath)
+
+        // Dolmyr: desde 26.x Minecraft busca las librerías nativas en subcarpetas del directorio de nativos
+        // (-Djava.library.path=${natives_directory}/java, más lwjgl/, jna/ y netty/). Si la versión lo pide así,
+        // las nativas se extraen en esa subcarpeta; si no, como siempre.
+        const jvmArgs = (this.vanillaManifest.arguments && this.vanillaManifest.arguments.jvm) || []
+        const subcarpetas = jvmArgs
+            .filter(a => typeof a === 'string' && a.includes('${natives_directory}/'))
+            .map(a => a.substring(a.indexOf('${natives_directory}/') + '${natives_directory}/'.length))
+        subcarpetas.forEach(s => fs.ensureDirSync(path.join(tempNativePath, s)))
+        const libraryPath = jvmArgs.find(a => typeof a === 'string' && a.startsWith('-Djava.library.path=${natives_directory}/'))
+        const destinoNativas = libraryPath
+            ? path.join(tempNativePath, libraryPath.substring('-Djava.library.path=${natives_directory}/'.length))
+            : tempNativePath
         for(let i=0; i<libArr.length; i++){
             const lib = libArr[i]
             if(isLibraryCompatible(lib.rules, lib.natives)){
@@ -801,7 +814,7 @@ class ProcessBuilder {
 
                         // Extract the file.
                         if(!shouldExclude){
-                            fs.writeFile(path.join(tempNativePath, extractName), zipEntries[i].getData(), (err) => {
+                            fs.writeFile(path.join(destinoNativas, extractName), zipEntries[i].getData(), (err) => {
                                 if(err){
                                     logger.error('Error while extracting native library:', err)
                                 }
