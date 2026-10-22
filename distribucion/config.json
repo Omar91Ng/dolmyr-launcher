@@ -21,6 +21,12 @@
     "mods": [
         { "modrinth": "fabric-api" },
         { "modrinth": "sodium" },
+        { "modrinth": "immediatelyfast", "nombre": "ImmediatelyFast (rendimiento)" },
+        { "modrinth": "entityculling", "nombre": "Entity Culling (rendimiento)" },
+        { "modrinth": "moreculling", "nombre": "More Culling (rendimiento)" },
+        { "modrinth": "ferrite-core", "nombre": "FerriteCore (memoria)" },
+        { "modrinth": "dynamic-fps", "nombre": "Dynamic FPS (ahorro en segundo plano)" },
+        { "modrinth": "badoptimizations", "nombre": "BadOptimizations (rendimiento)" },
         { "modrinth": "fancymenu" },
         { "modrinth": "drippy-loading-screen" },
         { "modrinth": "entitytexturefeatures" },
@@ -29,6 +35,9 @@
         { "modrinth": "terrablender" },
         { "modrinth": "glitchcore" },
         { "modrinth": "shoulder-surfing-reloaded", "nombre": "Cámara sobre el hombro" },
+        { "modrinth": "geckolib", "nombre": "GeckoLib (animaciones de Dolm)" },
+        { "propio": "dolmyr-dolm-1.0.0.jar", "nombre": "Dolm, la mascota" },
+        { "modrinth": "grassier-grass", "opcional": true, "activadoPorDefecto": false, "nombre": "Pasto que se mueve (Grassier Grass)" },
         { "modrinth": "iris", "opcional": true, "activadoPorDefecto": false, "nombre": "Iris (shaders)" }
     ],
     "pruebasLocales": {

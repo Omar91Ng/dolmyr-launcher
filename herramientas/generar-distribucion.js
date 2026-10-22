@@ -166,6 +166,28 @@ async function moduloMod(entrada, porDependencia = false) {
     return resultado
 }
 
+// ----------------------------------------------------------------------------- Mods propios
+
+// Mods hechos por nosotros (por ejemplo Dolm): el jar va en distribucion/mods-propios/<nombre>-<versión>.jar
+// y se publica junto a la lista, en publicar/mods-propios/.
+function moduloPropio(entrada) {
+    const partes = /^(.*)-(\d[\w.+-]*)\.jar$/.exec(entrada.propio)
+    if (partes == null) {
+        throw new Error(`El mod propio "${entrada.propio}" tiene que llamarse <nombre>-<versión>.jar`)
+    }
+    const b = fs.readFileSync(path.join(CARPETA, 'mods-propios', entrada.propio))
+    const destino = path.join(PUBLICAR, 'mods-propios', entrada.propio)
+    fs.mkdirSync(path.dirname(destino), { recursive: true })
+    fs.writeFileSync(destino, b)
+    console.log(`  · ${entrada.nombre || partes[1]} ${partes[2]} (propio)`)
+    return {
+        id: `com.dolmyr:${partes[1]}:${partes[2]}`,
+        name: entrada.nombre || partes[1],
+        type: 'FabricMod',
+        artifact: { size: b.length, MD5: md5(b), url: urlBase + 'mods-propios/' + encodeURIComponent(entrada.propio) }
+    }
+}
+
 // ----------------------------------------------------------------------------- Archivos extra
 
 function modulosArchivos() {
@@ -206,10 +228,10 @@ async function principal() {
     fs.mkdirSync(PUBLICAR, { recursive: true })
 
     const fabric = await moduloFabric()
-    console.log('Mods (desde Modrinth)...')
+    console.log('Mods (desde Modrinth y propios)...')
     const mods = []
     for (const entrada of config.mods) {
-        mods.push(...await moduloMod(entrada))
+        mods.push(...(entrada.propio ? [moduloPropio(entrada)] : await moduloMod(entrada)))
     }
     console.log('Archivos extra...')
     const archivos = modulosArchivos()

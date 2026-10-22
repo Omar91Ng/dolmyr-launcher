@@ -49,6 +49,18 @@ Mod **opcional** (el jugador lo activa o desactiva en Ajustes → Mods):
 { "modrinth": "iris", "opcional": true, "activadoPorDefecto": false, "nombre": "Iris (shaders)" }
 ```
 
+### Mods propios (hechos por nosotros)
+
+El jar va en `distribucion/mods-propios/` con el nombre `<nombre>-<versión>.jar` y se publica junto a la lista
+(en `publicar/mods-propios/`). Por ejemplo, Dolm:
+
+```json
+{ "propio": "dolmyr-dolm-1.0.0.jar", "nombre": "Dolm, la mascota" }
+```
+
+Al sacar una versión nueva: cambia el nombre del jar y la línea de `config.json`, y copia el mismo jar a
+`servers/yermo/mods/` de `Network` (el servidor y el jugador deben tener la misma versión).
+
 ### Archivos extra (configuraciones, menús de FancyMenu, paquetes de recursos...)
 
 Lo que pongas en `distribucion/archivos/` se instala tal cual en la carpeta del juego del jugador, con la misma ruta.
@@ -70,10 +82,12 @@ La segunda sirve esa carpeta y abre el launcher usándola.
 
 ## Mods incluidos ahora (Minecraft 26.2 + Fabric 0.19.5)
 
-Fabric API, Sodium (rendimiento), FancyMenu y Drippy Loading Screen (menú y pantalla de carga propios, de las notas de
+Fabric API, Sodium (rendimiento), **ImmediatelyFast, Entity Culling, More Culling, FerriteCore, Dynamic FPS y
+BadOptimizations** (rendimiento y memoria; More Culling trae Cloth Config), FancyMenu y Drippy Loading Screen (menú y pantalla de carga propios, de las notas de
 Obsidian), ETF y EMF (texturas y modelos de entidades), con sus dependencias Melody y Konkrete. **Biomes O' Plenty**
 con TerraBlender y GlitchCore (los biomas del mapa; las mismas versiones que el servidor del Yermo) y **Shoulder
-Surfing Reloaded** (cámara sobre el hombro, con Forge Config API Port). Iris (shaders) va como opcional.
+Surfing Reloaded** (cámara sobre el hombro, con Forge Config API Port). **GeckoLib** y el mod propio **Dolm, la
+mascota** (`mods-propios/dolmyr-dolm-1.0.0.jar`, código en `Desktop/Dolmyr-Mascota/mod`). Iris (shaders) va como opcional.
 
 **Ojo:** BOP necesita TerraBlender y GlitchCore aunque Modrinth no lo declare: por eso están puestos a mano en la lista.
 Un mod que también va en el servidor tiene que tener allí la misma versión (`servers/yermo/mods.txt` de `Network`).
