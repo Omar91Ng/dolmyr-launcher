@@ -509,7 +509,13 @@ exports.setModConfiguration = function(serverid, configuration){
 
 function defaultJavaConfig(effectiveJavaOptions, ram) {
     if(effectiveJavaOptions.suggestedMajor > 8) {
-        return defaultJavaConfig17(ram)
+        const conf = defaultJavaConfig17(ram)
+        // Dolmyr: con Java 25 o posterior, cabeceras de objeto compactas: Minecraft gasta bastante menos memoria
+        // (ayuda mucho en equipos con poca RAM). En versiones anteriores de Java la opción no existe.
+        if(effectiveJavaOptions.suggestedMajor >= 25) {
+            conf.jvmOptions.push('-XX:+UseCompactObjectHeaders')
+        }
+        return conf
     } else {
         return defaultJavaConfig8(ram)
     }

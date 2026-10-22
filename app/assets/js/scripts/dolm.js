@@ -173,7 +173,9 @@
         }
 
         function usarVideo() {
-            return activa && fallos === 0 && !prefs.reducirMovimiento
+            // En calidad baja (dolmyr.js pone la clase en body) Dolm se ve como imagen fija
+            const calidadBaja = document.body.classList.contains('dolmyrNivelBajo')
+            return activa && fallos === 0 && !prefs.reducirMovimiento && !calidadBaja
         }
 
         function mostrar(nombre) {

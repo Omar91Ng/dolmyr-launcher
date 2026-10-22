@@ -120,6 +120,13 @@ ipcMain.handle(SHELL_OPCODE.TRASH_ITEM, async (event, ...args) => {
 if (process.env.DOLMYR_SIN_GPU === '1') {
     app.disableHardwareAcceleration()
 }
+// Modo capturas: la ventana suele quedar tapada por otras y, con la gráfica activada, Windows deja de pintarla.
+// Solo en ese modo se pide que se siga pintando siempre (a los jugadores no les cambia nada).
+if (process.env.DOLMYR_CAPTURAS) {
+    app.commandLine.appendSwitch('disable-features', 'CalculateNativeWinOcclusion')
+    app.commandLine.appendSwitch('disable-renderer-backgrounding')
+    app.commandLine.appendSwitch('disable-background-timer-throttling')
+}
 
 
 const REDIRECT_URI_PREFIX = 'https://login.microsoftonline.com/common/oauth2/nativeclient?'

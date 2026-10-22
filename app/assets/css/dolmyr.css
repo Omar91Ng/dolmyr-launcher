@@ -35,6 +35,9 @@
 
     --curva: cubic-bezier(.2, .8, .2, 1);
 
+    /* Calidad (dolmyr.js): los desenfoques de los paneles se multiplican por esto */
+    --escala-desenfoque: 1;
+
     /* Cenefa folk (rombos rojo/amarillo/azul) usada como adorno */
     --cenefa: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='10' viewBox='0 0 36 10'%3E%3Cpath d='M6 1 11 5 6 9 1 5Z' fill='%23C8352E'/%3E%3Cpath d='M18 2.5 20.5 5 18 7.5 15.5 5Z' fill='%23E9B63B'/%3E%3Cpath d='M30 1 35 5 30 9 25 5Z' fill='%232B4C8C'/%3E%3Cpath d='M0 5h1M11 5h4.5M20.5 5h4.5' stroke='%23F2EBDD' stroke-opacity='.35'/%3E%3C/svg%3E");
 }
@@ -412,7 +415,7 @@ body.dolmyrSinMovimiento *::after {
     border-radius: 16px;
     background: var(--vidrio);
     border: 1px solid var(--borde);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(calc(10px * var(--escala-desenfoque)));
     box-shadow: var(--sombra);
 }
 .mediaDivider {
@@ -494,7 +497,7 @@ body.dolmyrSinMovimiento *::after {
 #mojangStatusTooltip {
     background: var(--vidrio-fuerte) !important;
     border: 1px solid var(--borde);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(calc(10px * var(--escala-desenfoque)));
     font-family: var(--letra-texto);
 }
 
@@ -661,7 +664,7 @@ body.dolmyrSinMovimiento *::after {
 /* Crónicas (noticias) */
 #newsContent {
     background: var(--vidrio-fuerte) !important;
-    backdrop-filter: blur(14px);
+    backdrop-filter: blur(calc(14px * var(--escala-desenfoque)));
     border-top: 1px solid var(--borde);
 }
 #newsStatusContainer {
@@ -747,7 +750,7 @@ body.dolmyrSinMovimiento *::after {
     border-radius: 18px;
     background: var(--vidrio);
     border: 1px solid var(--borde);
-    backdrop-filter: blur(12px);
+    backdrop-filter: blur(calc(12px * var(--escala-desenfoque)));
     box-shadow: var(--sombra);
     animation: dolmyrEntradaDerecha 1s var(--curva) 0.15s both;
 }
@@ -850,7 +853,7 @@ body.dolmyrSinMovimiento *::after {
     border-radius: 18px;
     background: var(--vidrio);
     border: 1px solid var(--borde);
-    backdrop-filter: blur(12px);
+    backdrop-filter: blur(calc(12px * var(--escala-desenfoque)));
     box-shadow: var(--sombra);
     animation: dolmyrEntradaDerecha 1s var(--curva) 0.15s both;
 }
@@ -950,7 +953,7 @@ body.dolmyrSinMovimiento *::after {
 
 #settingsContainer {
     background: linear-gradient(90deg, rgba(20, 17, 15, 0.94) 0%, rgba(26, 22, 19, 0.88) 26%, rgba(26, 22, 19, 0.82) 100%) !important;
-    backdrop-filter: blur(16px);
+    backdrop-filter: blur(calc(16px * var(--escala-desenfoque)));
 }
 #settingsContainerLeft {
     border-right: 1px solid var(--borde);
@@ -1188,7 +1191,7 @@ input:checked + .toggleSwitchSlider:before {
     background: var(--vidrio-fuerte) !important;
     border: 1px solid var(--borde) !important;
     border-radius: 16px !important;
-    backdrop-filter: blur(16px);
+    backdrop-filter: blur(calc(16px * var(--escala-desenfoque)));
     box-shadow: var(--sombra) !important;
     animation: dolmyrAparecer 0.35s var(--curva) both;
 }
@@ -1433,7 +1436,7 @@ input:checked + .toggleSwitchSlider:before {
     border-radius: 999px;
     background: var(--vidrio);
     border: 1px solid var(--borde);
-    backdrop-filter: blur(8px);
+    backdrop-filter: blur(calc(8px * var(--escala-desenfoque)));
     right: 80px !important;
 }
 
@@ -1660,16 +1663,75 @@ body.dolmyrPausado *::after {
     animation-play-state: paused !important;
 }
 
-/* Equipo sin aceleración gráfica: sin desenfoques ni movimiento de fondo (paneles algo más opacos) */
+/* Calidad media: menos desenfoque y una sola capa de niebla (las brasas las reduce dolmyr.js) */
+body.dolmyrNivelMedio {
+    --escala-desenfoque: 0.45;
+    --vidrio: rgba(26, 22, 19, 0.74);
+}
+body.dolmyrNivelMedio .dolmyrNiebla2 {
+    display: none;
+}
+
+/* Calidad baja (o equipo sin aceleración gráfica): sin desenfoques, niebla ni movimiento continuo.
+   Los paneles van algo más opacos para que se sigan leyendo bien. Dolm se ve como imagen fija (dolm.js). */
+body.dolmyrNivelBajo,
 body.dolmyrSinGpu {
     --vidrio: rgba(26, 22, 19, 0.86);
 }
+body.dolmyrNivelBajo *,
+body.dolmyrNivelBajo *::before,
+body.dolmyrNivelBajo *::after,
 body.dolmyrSinGpu *,
 body.dolmyrSinGpu *::before,
 body.dolmyrSinGpu *::after {
     backdrop-filter: none !important;
 }
+body.dolmyrNivelBajo .dolmyrFondoCapa,
+body.dolmyrNivelBajo .dolmyrO,
+body.dolmyrNivelBajo #loadCenterImage,
 body.dolmyrSinGpu .dolmyrFondoCapa,
-body.dolmyrSinGpu .dolmyrNiebla {
+body.dolmyrSinGpu .dolmyrO {
     animation: none !important;
+}
+body.dolmyrNivelBajo .dolmyrNiebla,
+body.dolmyrSinGpu .dolmyrNiebla {
+    display: none;
+}
+
+/* Selector de calidad (Apariencia) */
+.dolmyrSegmentos {
+    display: inline-flex;
+    align-self: flex-start;
+    width: fit-content;
+    margin: 12px 0 8px;
+    border: 1px solid var(--borde-fuerte);
+    border-radius: 8px;
+    overflow: hidden;
+}
+.dolmyrSegmentos button {
+    padding: 8px 18px;
+    border: none;
+    border-right: 1px solid var(--borde);
+    background: rgba(26, 22, 19, 0.5);
+    color: var(--piedra);
+    font-family: var(--letra-sub);
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+.dolmyrSegmentos button:last-child {
+    border-right: none;
+}
+.dolmyrSegmentos button:hover {
+    color: var(--hueso);
+    background: rgba(242, 235, 221, 0.06);
+}
+.dolmyrSegmentos button[elegido] {
+    background: var(--rojo);
+    color: var(--hueso);
+}
+.dolmyrCalidadEstado {
+    display: block;
+    color: var(--liquen) !important;
 }

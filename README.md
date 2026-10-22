@@ -40,7 +40,15 @@ Al arrancar en modo capturas (`npm run capturas`) se genera una imagen de cada p
 
 - Usa la **tarjeta gráfica** (Helios la traía apagada y todo se dibujaba con el procesador). En un equipo con drivers
   que den problemas se puede apagar arrancando con la variable de entorno `DOLMYR_SIN_GPU=1`.
-- Si no hay aceleración, entra solo en **modo ligero**: sin desenfoques, brasas ni movimiento de fondo.
+- **Calidad automática** (Ajustes → Apariencia → Calidad: Automática, Alta, Media o Baja):
+  - el launcher mira la gráfica, los núcleos y la memoria y elige **alta**, **media** (gráficas Intel HD/UHD, 4 núcleos
+    o menos de 8 GB) o **baja** (sin aceleración gráfica, 2 núcleos o menos de 4 GB);
+  - a los 7 segundos **mide los fotogramas reales**: si va a menos de 40 por segundo baja un nivel y lo recuerda
+    para la próxima vez en ese equipo;
+  - media: menos brasas, la mitad de desenfoque y una capa de niebla; baja: sin brasas, niebla, desenfoques ni
+    movimiento de fondo, y Dolm como imagen fija.
+  - Para probar un nivel: `DOLMYR_CALIDAD=baja npm run start:local` (no se guarda).
+- El juego, con Java 25, arranca con cabeceras de objeto compactas: gasta menos memoria en equipos justos.
 - Con la ventana sin foco (por ejemplo, mientras se juega) **todo se para**: animaciones, brasas, cambio de fondo y Dolm.
 
 ## Uso para desarrollar

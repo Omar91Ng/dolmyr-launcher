@@ -35,7 +35,8 @@
         sonido: true,
         dolm: true,              // Dolm, el guía (dolm.js)
         charlaDolm: true,
-        vozDolm: true
+        vozDolm: true,
+        calidad: 'auto'          // 'auto' (según el equipo y lo que mide), 'alta', 'media' o 'baja'
     }
     const NOMBRES_FONDOS = ['El Yermo', 'Puerto de Niebla', 'Asentamiento', 'La Forja', 'Amanecer']
     const INTERVALO_FONDO_MS = 32000
@@ -136,16 +137,74 @@
     // Se pregunta a WebGL qué dibuja de verdad: al arrancar, el estado de la GPU de Electron aún no es fiable.
     // SwiftShader o el "Microsoft Basic Render Driver" = se dibuja con el procesador.
     let sinGpu = false
+    let tarjeta = ''
     try {
         const gl = document.createElement('canvas').getContext('webgl')
         const info = gl && gl.getExtension('WEBGL_debug_renderer_info')
-        const dibuja = gl ? String(info ? gl.getParameter(info.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER)) : ''
-        sinGpu = gl == null || /swiftshader|basic render|llvmpipe|software/i.test(dibuja)
-        console.log(`[Dolmyr] Dibuja: ${dibuja || 'sin WebGL'}${sinGpu ? ' (modo ligero)' : ''}`)
+        tarjeta = gl ? String(info ? gl.getParameter(info.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER)) : ''
+        sinGpu = gl == null || /swiftshader|basic render|llvmpipe|software/i.test(tarjeta)
     } catch (e) {
         sinGpu = false
     }
     document.body.classList.toggle('dolmyrSinGpu', sinGpu)
+
+    // ---- Nivel de calidad: alta · media · baja ----------------------------------------------------
+    // En automático se estima con el equipo (gráfica, núcleos, memoria) y luego se MIDE: si la ventana va a
+    // menos de 40 fotogramas por segundo se baja un nivel, y se recuerda para la próxima vez en este equipo.
+    const NIVELES = ['baja', 'media', 'alta']
+    const CLAVE_MEDIDO = 'dolmyr.nivelMedido'
+    const memoriaGB = require('os').totalmem() / 1073741824
+    const nucleos = navigator.hardwareConcurrency || 4
+
+    function nivelDelEquipo() {
+        if (sinGpu || nucleos <= 2 || memoriaGB < 4) {
+            return 'baja'
+        }
+        // Gráficas integradas antiguas de Intel (HD/UHD) o equipos justos: nivel medio
+        const integradaVieja = /intel.*(hd|uhd) graphics/i.test(tarjeta)
+        if (integradaVieja || nucleos <= 4 || memoriaGB < 7.5) {
+            return 'media'
+        }
+        return 'alta'
+    }
+
+    function leerMedido() {
+        try {
+            const m = JSON.parse(localStorage.getItem(CLAVE_MEDIDO) || 'null')
+            return m && m.tarjeta === tarjeta && NIVELES.includes(m.nivel) ? m.nivel : null
+        } catch (e) {
+            return null
+        }
+    }
+
+    function guardarMedido(valor) {
+        try {
+            localStorage.setItem(CLAVE_MEDIDO, JSON.stringify({ tarjeta, nivel: valor }))
+        } catch (e) {
+            // sin almacenamiento: se volverá a medir
+        }
+    }
+
+    /** "ANGLE (NVIDIA, NVIDIA GeForce RTX 4050 Laptop GPU (0x28E1) Direct3D11 ...)" -> "NVIDIA GeForce RTX 4050 Laptop GPU" */
+    function nombreTarjeta() {
+        const m = /^ANGLE \([^,]*, (.+?)\s*(\(0x|Direct3D|OpenGL|Vulkan|,|\)$)/.exec(tarjeta)
+        return (m ? m[1] : tarjeta) || '?'
+    }
+
+    function nivelAutomatico() {
+        const equipo = nivelDelEquipo()
+        const medido = leerMedido()
+        return medido && NIVELES.indexOf(medido) < NIVELES.indexOf(equipo) ? medido : equipo
+    }
+
+    let nivel = 'alta'
+    function calcularNivel() {
+        // DOLMYR_CALIDAD=alta|media|baja fuerza un nivel (para probar), sin guardarlo
+        const forzada = NIVELES.includes(process.env.DOLMYR_CALIDAD) ? process.env.DOLMYR_CALIDAD : null
+        nivel = sinGpu ? 'baja' : (forzada || (NIVELES.includes(prefs.calidad) ? prefs.calidad : nivelAutomatico()))
+        document.body.classList.toggle('dolmyrNivelMedio', nivel === 'media')
+        document.body.classList.toggle('dolmyrNivelBajo', nivel === 'baja')
+    }
 
     // Con la ventana sin foco (por ejemplo, mientras se juega) se para todo: no gasta ni procesador ni gráfica
     let pausado = false
@@ -189,7 +248,7 @@
             return
         }
         // Como mucho 1,5 píxeles por píxel de pantalla: las brasas son puntos borrosos, no hace falta más
-        const escala = Math.min(window.devicePixelRatio || 1, 1.5)
+        const escala = Math.min(window.devicePixelRatio || 1, nivel === 'alta' ? 1.5 : 1)
         lienzo.width = Math.floor(window.innerWidth * escala)
         lienzo.height = Math.floor(window.innerHeight * escala)
         ctx.setTransform(escala, 0, 0, escala, 0, 0)
@@ -254,7 +313,8 @@
         if (activo && animacion == null) {
             ajustarLienzo()
             if (particulas.length === 0) {
-                const cantidad = Math.round(Math.min(70, (window.innerWidth * window.innerHeight) / 18000))
+                const tope = nivel === 'alta' ? 70 : 30
+                const cantidad = Math.round(Math.min(tope, (window.innerWidth * window.innerHeight) / (nivel === 'alta' ? 18000 : 40000)))
                 particulas = Array.from({ length: cantidad }, () => nuevaParticula(true))
             }
             animacion = requestAnimationFrame(pintarParticulas)
@@ -269,7 +329,7 @@
     }
 
     function particulasActivas() {
-        return prefs.particulas && !prefs.reducirMovimiento && !sinGpu && !pausado
+        return prefs.particulas && !prefs.reducirMovimiento && nivel !== 'baja' && !pausado
     }
 
     window.addEventListener('resize', () => {
@@ -373,6 +433,12 @@
     // -------------------------------------------------------------------------- aplicar preferencias
 
     function aplicar() {
+        const nivelAntes = nivel
+        calcularNivel()
+        if (nivelAntes !== nivel && animacion != null) {
+            // Otro nivel = otra cantidad de brasas: se rehacen
+            activarParticulas(false)
+        }
         const cuerpo = document.body
         cuerpo.classList.toggle('dolmyrSinMovimiento', prefs.reducirMovimiento)
         cuerpo.classList.toggle('dolmyrSinMovimientoFondo', !prefs.movimientoFondo || prefs.reducirMovimiento)
@@ -435,7 +501,27 @@
                 m.removeAttribute('elegido')
             }
         })
+        // Calidad: botón elegido y qué nivel está usando de verdad
+        document.querySelectorAll('[dolmyrCalidad]').forEach((b) => {
+            b.toggleAttribute('elegido', b.getAttribute('dolmyrCalidad') === prefs.calidad)
+        })
+        const estado = document.getElementById('dolmyrCalidadEstado')
+        if (estado) {
+            const nombreNivel = { alta: 'calidadNivelAlta', media: 'calidadNivelMedia', baja: 'calidadNivelBaja' }[nivel]
+            estado.textContent = Lang.queryEJS('dolmyr.calidadEstado', {
+                nivel: Lang.queryEJS(`dolmyr.${nombreNivel}`),
+                equipo: `${nombreTarjeta()} · ${nucleos} núcleos · ${Math.round(memoriaGB)} GB`
+            })
+        }
     }
+
+    document.querySelectorAll('[dolmyrCalidad]').forEach((b) => {
+        b.addEventListener('click', () => {
+            prefs.calidad = b.getAttribute('dolmyrCalidad')
+            guardar(prefs)
+            aplicar()
+        })
+    })
 
     document.querySelectorAll('input[dolmyrOpcion]').forEach((input) => {
         input.addEventListener('change', () => {
@@ -577,6 +663,65 @@
     }
     aplicar()
     ocultarEnlacesVacios()
+
+    // ---- Medir la fluidez real y bajar de nivel si hace falta (solo en automático) ----------------
+    function medirFps(ms) {
+        return new Promise((resolver) => {
+            let fotogramas = 0
+            let inicio = null
+            function paso(t) {
+                if (inicio == null) {
+                    inicio = t
+                }
+                fotogramas++
+                if (t - inicio < ms) {
+                    requestAnimationFrame(paso)
+                } else {
+                    resolver((fotogramas - 1) * 1000 / (t - inicio))
+                }
+            }
+            requestAnimationFrame(paso)
+        })
+    }
+
+    async function vigilarFluidez() {
+        let medidas = 0
+        await esperar(7000)
+        while (medidas < 2) {
+            if (prefs.calidad !== 'auto' || nivel === 'baja') {
+                return
+            }
+            // Solo se mide con la ventana a la vista y en primer plano
+            if (document.hidden || pausado) {
+                await esperar(3000)
+                continue
+            }
+            const fps = await medirFps(3000)
+            if (document.hidden || pausado) {
+                continue
+            }
+            medidas++
+            console.log(`[Dolmyr] Fluidez: ${Math.round(fps)} fps en calidad ${nivel}`)
+            if (fps >= 40) {
+                return
+            }
+            const menor = NIVELES[NIVELES.indexOf(nivel) - 1]
+            guardarMedido(menor)
+            console.log(`[Dolmyr] Va lento: calidad ${nivel} -> ${menor}`)
+            aplicar()
+            await esperar(4000)
+        }
+    }
+
+    // Para la pestaña Apariencia
+    window.dolmyrCalidad = {
+        nivel: () => nivel,
+        equipo: () => `${tarjeta || 'gráfica desconocida'} · ${nucleos} núcleos · ${Math.round(memoriaGB)} GB`
+    }
+    console.log(`[Dolmyr] Equipo: ${window.dolmyrCalidad.equipo()} · calidad ${nivel}${process.env.DOLMYR_CALIDAD ? ' (forzada)' : prefs.calidad === 'auto' ? ' (automática)' : ''}`)
+    if (!process.env.DOLMYR_CAPTURAS) {
+        vigilarFluidez().catch(() => {})
+    }
 
     if (process.env.DOLMYR_CAPTURAS) {
         modoCapturas(process.env.DOLMYR_CAPTURAS).catch((err) => {
