@@ -1,9 +1,9 @@
 {
   "version": "1.0.0",
   "dolmyr": {
-    "revision": "23b2459be3f4a00d",
+    "revision": "85c6179c7acb7336",
     "servicio": "http://play.dolmyr.com:25580",
-    "generada": "2026-10-22T22:53:12.824Z"
+    "generada": "2026-10-23T00:43:48.264Z"
   },
   "rss": "",
   "discord": null,
@@ -316,13 +316,13 @@
           }
         },
         {
-          "id": "com.dolmyr:dolmyr-dolm:1.1.0",
+          "id": "com.dolmyr:dolmyr-dolm:1.1.1",
           "name": "Dolm, la mascota",
           "type": "FabricMod",
           "artifact": {
-            "size": 155008,
-            "MD5": "2b612ad02a2ff0b0004a552601fa5cd2",
-            "url": "https://raw.githubusercontent.com/Omar91Ng/dolmyr-launcher/lista-de-mods/mods-propios/dolmyr-dolm-1.1.0.jar"
+            "size": 155053,
+            "MD5": "85c87e7e89cd0ea838e77c0348e78047",
+            "url": "https://raw.githubusercontent.com/Omar91Ng/dolmyr-launcher/lista-de-mods/mods-propios/dolmyr-dolm-1.1.1.jar"
           }
         },
         {
