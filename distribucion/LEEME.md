@@ -55,7 +55,7 @@ El jar va en `distribucion/mods-propios/` con el nombre `<nombre>-<versión>.jar
 (en `publicar/mods-propios/`). Por ejemplo, Dolm:
 
 ```json
-{ "propio": "dolmyr-dolm-1.1.0.jar", "nombre": "Dolm, la mascota" }
+{ "propio": "dolmyr-dolm-1.1.1.jar", "nombre": "Dolm, la mascota" }
 ```
 
 Al sacar una versión nueva: cambia el nombre del jar y la línea de `config.json`, y copia el mismo jar a
@@ -87,7 +87,7 @@ BadOptimizations** (rendimiento y memoria; More Culling trae Cloth Config), Fanc
 Obsidian), ETF y EMF (texturas y modelos de entidades), con sus dependencias Melody y Konkrete. **Biomes O' Plenty**
 con TerraBlender y GlitchCore (los biomas del mapa; las mismas versiones que el servidor del Yermo) y **Shoulder
 Surfing Reloaded** (cámara sobre el hombro, con Forge Config API Port). **GeckoLib** y el mod propio **Dolm, la
-mascota** (`mods-propios/dolmyr-dolm-1.1.0.jar`, código en `Desktop/Dolmyr-Mascota/mod`). Iris (shaders) va como opcional.
+mascota** (`mods-propios/dolmyr-dolm-1.1.1.jar`, código en `Desktop/Dolmyr-Mascota/mod`). Iris (shaders) va como opcional.
 
 **Ojo:** BOP necesita TerraBlender y GlitchCore aunque Modrinth no lo declare: por eso están puestos a mano en la lista.
 Un mod que también va en el servidor tiene que tener allí la misma versión (`servers/yermo/mods.txt` de `Network`).
