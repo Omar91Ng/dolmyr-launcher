@@ -96,7 +96,7 @@ Surfing Reloaded** (cámara sobre el hombro, con Forge Config API Port). **Gecko
 mascota** (`mods-propios/dolmyr-dolm-1.2.0.jar`, código en `Desktop/Dolmyr-Mascota/mod`). El mod propio
 **Descubrimientos** (`mods-propios/dolmyr-descubrimientos-1.0.0.jar`, código en `Desktop/Dolmyr-Descubrimientos/mod`):
 el título y el sonido al descubrir un lugar y el diario del viajero (tecla J). El mod propio **Animaciones**
-(`mods-propios/dolmyr-animaciones-1.1.0.jar`, código en `Desktop/Dolmyr-Animaciones`): animaciones del jugador con
+(`mods-propios/dolmyr-animaciones-1.2.0.jar`, código en `Desktop/Dolmyr-Animaciones`): animaciones del jugador con
 codos y rodillas, sobre **Player Animation Library**, fijada en la 1.2.8 (las rodillas y los codos usan algo que esa
 librería quitará más adelante). Iris (shaders) va como opcional.
 
