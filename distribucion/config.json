@@ -37,6 +37,7 @@
         { "modrinth": "shoulder-surfing-reloaded", "nombre": "Cámara sobre el hombro" },
         { "modrinth": "geckolib", "nombre": "GeckoLib (animaciones de Dolm)" },
         { "propio": "dolmyr-dolm-1.2.0.jar", "nombre": "Dolm, la mascota" },
+        { "propio": "dolmyr-descubrimientos-1.0.0.jar", "nombre": "Descubrimientos y diario del viajero" },
         { "modrinth": "grassier-grass", "opcional": true, "activadoPorDefecto": false, "nombre": "Pasto que se mueve (Grassier Grass)" },
         { "modrinth": "iris", "opcional": true, "activadoPorDefecto": false, "nombre": "Iris (shaders)" }
     ],

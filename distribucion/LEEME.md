@@ -87,7 +87,9 @@ BadOptimizations** (rendimiento y memoria; More Culling trae Cloth Config), Fanc
 Obsidian), ETF y EMF (texturas y modelos de entidades), con sus dependencias Melody y Konkrete. **Biomes O' Plenty**
 con TerraBlender y GlitchCore (los biomas del mapa; las mismas versiones que el servidor del Yermo) y **Shoulder
 Surfing Reloaded** (cámara sobre el hombro, con Forge Config API Port). **GeckoLib** y el mod propio **Dolm, la
-mascota** (`mods-propios/dolmyr-dolm-1.2.0.jar`, código en `Desktop/Dolmyr-Mascota/mod`). Iris (shaders) va como opcional.
+mascota** (`mods-propios/dolmyr-dolm-1.2.0.jar`, código en `Desktop/Dolmyr-Mascota/mod`). El mod propio
+**Descubrimientos** (`mods-propios/dolmyr-descubrimientos-1.0.0.jar`, código en `Desktop/Dolmyr-Descubrimientos/mod`):
+el título y el sonido al descubrir un lugar y el diario del viajero (tecla J). Iris (shaders) va como opcional.
 
 **Ojo:** BOP necesita TerraBlender y GlitchCore aunque Modrinth no lo declare: por eso están puestos a mano en la lista.
 Un mod que también va en el servidor tiene que tener allí la misma versión (`servers/yermo/mods.txt` de `Network`).
