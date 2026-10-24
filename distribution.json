@@ -1,9 +1,9 @@
 {
   "version": "1.0.0",
   "dolmyr": {
-    "revision": "85c6179c7acb7336",
+    "revision": "0f32176c7a00e6ea",
     "servicio": "http://play.dolmyr.com:25580",
-    "generada": "2026-10-23T00:43:52.851Z"
+    "generada": "2026-10-24T13:21:05.987Z"
   },
   "rss": "",
   "discord": null,
@@ -39,7 +39,7 @@
               "type": "VersionManifest",
               "artifact": {
                 "size": 2778,
-                "MD5": "4246504c5750e65ad8b5f15d4aa18a75",
+                "MD5": "0da9fc8c23799826796376a9c763e572",
                 "url": "https://raw.githubusercontent.com/Omar91Ng/dolmyr-launcher/lista-de-mods/fabric/fabric-loader-0.19.5-26.2.json"
               }
             },
@@ -206,16 +206,6 @@
           }
         },
         {
-          "id": "com.modrinth.melody:melody:1.0.17-26.2-fabric",
-          "name": "Melody",
-          "type": "FabricMod",
-          "artifact": {
-            "size": 227497,
-            "MD5": "21c701fff3660dd40c086fc3f47f526d",
-            "url": "https://cdn.modrinth.com/data/CVT4pFB2/versions/ItVQn1cW/melody_fabric_1.0.17_MC_26.2.jar"
-          }
-        },
-        {
           "id": "com.modrinth.konkrete:konkrete:1.11.1-26.2-fabric",
           "name": "Konkrete",
           "type": "FabricMod",
@@ -223,6 +213,16 @@
             "size": 764987,
             "MD5": "554b9dcace4914a50d75f30476b94b9d",
             "url": "https://cdn.modrinth.com/data/J81TRJWm/versions/Ra1AWDOa/konkrete_fabric_1.11.1_MC_26.2.jar"
+          }
+        },
+        {
+          "id": "com.modrinth.melody:melody:1.0.17-26.2-fabric",
+          "name": "Melody",
+          "type": "FabricMod",
+          "artifact": {
+            "size": 227497,
+            "MD5": "21c701fff3660dd40c086fc3f47f526d",
+            "url": "https://cdn.modrinth.com/data/CVT4pFB2/versions/ItVQn1cW/melody_fabric_1.0.17_MC_26.2.jar"
           }
         },
         {
@@ -316,13 +316,13 @@
           }
         },
         {
-          "id": "com.dolmyr:dolmyr-dolm:1.1.1",
+          "id": "com.dolmyr:dolmyr-dolm:1.2.0",
           "name": "Dolm, la mascota",
           "type": "FabricMod",
           "artifact": {
-            "size": 155053,
-            "MD5": "85c87e7e89cd0ea838e77c0348e78047",
-            "url": "https://raw.githubusercontent.com/Omar91Ng/dolmyr-launcher/lista-de-mods/mods-propios/dolmyr-dolm-1.1.1.jar"
+            "size": 155212,
+            "MD5": "ddc924b663ff6e42199c3ff5d249ebba",
+            "url": "https://raw.githubusercontent.com/Omar91Ng/dolmyr-launcher/lista-de-mods/mods-propios/dolmyr-dolm-1.2.0.jar"
           }
         },
         {
