@@ -99,7 +99,45 @@ function setDownloadPercentage(percent){
  * @param {boolean} val True to enable, false to disable.
  */
 function setLaunchEnabled(val){
-    document.getElementById('launch_button').disabled = !val
+    // Dolmyr: mientras el juego está abierto el botón dice JUGANDO y no se puede pulsar
+    document.getElementById('launch_button').disabled = !val || juegoAbierto()
+}
+
+/** Dolmyr: si el juego lanzado desde aquí sigue abierto. */
+function juegoAbierto(){
+    return typeof proc !== 'undefined' && proc != null && proc.exitCode == null
+}
+
+/** Dolmyr: el botón dice JUGANDO (y no se puede pulsar) mientras el juego está abierto. */
+function marcarJugando(si){
+    const boton = document.getElementById('launch_button')
+    if(boton.dataset.texto == null){
+        boton.dataset.texto = boton.innerHTML
+    }
+    boton.innerHTML = si ? Lang.queryJS('dolmyr.jugando') : boton.dataset.texto
+    boton.classList.toggle('jugando', si)
+    boton.disabled = si
+}
+
+/** Dolmyr: cierra el juego lanzado desde aquí y espera a que se cierre (para reiniciarlo con una actualización). */
+function cerrarJuego(maxMs = 15000){
+    return new Promise(resolver => {
+        if(!juegoAbierto()){
+            resolver()
+            return
+        }
+        const p = proc
+        const fin = setTimeout(resolver, maxMs)
+        p.once('close', () => {
+            clearTimeout(fin)
+            resolver()
+        })
+        try {
+            p.kill()
+        } catch(err) {
+            loggerLanding.warn('No se pudo cerrar el juego', err)
+        }
+    })
 }
 
 // Bind launch button
@@ -626,6 +664,16 @@ async function dlAsync(login = true) {
             proc.stdout.on('data', tempListener)
             proc.stderr.on('data', gameErrorListener)
 
+            // Dolmyr: JUGANDO mientras el juego está abierto
+            marcarJugando(true)
+            const esteJuego = proc
+            esteJuego.on('close', () => {
+                if(proc === esteJuego){
+                    proc = null
+                }
+                marcarJugando(false)
+            })
+
             setLaunchDetails(Lang.queryJS('landing.dlAsync.doneEnjoyServer'))
 
             // Init Discord Hook
@@ -683,6 +731,8 @@ function slide_(up){
     const newsContainer = document.querySelector('#landingContainer > #newsContainer')
 
     newsGlideCount++
+    // Dolmyr: con las crónicas abiertas se ve su botón de volver (el de abajo queda tapado)
+    document.body.classList.toggle('cronicasAbiertas', up)
 
     if(up){
         lCUpper.style.top = '-200vh'
@@ -716,6 +766,16 @@ function slide_(up){
         newsBtn.style.top = '10px'
     }
 }
+
+// Dolmyr: botón para volver desde las crónicas (arriba, con la flecha hacia abajo)
+;(() => {
+    const volver = document.createElement('button')
+    volver.id = 'newsVolver'
+    volver.innerHTML = '<svg viewBox="0 0 24.87 13.97"><polyline class="arrowLine" points="0.71 0.71 12.56 12.56 24.16 0.95"/></svg>'
+        + `<span>${Lang.queryJS('dolmyr.volver')}</span>`
+    volver.onclick = () => document.getElementById('newsButton').click()
+    document.getElementById('newsContainer').appendChild(volver)
+})()
 
 // Bind news button.
 document.getElementById('newsButton').onclick = () => {
@@ -925,6 +985,10 @@ async function initNews(){
  */
 document.addEventListener('keydown', (e) => {
     if(newsActive){
+        if(e.key === 'Escape'){
+            document.getElementById('newsButton').click()
+            return
+        }
         if(e.key === 'ArrowRight' || e.key === 'ArrowLeft'){
             document.getElementById(e.key === 'ArrowRight' ? 'newsNavigateRight' : 'newsNavigateLeft').click()
         }

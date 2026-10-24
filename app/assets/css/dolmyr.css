@@ -525,6 +525,55 @@ body.dolmyrSinMovimiento *::after {
 #newsButton:hover #newsButtonSVG .arrowLine {
     stroke: var(--amarillo);
 }
+/* Con las crónicas abiertas: el botón de abajo se esconde y aparece el de volver, arriba */
+body.cronicasAbiertas #newsButton {
+    visibility: hidden;
+}
+#newsVolver {
+    position: absolute;
+    top: 46px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.6s ease, transform 0.3s var(--curva);
+}
+body.cronicasAbiertas #newsVolver {
+    opacity: 1;
+    pointer-events: auto;
+    transition-delay: 0.9s, 0s;
+}
+#newsVolver svg {
+    width: 22px;
+}
+#newsVolver .arrowLine {
+    fill: none;
+    stroke: var(--hueso);
+    stroke-width: 2px;
+}
+#newsVolver span {
+    font-family: var(--letra-sub);
+    color: var(--hueso);
+    letter-spacing: 0.25em;
+    font-size: 13px;
+}
+#newsVolver:hover {
+    transform: translateX(-50%) translateY(3px);
+}
+#newsVolver:hover .arrowLine {
+    stroke: var(--amarillo);
+}
+#newsVolver:hover span {
+    color: var(--amarillo);
+}
 #newsButtonAlert {
     background: var(--amarillo) !important;
     box-shadow: 0 0 10px var(--amarillo);
@@ -592,6 +641,20 @@ body.dolmyrSinMovimiento *::after {
 #launch_button:disabled {
     filter: grayscale(0.85) brightness(0.7);
     animation: none;
+}
+/* Jugando: el botón se queda en verde musgo, con un latido suave (no se puede pulsar) */
+#launch_button.jugando,
+#launch_button.jugando:disabled {
+    background: linear-gradient(180deg, #62914b 0%, var(--musgo) 50%, #3a5c2b 100%) !important;
+    border-color: rgba(242, 235, 221, 0.45) !important;
+    filter: none !important;
+    opacity: 1 !important;
+    cursor: default;
+    animation: dolmyrJugando 2.4s ease-in-out infinite;
+}
+@keyframes dolmyrJugando {
+    0%, 100% { box-shadow: 0 8px 22px rgba(78, 122, 58, 0.30), inset 0 1px 0 rgba(255, 255, 255, 0.20); }
+    50% { box-shadow: 0 10px 30px rgba(78, 122, 58, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.28); }
 }
 @keyframes dolmyrBrillo {
     from {

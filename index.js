@@ -255,7 +255,9 @@ function createWindow() {
         webPreferences: {
             preload: path.join(__dirname, 'app', 'assets', 'js', 'preloader.js'),
             nodeIntegration: true,
-            contextIsolation: false
+            contextIsolation: false,
+            // Dolmyr: que siga mirando las órdenes del servidor aunque la ventana esté detrás del juego
+            backgroundThrottling: false
         },
         backgroundColor: '#2A2420'
     })

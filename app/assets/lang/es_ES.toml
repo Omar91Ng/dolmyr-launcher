@@ -494,3 +494,18 @@ finMantenimiento = [
 # Ventana de los avisos que se envían desde el servidor (/launcher aviso <texto>)
 avisoTitulo = "Aviso del Yermo"
 avisoBoton = "Entendido"
+# Cuando el servidor manda reiniciar el juego para cargar una actualización (/launcher reiniciar)
+reinicioAviso = [
+    "El Yermo se actualiza. Cierro tu juego, bajo lo nuevo y lo vuelvo a abrir. Tú quieto.",
+    "Han traído cosas nuevas al Yermo. Te cierro el juego un momento y te devuelvo dentro.",
+]
+reinicioAbriendo = [
+    "Listo. Te abro el juego otra vez. Y esta vez no te pierdas.",
+    "Ya está todo. Vuelves al Yermo.",
+]
+
+# Textos propios de Dolmyr en el launcher
+[js.dolmyr]
+# El botón JUGAR mientras el juego está abierto
+jugando = "JUGANDO"
+volver = "VOLVER"

@@ -67,7 +67,9 @@ En la consola del proxy (o en el juego con `networklauncher.admin`):
 | `/launcher pase <jugador>` | Ver si alguien tiene pase y si sus mods están al día |
 | `/launcher quitarpase <jugador>` | Obligar a alguien a volver a pasar por el launcher |
 | `/launcher estado` | Resumen: modo, revisión de mods, pases activos, avisos, puerto |
-| `/launcher recargar` | Volver a leer `config.properties` |
+| `/launcher recargar` | Volver a leer `config.properties` (y la lista de mods publicada) |
+| `/launcher reiniciar [segundos] [motivo]` | **Actualizar con gente jugando** (ver abajo). Por defecto 10 s (de 5 a 300) |
+| `/launcher cancelar` | Cancela el reinicio en marcha |
 
 - Los launchers abiertos miran las novedades cada 90 segundos. Cada aviso se muestra **una sola vez** por equipo.
 - Los avisos duran 72 horas (`avisos.duracion-horas`). Quien abra el launcher en ese tiempo también los verá.
@@ -94,3 +96,33 @@ npm run start:local
 Con el proxy local encendido y en su `config.properties`, `distribucion.url` apuntando a
 `%APPDATA%\Dolmyr\distribution_dev.json` (la que genera el comando anterior). `npm run capturas` hace capturas de
 los avisos (`11-aviso-dolm`, `12-aviso-ventana`) si hay avisos activos.
+
+## 4. Actualizar con gente jugando (`/launcher reiniciar`)
+
+Para meter un mod nuevo (o preparar un evento) sin echar a nadie a mano:
+
+```
+ /launcher reiniciar 15 llega Guyana
+   │  1. chat y cuenta atrás en pantalla para todos: "El juego se reinicia en 15"
+   │  2. el servicio publica una orden {tipo: reiniciar, hora, revisión de los mods}
+   │  3. los launchers abiertos (miran cada 5 s mientras el juego está abierto) esperan a la hora y:
+   │       cierran el juego → bajan la lista nueva (sin caché, hasta que tenga esa revisión)
+   │       → vuelven a abrir el juego, que entra solo al servidor con su pase nuevo
+   │  4. tres segundos después de la hora, el proxy saca a quien siga dentro con un mensaje
+   ▼
+ La orden queda publicada 5 minutos por si algún launcher tarda.
+```
+
+- Hace falta el **launcher 0.1.2** o más nuevo (los anteriores solo ven el aviso en el juego).
+- En la VPS, todo junto (lista nueva, reinicio y el Yermo reiniciado con sus mods): `scripts/actualizar-en-vivo.sh 15 "motivo"`
+  (ver el `README.md` de la network).
+- **Probado** en local (24-oct): la orden llegó, el launcher cerró el juego a la hora, bajó la lista y lo volvió a abrir
+  en unos 18 segundos, con pase nuevo.
+- Para probarlo en este equipo: proxy local en marcha y doble clic en `herramientas/prueba-ordenes.bat` (abre el launcher y
+  pulsa JUGAR solo); con el juego abierto, en la consola del proxy: `launcher reiniciar 15`. Hay que abrirlo desde el
+  Explorador: desde otras aplicaciones Windows puede redirigir las carpetas y el juego no arranca.
+
+## 5. Otras cosas del launcher
+
+- Mientras el juego está abierto, el botón dice **JUGANDO** (en verde) y no se puede pulsar otra vez.
+- Las **crónicas** se cierran con su botón **VOLVER** (arriba) o con `Esc`.
