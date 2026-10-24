@@ -1,9 +1,9 @@
 {
   "version": "1.0.0",
   "dolmyr": {
-    "revision": "5639f83969af7500",
+    "revision": "f1db6ec7df95d6a0",
     "servicio": "http://play.dolmyr.com:25580",
-    "generada": "2026-10-24T20:07:49.396Z"
+    "generada": "2026-10-24T20:44:47.397Z"
   },
   "rss": "",
   "discord": null,
@@ -346,13 +346,13 @@
           }
         },
         {
-          "id": "com.dolmyr:dolmyr-animaciones:1.0.0",
+          "id": "com.dolmyr:dolmyr-animaciones:1.1.0",
           "name": "Animaciones del jugador (codos y rodillas)",
           "type": "FabricMod",
           "artifact": {
-            "size": 67069,
-            "MD5": "b5a9446fbe70fe4569600bd811ff6c2f",
-            "url": "https://raw.githubusercontent.com/Omar91Ng/dolmyr-launcher/lista-de-mods/mods-propios/dolmyr-animaciones-1.0.0.jar"
+            "size": 73516,
+            "MD5": "46d04f86366407ee68dd8f54de6f30e3",
+            "url": "https://raw.githubusercontent.com/Omar91Ng/dolmyr-launcher/lista-de-mods/mods-propios/dolmyr-animaciones-1.1.0.jar"
           }
         },
         {
