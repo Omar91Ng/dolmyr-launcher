@@ -328,47 +328,17 @@ async function asyncSystemScan(effectiveJavaOptions, launchAfter = true){
     )
 
     if(jvmDetails == null) {
-        // If the result is null, no valid Java installation was found.
-        // Show this information to the user.
-        setOverlayContent(
-            Lang.queryJS('landing.systemScan.noCompatibleJava'),
-            Lang.queryJS('landing.systemScan.installJavaMessage', { 'major': effectiveJavaOptions.suggestedMajor }),
-            Lang.queryJS('landing.systemScan.installJava'),
-            Lang.queryJS('landing.systemScan.installJavaManually')
-        )
-        setOverlayHandler(() => {
-            setLaunchDetails(Lang.queryJS('landing.systemScan.javaDownloadPrepare'))
-            toggleOverlay(false)
-            
-            try {
-                downloadJava(effectiveJavaOptions, launchAfter)
-            } catch(err) {
-                loggerLanding.error('Unhandled error in Java Download', err)
-                showLaunchFailure(Lang.queryJS('landing.systemScan.javaDownloadFailureTitle'), Lang.queryJS('landing.systemScan.javaDownloadFailureText'))
-            }
-        })
-        setDismissHandler(() => {
-            $('#overlayContent').fadeOut(250, () => {
-                //$('#overlayDismiss').toggle(false)
-                setOverlayContent(
-                    Lang.queryJS('landing.systemScan.javaRequired', { 'major': effectiveJavaOptions.suggestedMajor }),
-                    Lang.queryJS('landing.systemScan.javaRequiredMessage', { 'major': effectiveJavaOptions.suggestedMajor }),
-                    Lang.queryJS('landing.systemScan.javaRequiredDismiss'),
-                    Lang.queryJS('landing.systemScan.javaRequiredCancel')
-                )
-                setOverlayHandler(() => {
-                    toggleLaunchArea(false)
-                    toggleOverlay(false)
-                })
-                setDismissHandler(() => {
-                    toggleOverlay(false, true)
-
-                    asyncSystemScan(effectiveJavaOptions, launchAfter)
-                })
-                $('#overlayContent').fadeIn(250)
-            })
-        })
-        toggleOverlay(true, true)
+        // Dolmyr: sin un Java compatible no se pregunta nada, se instala solo (Java de Adoptium, en la carpeta del
+        // launcher, sin tocar el resto del equipo) y se sigue con la partida. Antes salía una ventana que se quedaba
+        // atascada si se elegía instalarlo a mano.
+        loggerLanding.info(`No hay Java ${effectiveJavaOptions.suggestedMajor} en el equipo: se instala solo.`)
+        setLaunchDetails(Lang.queryJS('landing.systemScan.javaDownloadPrepare'))
+        try {
+            await downloadJava(effectiveJavaOptions, launchAfter)
+        } catch(err) {
+            loggerLanding.error('Error al instalar Java', err)
+            showLaunchFailure(Lang.queryJS('landing.systemScan.javaDownloadFailureTitle'), Lang.queryJS('landing.systemScan.javaDownloadFailureText'))
+        }
     } else {
         // Java installation found, use this to launch the game.
         const javaExec = javaExecFromRoot(jvmDetails.path)
@@ -449,7 +419,7 @@ async function downloadJava(effectiveJavaOptions, launchAfter = true) {
 
     // TODO Callback hell
     // Refactor the launch functions
-    asyncSystemScan(effectiveJavaOptions, launchAfter)
+    return asyncSystemScan(effectiveJavaOptions, launchAfter)
 
 }
 

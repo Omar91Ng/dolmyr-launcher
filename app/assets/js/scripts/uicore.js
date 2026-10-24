@@ -62,6 +62,11 @@ if(!isDev){
                     }
                 })
                 showUpdateUI(info)
+                // Dolmyr: las actualizaciones se instalan solas al momento (el launcher se cierra y vuelve a abrir),
+                // salvo con el juego abierto: entonces se instalan al cerrar el launcher.
+                if(typeof proc === 'undefined' || proc == null || proc.exitCode != null){
+                    setTimeout(() => ipcRenderer.send('autoUpdateAction', 'installUpdateNow'), 3000)
+                }
                 break
             case 'update-not-available':
                 loggerAutoUpdater.info('No new update found.')

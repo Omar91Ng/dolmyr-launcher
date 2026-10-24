@@ -8,3 +8,7 @@
 capturas/
 distribucion/publicar/
 arte/vista-*
+
+# Originales grandes de los fondos (los que usa el launcher están en app/assets/images/backgrounds)
+arte-fondos-minecraft/
+arte-fondos-viejos/
