@@ -1,9 +1,9 @@
 {
   "version": "1.0.0",
   "dolmyr": {
-    "revision": "1a22abf5e01f4b17",
+    "revision": "5639f83969af7500",
     "servicio": "http://play.dolmyr.com:25580",
-    "generada": "2026-10-24T14:37:52.927Z"
+    "generada": "2026-10-24T20:07:49.396Z"
   },
   "rss": "",
   "discord": null,
@@ -333,6 +333,26 @@
             "size": 215632,
             "MD5": "8907fcfecad99acdb8f895e84fcf4cc8",
             "url": "https://raw.githubusercontent.com/Omar91Ng/dolmyr-launcher/lista-de-mods/mods-propios/dolmyr-descubrimientos-1.0.0.jar"
+          }
+        },
+        {
+          "id": "com.modrinth.player-animation-library:player-animation-library:1.2.8",
+          "name": "Player Animation Library (motor de las animaciones)",
+          "type": "FabricMod",
+          "artifact": {
+            "size": 420246,
+            "MD5": "74d8d3174ad6ccfda791491c48404252",
+            "url": "https://cdn.modrinth.com/data/ha1mEyJS/versions/ZMIJpO9T/PlayerAnimationLibMerged-1.2.8%2Bmc.26.2.jar"
+          }
+        },
+        {
+          "id": "com.dolmyr:dolmyr-animaciones:1.0.0",
+          "name": "Animaciones del jugador (codos y rodillas)",
+          "type": "FabricMod",
+          "artifact": {
+            "size": 67069,
+            "MD5": "b5a9446fbe70fe4569600bd811ff6c2f",
+            "url": "https://raw.githubusercontent.com/Omar91Ng/dolmyr-launcher/lista-de-mods/mods-propios/dolmyr-animaciones-1.0.0.jar"
           }
         },
         {
