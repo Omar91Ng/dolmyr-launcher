@@ -43,6 +43,12 @@ Los mods **no se copian**: el launcher los baja del CDN oficial de Modrinth. As�
 { "modrinth": "nombre-del-mod" }
 ```
 
+Con una versión fija (si no, se usa la última estable para esa versión de Minecraft):
+
+```json
+{ "modrinth": "player-animation-library", "version": "1.2.8" }
+```
+
 Mod **opcional** (el jugador lo activa o desactiva en Ajustes → Mods):
 
 ```json
@@ -89,7 +95,10 @@ con TerraBlender y GlitchCore (los biomas del mapa; las mismas versiones que el 
 Surfing Reloaded** (cámara sobre el hombro, con Forge Config API Port). **GeckoLib** y el mod propio **Dolm, la
 mascota** (`mods-propios/dolmyr-dolm-1.2.0.jar`, código en `Desktop/Dolmyr-Mascota/mod`). El mod propio
 **Descubrimientos** (`mods-propios/dolmyr-descubrimientos-1.0.0.jar`, código en `Desktop/Dolmyr-Descubrimientos/mod`):
-el título y el sonido al descubrir un lugar y el diario del viajero (tecla J). Iris (shaders) va como opcional.
+el título y el sonido al descubrir un lugar y el diario del viajero (tecla J). El mod propio **Animaciones**
+(`mods-propios/dolmyr-animaciones-1.0.0.jar`, código en `Desktop/Dolmyr-Animaciones`): animaciones del jugador con
+codos y rodillas, sobre **Player Animation Library**, fijada en la 1.2.8 (las rodillas y los codos usan algo que esa
+librería quitará más adelante). Iris (shaders) va como opcional.
 
 **Ojo:** BOP necesita TerraBlender y GlitchCore aunque Modrinth no lo declare: por eso están puestos a mano en la lista.
 Un mod que también va en el servidor tiene que tener allí la misma versión (`servers/yermo/mods.txt` de `Network`).

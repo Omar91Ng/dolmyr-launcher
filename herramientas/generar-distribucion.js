@@ -120,21 +120,24 @@ async function moduloFabric() {
 
 const proyectosVistos = new Map()
 
-async function versionModrinth(proyecto) {
+// fijada: un número de versión exacto (campo "version" en config.json); si no, la última estable para esta versión de Minecraft
+async function versionModrinth(proyecto, fijada) {
     const q = new URLSearchParams({
         loaders: JSON.stringify(['fabric']),
         game_versions: JSON.stringify([config.minecraft])
     })
     const versiones = await json(`https://api.modrinth.com/v2/project/${encodeURIComponent(proyecto)}/version?${q}`)
-    const estable = versiones.find(v => v.version_type === 'release') || versiones[0]
+    const estable = fijada
+        ? versiones.find(v => v.version_number === fijada)
+        : versiones.find(v => v.version_type === 'release') || versiones[0]
     if (estable == null) {
-        throw new Error(`El mod "${proyecto}" no tiene versión para Fabric ${config.minecraft}`)
+        throw new Error(`El mod "${proyecto}" no tiene ${fijada ? `la versión ${fijada}` : 'versión'} para Fabric ${config.minecraft}`)
     }
     return estable
 }
 
 async function moduloMod(entrada, porDependencia = false) {
-    const version = await versionModrinth(entrada.modrinth)
+    const version = await versionModrinth(entrada.modrinth, entrada.version)
     const proyecto = await json(`https://api.modrinth.com/v2/project/${version.project_id}`)
     if (proyectosVistos.has(proyecto.id)) {
         return []
